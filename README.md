@@ -44,19 +44,19 @@ Untuk para turis yang mencari kegiatan _hands-on_ dan ingin terjun beraktivitas 
 #### Peran Persona
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
-| Dapat membuat submisi berupa informasi acara yang ingin dipromosikan | Dapat melihat rekomendasi acara yang diberikan oleh pengguna warga lokal.  |
-|   | Dapat menambahkan acara yang ingin dikunjungi ke fitur Travel Planner  |
+| Dapat membuat submisi berupa informasi acara yang ingin dipromosikan. | Dapat melihat rekomendasi acara yang diberikan oleh pengguna warga lokal.  |
+|   | Dapat menambahkan acara yang ingin dikunjungi ke fitur Travel Planner.  |
 
 ### 📆 Travel Planner
 Turis dan warga lokal dapat menambahkan rekomendasi objek wisata, UMKM, maupun acara yang ingin mereka kunjungi ke dalam Travel Planner mereka. Untuk memudahkan perencanaan, tujuan-tujuan ini dapat diurutkan sesuai rencana tanggal kunjungan.
 #### Peran Persona
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
-| Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke planner. | Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke planner.  |
+| Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner. | Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner.  |
 
 ### 💬 Travel Forum
 Di Travel Forum, turis asing dapat dengan bebas menyampaikan pertanyaan mereka seputar kunjungan ke Indonesia langsung ke penduduk lokal. Komunitas lokal TraveLoGue pun dapat sukarela menjawab pertanyaan-pertanyaan tersebut.
 #### Peran Persona
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
-| Dapat menjawab semua pertanyaan yang telah ditanyakan oleh Turis Asing mengenai Indonesia. | Dapat mengajukan pertanyaan yang ingin ditanyakan mengenai Indonesia ke Warga Lokal. |
+| Dapat menjawab semua pertanyaan yang telah ditanyakan oleh turis asing mengenai Indonesia. | Dapat mengajukan pertanyaan yang ingin ditanyakan mengenai Indonesia ke warga lokal. |
