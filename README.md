@@ -60,3 +60,5 @@ Di Travel Forum, turis asing dapat dengan bebas menyampaikan pertanyaan mereka s
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
 | Dapat menjawab semua pertanyaan yang telah ditanyakan oleh turis asing mengenai Indonesia. | Dapat mengajukan pertanyaan yang ingin ditanyakan mengenai Indonesia ke warga lokal. |
+
+tes
