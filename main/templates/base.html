@@ -17,11 +17,20 @@
 
   <!-- Style -->
   <link href="{% static 'styles.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 </head>
 
 <body>
+  <!-- Navigation -->
+  {% include 'navbar.html' %}
+  <!-- end of navigation -->  
+  
   {% block content %}
   {% endblock content %}
+
+  <!-- Footer -->
+  {% include 'footer.html' %}
+  <!-- end of footer -->  
 </body>
 
 </html>

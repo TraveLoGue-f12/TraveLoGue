@@ -24,8 +24,22 @@
 <body>
     <div class="row my-auto" style="text-align: center;">
         <div class="col">
-            <h1 class="my-4">Login to TraveLoGue</h1>
+            <h1 class="my-4">Sign up to TraveLoGue</h1>
             <form method="POST" action="">
+
+                <div class="form-row my-4">
+                    <h4 class="my-2">I am a ...</h4>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                          <input type="radio" name="options" id="option1" autocomplete="off" checked> Tourist
+                        </label>
+                        <label class="btn btn-secondary">
+                          <input type="radio" name="options" id="option2" autocomplete="off"> Local Citizen
+                        </label>
+                    </div>
+                </div>
+
+                
                 <div class="mb-2">
                     <input id="email" type="email" name="email" class="form-input" placeholder="Email address" value="" required="" autocomplete="email">
                 </div>
@@ -41,7 +55,7 @@
                 </div>
             </form>        
             <p class="mt-5">
-                <a href="/signup" class="text-grey hover:text-wtf-majorelle">Don't have an account yet? Sign up</a>
+                <a href="/login" class="text-grey hover:text-wtf-majorelle">Already have an account? Log in</a>
             </p>            
         </div>
         <div class="col">
