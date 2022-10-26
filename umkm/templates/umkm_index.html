@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block content %}
+  <h1>Hello, world!</h1>
+  <h3>PBP F-12</h3>
+  {% for data in datalist %}
+  <div>
+      <h>data ke: {{data.pk}}</h>
+    
+      <p>{{data.name}}</p>
+      <p>{{data.description}}</p>
+      {% if data.image %}
+      <img src="{{data.image.url}}" alt="">
+      
+      {% endif %}
+    
+  </div>
+  {% endfor %}
+  <button
+        class="inline-flex space-x-2 items-center justify-center px-6 py-3 rounded-xl"
+        
+        >
+        <a href="{% url 'umkm:add_umkm' %}  ">Add</a>
+  </button>
+{% endblock content %}
