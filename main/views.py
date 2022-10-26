@@ -37,7 +37,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Sign up successful!')
-            return redirect('main:login')
+            return redirect('main:login_user')
     
     context = {'form':form}
     return render(request, 'signup.html', context)
