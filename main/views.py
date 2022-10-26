@@ -9,21 +9,25 @@ from main.forms import SignUpForm
 def index(request):
     return render(request, 'index.html')
 
-def login(request):
+def login_user(request):
     print(123)
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST['username']
+        password = request.POST['password']
         print(username)
-        password = request.POST.get('password')
+        
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
-            response = HttpResponseRedirect(reverse("main:index")) # membuat response
+            response = HttpResponseRedirect(reverse("main:home")) # membuat response
             return response
         else:
             messages.info(request, 'Invalid username/password!')
     context = {}
     return render(request, 'login.html', context)
+
+
+
 
 def signup(request):
     form = SignUpForm()
