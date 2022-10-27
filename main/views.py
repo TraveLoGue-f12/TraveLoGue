@@ -10,11 +10,9 @@ def index(request):
     return render(request, 'index.html')
 
 def login_user(request):
-    print(123)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        print(username)
         
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -26,9 +24,6 @@ def login_user(request):
     context = {}
     return render(request, 'login.html', context)
 
-
-
-
 def signup(request):
     form = SignUpForm()
 
@@ -37,7 +32,7 @@ def signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Sign up successful!')
-            return redirect('main:login')
+            return redirect('main:login_user')
     
     context = {'form':form}
     return render(request, 'signup.html', context)
