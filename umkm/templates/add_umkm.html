@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Add Local Shop</title>
+
+  
+</head>
+
+<body>
+  <div>
+    <div>
+      <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+        {%csrf_token%}
+            <section>
+                <header>
+                </header>
+                <form>
+                <div class="inputs">
+                    {{form.image}}
+                    {{form.name}}
+                    {{form.description}}
+                    {{form.link_website}}
+                    <input type="submit" value="Add Shop" class="button"/>
+                    <br>
+                    <br>
+                    <br>
+                    <button><a class="btn btn-primary btn-lg btn-block" href="../">Back</a></button>
+                </div>
+                </form>
+            </section>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
