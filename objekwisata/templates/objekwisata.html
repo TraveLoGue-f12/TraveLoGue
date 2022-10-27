@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<html>
+  <head>  
+    {% block meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraveLoGue</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock meta %}
+  </head>
+  
+  <body>
+    {% block content %}
+
+    <div class="d-flex justify-content-center ">      
+      <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">add</button>
+    </div>
+      
+    <div class="container">
+      <h1 class="text-center">Attractions</h1>
+      <div class ="row">
+        <div class="col-4">
+          <div class="card">
+            <img class="card-img-top" src="{% static 'images/borobudur.jpg'  %}" >
+            <div class="card-body">
+              <h3 class="card-title">Candi Borobudur</h3>
+              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <img src="{% static 'images/kawah_ijen.jpg'  %}" >
+            <div class="card-body">
+              <h3 class="card-title">Kawah Ijen</h3>
+              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <img src="{% static 'images/tangkahan.jpg'  %}" >
+            <div class="card-body">
+              <h3 class="card-title">Tangkahan Eco Park</h3>
+              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <img src="{% static 'images/kawah_ijen.jpg'  %}" >
+            <div class="card-body">
+              <h3 class="card-title">Kawah Ijen</h3>
+              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- insert new attraction -->
+
+      </div>
+    </div>
+    
+    {% endblock content %}
+  </body>
+</html>

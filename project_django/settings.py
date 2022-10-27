@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'main',
     'forum',
     'example_app',
-    'umkm'
+    'umkm',
+    'objekwisata',
 ]
 
 MIDDLEWARE = [
