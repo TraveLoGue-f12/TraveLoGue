@@ -41,11 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'example_app',
-<<<<<<< HEAD
     'Event',
-=======
     'umkm'
->>>>>>> ab42b5e08f3653a4aea160bcd06c121fb8ec9d09
 ]
 
 MIDDLEWARE = [
