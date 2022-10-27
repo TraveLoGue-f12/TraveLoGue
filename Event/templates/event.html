@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block content %}
+
+<!doctype html>
+
+<style>
+    .card-img-top {
+    width: 100%;
+    height: 35vw;
+    object-fit: cover;
+  }
+  .card{
+    border-radius: 15px;
+    background: rgb(184, 68, 39);
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s ;
+    padding: 14px 80px 18px 36px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .card:hover{
+    transform: scale(1.09);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  }
+
+  .blmada{
+    font-style: italic;
+    text-align: center;
+  }
+
+</style>
+
+<html lang="en">
+       <!-- Navigation -->
+       <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            
+
+            <!-- Text Logo - Use this if you don't have a graphic logo -->
+            <a class="navbar-brand logo-text page-scroll" href="#">TraveLoGue</a>
+
+            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="#">Recommended Local Shops</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Recommended Attractions</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Event Promotions</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Travel Forum</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Travel Planner</a>
+                        </div>
+                    </li>
+                    <li class="nav-item scroll-to-section">
+                        <a href="#footer">Contact Us</a>
+                    </li>
+                    
+                    
+                </ul>
+            </div> <!-- end of navbar-collapse -->
+            <a class="btn btn-primary" href="#">Login</a>
+        </div> <!-- end of container -->
+    </nav> <!-- end of navbar -->
+    <!-- end of navigation -->
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- <button type="button" class="button_select_new button_select button" data-bs-toggle="modal" data-bs-target="#createTaskModal">Create new task</button>
+
+        
+    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: rgb(85, 89, 90);">
+                <div class="modal-header text-gray-300" style="background-color: rgb(238, 238, 238);">
+                    <h5 class="modal-title text-gray-300">Add Your New Task!</h5>
+                </div>
+                <div class="modal-body" style="background-color: rgb(238, 238, 238);">
+                    {% csrf_token %}
+                    <label class="text-gray-300 font-bold">Title</label>
+                    <input id="title" type="text" name="title" placeholder="Title">
+                    <label class="text-gray-300 font-bold">Date</label>
+                    <input id="date" type="date" name="date" placeholder="Date">
+                    <label class="text-gray-300 font-bold">Place</label>
+                    <input id="place" type="text" name="place" placeholder="Place">
+                    <label class="text-gray-300 font-bold">Description</label>
+                    <input id="description" type="text" name="description" placeholder="Description">
+                    <br>
+                    <label class="text-gray-300 font-bold">Image</label>
+                    <input id="image" type="image" name="image">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="modal">Add</button>
+                </div>
+                <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-md-3 g-4 mx-5" id="todolist">
+            {% for event in event_data %}
+            <div class ="card">
+                {% if event.image %}
+                <img class="card-img-top" style="background-color: rgb(218, 218, 218)" src="{{event.image.url}}" alt="Card image cap">
+                {% endif %}
+
+                <div class="card-body" style="background-color: rgb(104, 178, 252)">
+                    <h5 class="card-title">{{event.title}}</h5>
+                    <p class="card-text">Place: {{event.place}}</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    </body>
+    
+    <footer id="footer" class="footer">
+        <div id="container-footer" class="container">
+            <div class="row">
+              <div class="col-md-6 col-lg-3 mb-3">
+                <p class="footer-heading">TraveLoGue</p>
+                <p class="footer-text"><a href="#">About Us</a></p>
+                <p  class="footer-text"><a href="#">Features</a></p>
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <p class="footer-heading">Contact Us</p>
+                <p class="footer-text">021-9744844</p>
+                <p class="footer-text">hello@travelogue.com</p>
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <p class="footer-heading">Get the Latest Update</p>
+                <p class="footer-text">Replace sama logo icon socmed</p>
+            </div>
+        </div>
+    
+    </footer>
+
+</html>
+
+
+    <!-- <h1>Event TraveLoGue</h1>
+    {% for event in event_data %}
+    <div>
+        <p> {{event.title}} </p>
+        <p> {{event.date}} </p>
+        <p> {{event.place}} </p>
+        <p> {{event.description}} </p>
+        {% if event.image %}
+        <p> cek </p>
+        <img src="{{event.image.url}}" alt="">
+        <p> cek lagi </p>
+        {% endif %}
+        <br>
+    </div>
+    {% endfor %} -->
+
+
+{% endblock content %}
