@@ -1,40 +1,91 @@
-<!DOCTYPE html>
 
-{% load static %}
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Add Local Shop</title>
+{% extends 'base.html' %}
 
-  
-</head>
+{% block meta %}
+<title>Create new task | Todolist</title>
+{% endblock meta %}
 
-<body>
-  <div>
-    <div>
-      <form method="POST" action="" class="register-form" enctype="multipart/form-data">
-        {%csrf_token%}
-            <section>
-                <header>
-                </header>
-                <form>
-                <div class="inputs">
-                    {{form.image}}
-                    {{form.name}}
-                    {{form.description}}
-                    {{form.link_website}}
-                    <input type="submit" value="Add Shop" class="button"/>
-                    <br>
-                    <br>
-                    <br>
-                    <button><a class="btn btn-primary btn-lg btn-block" href="../">Back</a></button>
-                </div>
-                </form>
-            </section>
-      </form>
-    </div>
-  </div>
-</body>
+{% block content %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
+<style>
+  * {
+    font-family: "Work Sans";
+    text-align:center;
+    vertical-align: middle;
+    color: #2e3c4d;
+  }
+  td, input, textarea {
+    text-align: left; 
+  }
+  form {
+    border-radius:0.5em; 
+    box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.211);   
+    background-color: rgba(178, 178, 178, 0.211);   
+    margin: auto;
+    width: 450px;
+    padding: 1em;
+    border-radius: 1em;
+    justify-content: center ;
+  }
+  h1 {
+    color:#413f76;
+  }
+ 
+  .add-shop {
+    padding-top:10%;
+    padding-bottom: 20%;
+    
+  }
+ 
+    
+  .submit {
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    font-weight: 1000;
+    color:rgba(255, 255, 255, 0.966);
+    background-color:#5755a2;
+    border-color: transparent;
+    box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.3);
+  }
+</style>
 
-</html>
+<button><a class="btn btn-primary btn-lg btn-block" href="../">Back</a></button>
+
+<div class = "add-shop">
+    <h1>Add Shop</h1>
+    <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Name: </td>
+                <td>{{form.name}}</td>
+            </tr>
+
+            <tr>
+              <td>Description: </td>
+              <td>{{form.description}}</td>
+            </tr>
+
+          
+            <tr>
+              <td>Image: </td>
+              <td>{{form.image}}</td>
+            </tr>
+
+            <tr>
+              <td>Website: </td>
+              <td>{{form.link_website}}</td>
+            </tr>
+                    
+        </table>
+        <br>
+        <input type="submit" name="submit" value="Add Shop" class="submit"/>
+        <br>
+        <br>
+       
+    </form>
+
+</div>
+
+{% endblock content %}
