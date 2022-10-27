@@ -10,6 +10,13 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
+def show_event_detail(request, pk):
+    data = Event.objects.get(id=pk)
+    context = {
+        'data' : data,
+    }
+    return render(request, "event_detail.html", context)
+
 def show_event(request):
     data = Event.objects.all()
     context = {
@@ -20,6 +27,11 @@ def show_event(request):
 def show_event_json(request):
     event = Event.objects.all()
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def delete(request, pk):
+    data = Event.objects.get(id=pk)
+    data.delete()
+    return HttpResponseRedirect(reverse('Event:show_event'))
 
 def membuat_event(request):
     if request.method == 'POST':

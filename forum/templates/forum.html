@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Travel Forum</title>
+{% endblock meta %}
+
+{% block content %}
+<!doctype html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<head>
+</head>
+
+<body>
+    <h1 style="margin-bottom: 50px; font-size: 50px;">Hello {{username}}!</h1>
+    <button type="button" class="button_select_new button_select button" data-bs-toggle="modal" data-bs-target="#addModal">Create new task</button>
+   
+    <!-- Modal from: https://getbootstrap.com/docs/5.2/components/modal/ -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addModalLabel" style="font-weight: bold;">Create a new task</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center" style="display:block; margin:0 auto">
+                    <form id="form" onsubmit="return false;">
+                    {% csrf_token %}
+                    <label>Title:</label><br>
+                    <input type="text" name="title" maxlength="255" placeholder="Task Name">
+                    <br>
+                    <label>Question:</label><br>
+                    <input type="text" name="description" placeholder="Task Description">
+                </div>
+                <div class="modal-footer" style="justify-content: center;">
+                    <button id="button" type="submit" class="button_select button_select_new button" data-bs-dismiss="modal">Add Question</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="cards"></div>
+
+    <script>
+        $(document).ready(function () {
+            taskCards();
+        });
+        document.getElementById("button").onclick = addQuestion
+
+        $("#addModal").on("hidden.bs.modal", function (e) {
+            $("#form").find("input[type=text]").val("");
+        })
+
+        // Source (Solusi Tutorial 5) 
+        // https://github.com/pbp-fasilkom-ui/tutorial-5-example/blob/main/barang_wishlist/templates/index_wishlist.html
+        function addQuestion() {
+            fetch("/forum/add_question/", {
+            method: "POST",
+            body: new FormData(document.querySelector("#form"))
+            }).then(forumCards)
+            return false
+        }
+
+        function forumCards() {
+            let stringHTML = "";
+            $.ajax({
+                url: "json",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    for (i=0; i<data.length; i++){
+                        stringHTML += `
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="card-title" style="font-weight: bold; color: #6638A6;">${data[i].fields.title}</h4>
+                                    <h5 class="card-text">${data[i].fields.description}</h5>
+                                    <p class="card-text" style="font-size: 16px;">${data[i].fields.date}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                        $('#cards').html(stringHTML);
+                    }
+                }
+            });
+        }
+    </script>    
+</body>
+</html>
+
+{% endblock content %}

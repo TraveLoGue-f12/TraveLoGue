@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mx-5" id="todolist">
+        {% for event in event_data %}
+        <div class ="card">
+            {% if event.image %}
+            <img class="card-img-top" src="{{event.image.url}}" alt="Card image cap">
+            {% endif %}
+
+            <div class="card-body" style="background-color: rgb(255, 255, 255)">
+                <h5 class="card-title">{{event.title}}</h5>
+                <!-- <a href="#" class="btn btn-primary">Read More</a>
+                <a href="{% url 'Event:delete' event.id %}" class="btn btn-danger">Delete Task</a> -->
+            </div>
+            <div class="card-footer" style="background-color: rgb(255, 255, 255)">
+                <a href="{% url 'Event:show_event_detail' event.id %}" class="btn btn-primary">Read More</a>
+                <a href="{% url 'Event:delete' event.id %}" class="btn btn-danger">Delete Task</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: rgb(85, 89, 90);">
+            <div class="modal-header text-gray-300" style="background-color: rgb(238, 238, 238);">
+                <h5 class="modal-title text-gray-300">Add Your New Task!</h5>
+            </div>
+            <div class="modal-body" style="background-color: rgb(238, 238, 238);">
+                {% csrf_token %}
+                <label class="text-gray-300 font-bold">Title</label>
+                <input id="title" type="text" name="title" placeholder="Title">
+                <label class="text-gray-300 font-bold">Date</label>
+                <input id="date" type="date" name="date" placeholder="Date">
+                <label class="text-gray-300 font-bold">Place</label>
+                <input id="place" type="text" name="place" placeholder="Place">
+                <label class="text-gray-300 font-bold">Description</label>
+                <input id="description" type="text" name="description" placeholder="Description">
+                <br>
+                <label class="text-gray-300 font-bold">Image</label>
+                <input id="image" type="image" name="image">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="modal">Add</button>
+            </div>
+            <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: rgb(85, 89, 90);">
+            <div class="modal-header text-gray-300" style="background-color: rgb(238, 238, 238);">
+                <h5 class="modal-title text-gray-300">Add Your New Task!</h5>
+            </div>
+            <div class="modal-body" style="background-color: rgb(238, 238, 238);">
+                <div class="flex justify-center">
+                    <div class="lg:w-64 mt-3">
+                        <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <table>
+                            <tr>
+                                <td>Event Title: </td>
+                                <td>{{form.title}}</td>
+                            </tr>
+                
+                            <tr>
+                                <td>Place: </td>
+                                <td>{{form.place}}</td>
+                            </tr>
+    
+                            <tr>
+                                <td>Date: </td>
+                                <td>{{form.date}}</td>
+                            </tr>
+    
+                            <tr>
+                                <td>Description: </td>
+                                <td>{{form.description}}</td>
+                            </tr>
+                
+                            
+                            <tr>
+                                <td>Image: </td>
+                                <td>{{form.image}}</td>
+                            </tr>
+                 
+                        </table>
+                        <br>
+                        <input type="submit" name="submit" value="Add Shop" class="submit"/>
+                        <br>
+                        <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button type="button" class="button_select_new button_select button" data-bs-toggle="modal" data-bs-target="#createTaskModal">Create new task</button>
