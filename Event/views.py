@@ -22,6 +22,20 @@ def show_event(request):
     context = {
         'event_data' : data,
     }
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('Event:show_event'))
+    else:
+        form = UMKMForm()
+        response = {
+        'event_data': data,
+        'form': form,
+        }   
+        return render(request, 'event.html', response)
+
     return render(request, "event.html", context)
 
 def show_event_json(request):
