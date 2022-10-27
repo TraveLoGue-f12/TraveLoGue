@@ -78,7 +78,7 @@
      
  
       {% for data in datalist %}
-      <div class ="col-12 col-md-6 col-lg-4">
+      <div class ="col-12 col-md-6 col-lg-4 list-umkm">
         <div class ="card">
           <div class="card-header overflow-hidden p-0">
             {% if data.image %}
@@ -108,11 +108,64 @@
   </div>
 
   <button
-          class="inline-flex space-x-2 items-center justify-center px-6 py-3 rounded-xl"
+          class="inline-flex space-x-2 items-center justify-center px-6 py-3 rounded-xl"  data-toggle="modal"
+          data-target="#exampleModal"
           
           >
-          <a href="{% url 'umkm:add_umkm' %}  ">Add</a>
+          a
+          <!-- <a href="{% url 'umkm:add_umkm' %}  ">Add</a> -->
   </button>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
+            Add Task
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="flex justify-center">
+            <div class="lg:w-64 mt-3">
+              <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Name: </td>
+                        <td>{{form.name}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>Description: </td>
+                      <td>{{form.description}}</td>
+                    </tr>
+        
+                  
+                    <tr>
+                      <td>Image: </td>
+                      <td>{{form.image}}</td>
+                    </tr>
+        
+                    <tr>
+                      <td>Website: </td>
+                      <td>{{form.link_website}}</td>
+                    </tr>
+                            
+                </table>
+                <br>
+                <input type="submit" name="submit" value="Add Shop" class="submit"/>
+                <br>
+                <br>
+               
+            </form>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
 
   {% endblock content %}
   
@@ -120,3 +173,4 @@
   {% include 'footer.html' %}
   
 </html>
+
