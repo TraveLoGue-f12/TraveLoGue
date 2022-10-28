@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project_django.urls'
+ROOT_URLCONF = 'travelogue.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_django.wsgi.application'
+WSGI_APPLICATION = 'travelogue.wsgi.application'
 
 
 # Database
