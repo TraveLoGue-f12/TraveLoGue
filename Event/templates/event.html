@@ -66,6 +66,9 @@
               font-size: 200%;
           }
         
+          .buttonAdd{
+              text-align: center;
+          }
           .blmada{
             font-style: italic;
             text-align: center;
@@ -73,18 +76,23 @@
         
         </style>
 
-        <button>
+        <!-- <button>
             <a href="{% url 'Event:membuat_event' %}  ">Add</a>
-        </button>
+        </button> -->
 
+        <div class="buttonAdd">
+            <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
+                <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
+            </button>
+        </div>
 
         <div class="container">
             <br>
             <h1 class="text-center">Coming Soon Event</h1>
             <br>
-            <div class ="row">
-
-            {% for event in event_data %}
+            <div class ="row" id="cards">
+            <!-- <div class="row row-cols-1 row-cols-md-3 g-4 mx-5" id="cards"> -->
+            <!-- {% for event in event_data %}
             <div class ="col-12 col-md-6 col-lg-4">
                 <div class ="card">
                     <div class="card-header overflow-hidden p-0">
@@ -104,13 +112,108 @@
                 </div>
             </div>
             <br>
-            {% endfor %}
+            {% endfor %} -->
             </div>
         </div>
 
-        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
-            <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
-        </button>
+        <script>
+            $(document).ready(function () {
+                taskCards();
+            });
+            document.getElementById("button").onclick = addTodo
+      
+            function addTodo() {
+                  fetch("/event/add-new/", {
+                  method: "POST",
+                  body: new FormData(document.querySelector("#eventForm"))
+                  }).then(taskCards)
+                  return false
+              }
+      
+            function taskCards() {
+                let stringHTML = "";
+                $.ajax({
+                    url: "json",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        for (i=0; i<data.length; i++){
+                            stringHTML += ` 
+                            <div class ="col-12 col-md-6 col-lg-4">
+                                <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+                                    <div class="card-header overflow-hidden p-0">
+                                        <img class="w-100" src="${data[i].fields.image.url}" >
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">${data[i].fields.title}</h5>
+                                        <br>
+                                        <p class="card-under-title">${data[i].fields.description}</p>
+                                        <br>
+                                        <a href="event-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
+                                        <a href="delete/${data[i].pk}", class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>`;
+                            $('#cards').html(stringHTML);
+                        }
+                    }
+                });
+              }
+          </script>
+
+        <!-- <script>
+            $(document).ready(function() {
+              $.get("event/json/", function(data) {
+                console.log(100)
+                for (i = 0; i < data.length; i++) {
+                  console.log(500)
+                  $("#event").append(`<div class ="card">
+                    <div class="card-header overflow-hidden p-0">
+                        {% if event.image %}
+                        <img class="w-100" src="${data[i].fields.image.url}" >
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${data[i].fields.title}</h5>
+                        <br>
+                        <p class="card-under-title">${data[i].fields.description}</p>
+                    </div>
+                    <div class="card-footer" style="background-color: rgb(255, 255, 255)">
+                        <p>BANG</p>
+                    </div>
+                </div>`)
+                }
+            });
+          // });
+            $("#modal").click(function() {
+              console.log("something")
+              $.post("event/add-new/", {
+                title: $("#title").val(),
+                description: $("#description").val()},
+                function(result) {
+                  console.log("cek")
+                  $("#event").append(
+                  `<div class ="card">
+                    <div class="card-header overflow-hidden p-0">
+                        {% if event.image %}
+                        <img class="w-100" src="${result.fields.image.url}" >
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${result.fields.title}</h5>
+                        <br>
+                        <p class="card-under-title">${result.fields.description}</p>
+                    </div>
+                    <div class="card-footer" style="background-color: rgb(255, 255, 255)">
+                        <p>TES</p>
+                    </div>
+                </div>`)
+                }
+              )
+              })
+            });
+        </script> -->
+
 
         <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -121,7 +224,7 @@
                     <div class="modal-body" style="background-color: rgb(255, 255, 255);">
                         <div class="flex justify-center">
                             <div class="lg:w-64 mt-3">
-                                <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+                                <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm">
                                 {% csrf_token %}
                                 <table>
                                     <tr>

@@ -29,7 +29,7 @@ def show_event(request):
             form.save()
             return HttpResponseRedirect(reverse('Event:show_event'))
     else:
-        form = UMKMForm()
+        form = EventForm()
         response = {
         'event_data': data,
         'form': form,
@@ -59,22 +59,23 @@ def membuat_event(request):
         return render(request, "add_event.html", {"form": form_event})
 
 def add_event(request):
-    form_event = EventForm(request.POST or None)
-    if request.method == "POST" and form_event.is_valid():
+    if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
         date = request.POST.get('description')
         place = request.POST.get('place')
-        event = Event.objects.create(title=title, date=date, place=place, description=description,user=request.user)
+        image = request.POST.get('image')
+        event = Event.objects.create(title=title, date=date, place=place, description=description,image=image)
 
         result = {
             'fields': {
                 'title' : event.title,
                 'description' : event.description,
                 'date' : event.date,
+                'place': event.place,
+                'image': event.image
             },
             'pk' : event.pk
         }
-    
-    return JsonResponse(result)
 
+        return JsonResponse(result)
