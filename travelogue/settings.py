@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'forum',
     'example_app',
+    'Event',
     'umkm',
     'crispy_forms',
     'planner',
@@ -153,4 +154,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
