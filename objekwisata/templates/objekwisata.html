@@ -27,7 +27,12 @@
       <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
           <h2>Recommended Attractions</h2>
           <ol><li>Get below the surface of Indonesia like a local and start a one-of-a-kind adventure. find the recommended attractions here.</li></ol>
-          <ol><li><a href="index.html">Home</a></li><li>Attractions</li></ol>
+          <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Attractions</li></ol>
+          <div class="buttonAdd">
+            <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                <a class="text-decoration-none text-white" data-toggle="modal" data-target="#exampleModal">Add Attraction</a>
+            </button>
+        </div>
       </div>
     </div>
           
@@ -83,9 +88,9 @@
     
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
       Add Attraction
-    </button>
+    </button> -->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
