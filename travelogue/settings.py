@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Event',
     'umkm',
     'crispy_forms',
+    'planner',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

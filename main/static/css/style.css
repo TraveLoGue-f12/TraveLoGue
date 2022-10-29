@@ -533,6 +533,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   top: 40%; }
 
 .burger.active:before {
+  transform: rotate(45deg);;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=5);
@@ -541,6 +542,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
 .burger.active:after {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-5);
   /*for IE*/ }
 
@@ -1013,16 +1015,17 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
   padding-left: 30px;
   margin-bottom: 10px;
   vertical-align: text-top;
-  float: left; }
-  .two-col li:before {
-    content: "";
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border: 1px solid #1A374D;
-    left: 0;
-    top: 7px;
-    border-radius: 50%; }
+  float: none; }
+
+.two-col li:before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid #1A374D;
+  left: 0;
+  top: 7px;
+  border-radius: 50%; }
 
 .cta-section {
   background: #1A374D; }

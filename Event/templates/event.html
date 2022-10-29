@@ -1,286 +1,224 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
 
-<!doctype html>
-
-
-<html lang="en">
-    
-    {% include 'navbar.html' %}
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-        {% block meta %}
-        <title>TraveLoGue</title>
-        {% endblock meta %}
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-        <link href="{% static 'styles.css' %}" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    </head>
-
-    <body>
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-
-        {% block content %}
-        <style>
-            .card-img-top {
-            width: 100%;
-            height: 40vw;
-            object-fit: cover;
-          }
-          .card{
-            /* height: 40vw;
-            width: 50vw; */
-            border-radius: 15px;
-            background: rgb(255, 255, 255);
-            box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-            transition: .3s ;
-            /* padding: 10px 70px 15px 30px; */
-            cursor: pointer;
-            margin-left: 10px;
-          }
-        
-          .card:hover{
-            transform: scale(1.03);
-            box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-          }
-        
-          .card-title{
-              font-size: 200%;
-          }
-        
-          .buttonAdd{
-              text-align: center;
-          }
-          .blmada{
-            font-style: italic;
-            text-align: center;
-          }
-        
-        </style>
-
-        <!-- <button>
-            <a href="{% url 'Event:membuat_event' %}  ">Add</a>
-        </button> -->
-
-        <!-- {% if status == L %} -->
-        <!-- <div class="buttonAdd">
-            <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
-                <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
-            </button>
-        </div> -->
-        <!-- {% endif %} -->
-
-        <div class="container">
-            <br>
-            {% if detector %}
-                <div class="buttonAdd">
-                    <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
-                        <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
-                    </button>
-                </div>
-            {% endif %}
-            <h1 class="text-center">Coming Soon Event, {{status}}!</h1>
-
-            <br>
-            <div class ="row" id="cards">
-            <!-- <div class="row row-cols-1 row-cols-md-3 g-4 mx-5" id="cards"> -->
-            <!-- {% for event in event_data %}
-            <div class ="col-12 col-md-6 col-lg-4">
-                <div class ="card">
-                    <div class="card-header overflow-hidden p-0">
-                        {% if event.image %}
-                        <img class="w-100" src="{{event.image.url}}" >
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{event.title}}</h5>
-                        <br>
-                        <p class="card-under-title">{{event.description}}</p>
-                    </div>
-                    <div class="card-footer" style="background-color: rgb(255, 255, 255)">
-                        <a href="{% url 'Event:show_event_detail' event.id %}" class="btn btn-primary">Read More</a>
-                        <a href="{% url 'Event:delete' event.id %}" class="btn btn-danger">Delete Task</a>
-                    </div>
-                </div>
-            </div>
-            <br>
-            {% endfor %} -->
-            </div>
-        </div>
-
-        <script>
-            $(document).ready(function () {
+{% block script %} 
+<script>
+    $(document).ready(function () {
                 taskCards();
             });
-            document.getElementById("button").onclick = addTodo
-      
-            function addTodo() {
-                  fetch("/event/add-new/", {
-                  method: "POST",
-                  body: new FormData(document.querySelector("#eventForm"))
-                  }).then(taskCards)
-                  return false
-              }
-      
-            function taskCards() {
-                let stringHTML = "";
-                $.ajax({
-                    url: "json",
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        for (i=0; i<data.length; i++){
-                            stringHTML += ` 
-                            <div class ="col-12 col-md-6 col-lg-4">
-                                <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                                    <div class="card-header overflow-hidden p-0">
-                                        <img class="w-100" src="${data[i].fields.image}" >
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">${data[i].fields.title}</h5>
-                                        <br>
-                                        <p class="card-under-title">${data[i].fields.description}</p>
-                                        <br>
-                                        <a href="event-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
-                                        <a href="delete/${data[i].pk}", class="btn btn-danger">Delete</a>
-                                    </div>
-                                </div>
-                            </div>`;
-                            $('#cards').html(stringHTML);
-                        }
-                    }
-                });
-              }
-          </script>
+        document.getElementById("button").onclick = addTodo
+    
+        function addTodo() {
+                fetch("/event/add-new/", {
+                method: "POST",
+                body: new FormData(document.querySelector("#eventForm"))
+                }).then(taskCards)
+                return false
+            }
+    
+        function taskCards() {
+            let stringHTML = "";
+            $.ajax({
+                url: "json",
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    for (i=0; i<data.length; i++){
+                        stringHTML += `<div class="col-xl-4 col-md-6">
+                            <div class="post-item position-relative h-100">
 
-        <!-- <script>
-            $(document).ready(function() {
-              $.get("event/json/", function(data) {
-                console.log(100)
-                for (i = 0; i < data.length; i++) {
-                  console.log(500)
-                  $("#event").append(`<div class ="card">
-                    <div class="card-header overflow-hidden p-0">
-                        {% if event.image %}
-                        <img class="w-100" src="${data[i].fields.image.url}" >
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">${data[i].fields.title}</h5>
-                        <br>
-                        <p class="card-under-title">${data[i].fields.description}</p>
-                    </div>
-                    <div class="card-footer" style="background-color: rgb(255, 255, 255)">
-                        <p>BANG</p>
-                    </div>
-                </div>`)
-                }
-            });
-          // });
-            $("#modal").click(function() {
-              console.log("something")
-              $.post("event/add-new/", {
-                title: $("#title").val(),
-                description: $("#description").val()},
-                function(result) {
-                  console.log("cek")
-                  $("#event").append(
-                  `<div class ="card">
-                    <div class="card-header overflow-hidden p-0">
-                        {% if event.image %}
-                        <img class="w-100" src="${result.fields.image.url}" >
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">${result.fields.title}</h5>
-                        <br>
-                        <p class="card-under-title">${result.fields.description}</p>
-                    </div>
-                    <div class="card-footer" style="background-color: rgb(255, 255, 255)">
-                        <p>TES</p>
-                    </div>
-                </div>`)
-                }
-              )
-              })
-            });
-        </script> -->
-
-
-        <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="background-color: rgb(255, 255, 255);">
-                    <div class="modal-header text-gray-300" style="background-color: rgb(255, 255, 255);">
-                        <h5 class="modal-title text-gray-300">Add New Event!</h5>
-                    </div>
-                    <div class="modal-body" style="background-color: rgb(255, 255, 255);">
-                        <div class="flex justify-center">
-                            <div class="lg:w-64 mt-3">
-                                <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm">
-                                {% csrf_token %}
-                                <table>
-                                    <tr>
-                                        <td>Event Title: </td>
-                                        <td>{{form.title}}</td>
-                                    </tr>
-                        
-                                    <tr>
-                                        <td>Place: </td>
-                                        <td>{{form.place}}</td>
-                                    </tr>
-            
-                                    <tr>
-                                        <td>Date: </td>
-                                        <td>{{form.date}}</td>
-                                    </tr>
-            
-                                    <tr>
-                                        <td>Description: </td>
-                                        <td>{{form.description}}</td>
-                                    </tr>
-                        
-                                    
-                                    <tr>
-                                        <td>Image: </td>
-                                        <td>{{form.image}}</td>
-                                    </tr>
-                         
-                                </table>
-                                <br>
-                                <input type="submit" name="submit" value="Add Event" class="submit"/>
-                                <br>
-                                <br>
-                                </form>
+                            <div class="post-img position-relative overflow-hidden">
+                                <img src="${data[i].fields.image.url}" class="img-fluid" alt="">
+                                <span class="post-date">${data[i].fields.date}</span>
                             </div>
+
+                            <div class="post-content d-flex flex-column">
+
+                                <h3 class="post-title">${data[i].fields.title}</h3>
+
+                                <p>${data[i].fields.description}</p>
+
+                                <hr>
+
+                                <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+                            </div>
+
+                            </div>
+                        </div>`;
+                        $('#cards').html(stringHTML);
+                    }
+                }
+            });
+        }
+
+</script>
+{% endblock script %}
+
+{% block content %}
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Upcoming Local Events</h2>
+        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <!-- <p data-aos="fade-up">Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</p> -->
+        <ol><li><a href="index.html">Home</a></li><li>Events</li></ol>
+        {% if detector %}
+            <div class="buttonAdd">
+                <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: rgb(255, 255, 255);">
+                <div class="modal-header text-gray-300" style="background-color: rgb(255, 255, 255);">
+                    <h5 class="modal-title text-gray-300">Add New Event!</h5>
+                </div>
+                <div class="modal-body" style="background-color: rgb(255, 255, 255);">
+                    <div class="flex justify-center">
+                        <div class="lg:w-64 mt-3">
+                            <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm">
+                            {% csrf_token %}
+                            <div class="input-box">
+                                <span class="details" for="title" style="font-weight: 700;">Event title :</span><br>
+                                <input type="text" id="title" name="title"><br>
+                              </div>
+                            <div class="input-box">
+                            <span class="details" for="date" style="font-weight: 700;">Date :</span><br>
+                            <input type="date" id="date" name="date"><br>
+                            </div>
+                            <div class="input-box">
+                            <span class="details" for="place" style="font-weight: 700;">Place :</span><br>
+                            <input type="text" id="place" name="place"><br>
+                            </div>
+                            <div class="input-box">
+                            <span class="details" for="description" style="font-weight: 700;">Description :</span><br>
+                            <input type="text" id="description" name="description"><br>
+                            </div>
+                            <div class="input-box">
+                                <span class="details" for="description" style="font-weight: 700;">Image :</span><br>
+                                {{form.image}}
+                            </div>
+                
+                            <!-- <table>
+                                <tr>
+                                    <td>Event Title: </td>
+                                    <td>{{form.title}}</td>
+                                </tr>
+                    
+                                <tr>
+                                    <td>Place: </td>
+                                    <td>{{form.place}}</td>
+                                </tr>
+        
+                                <tr>
+                                    <td>Date: </td>
+                                    <td>{{form.date}}</td>
+                                </tr>
+        
+                                <tr>
+                                    <td>Description: </td>
+                                    <td>{{form.description}}</td>
+                                </tr>
+                    
+                                
+                                <tr>
+                                    <td>Image: </td>
+                                    <td>{{form.image}}</td>
+                                </tr>
+                     
+                            </table> -->
+                            <!-- <div class="mb-3">
+                                <label for="tripName" class="form-label">Event Title</label>
+                                <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
+                              </div>
+                              <div class="mb-3">
+                                <label for="tripDate" class="form-label">Select date</label>
+                                <input type="date" class="form-control" id="tripDate"></textarea>
+                              </div>
+                              <div class="mb-3">
+                                <label for="tripNotes" class="form-label">Notes</label>
+                                <textarea class="form-control" id="tripNotes" rows="3"></textarea>
+                              </div>
+                            <br> -->
+                            <br>
+                            <input type="submit" name="submit" value="Add Event" class="submit"/>
+                            <br>
+                            <br>
+                            </form>
                         </div>
                     </div>
-                    <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-        {% endblock content %}
-    </body>
+    </div>
 
-    {% include 'footer.html' %}
+<section id="blog" class="blog">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <!-- <div class ="row" id="cards"> -->
+        <div class="row gy-4 posts-list" id="cards">
+        </div>
+    </div>
+</section>
+<!-- <div class="container"> -->
+    <!-- <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>My Trips</h1>
+        </div>
+        <div>
+            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Plan new trip</span>
+            </button>    
+        </div>
+    </div> -->
 
-</html>
+    
+
+    <!-- <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="planTripLabel">Plan new trip</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+              {% csrf_token %}           
+              <div class="mb-3">
+                <label for="tripName" class="form-label">Trip name</label>
+                <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
+              </div>
+              <div class="mb-3">
+                <label for="tripDate" class="form-label">Select date</label>
+                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="tripNotes" class="form-label">Notes</label>
+                <textarea class="form-control" id="tripNotes" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="submit_trip" type="button" class="btn btn-primary" data-bs-dismiss="modal">Plan</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    <!-- <div class="row" id="trips"> -->
+
+    <!-- </div> -->
+<!-- </div> -->
+{% endblock content %}

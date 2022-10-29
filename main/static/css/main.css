@@ -11,8 +11,8 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --font-default: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-primary: "Roboto", sans-serif;
+  --font-default: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-primary: "Poppins", sans-serif;
   --font-secondary: "Work Sans", sans-serif;
 }
 
@@ -54,6 +54,12 @@ h4,
 h5,
 h6 {
   font-family: var(--font-primary);
+  font-weight: 200%;
+}
+
+p {
+  font-family: var(--font-default);
+  color: var(--color-default);
 }
 
 /*--------------------------------------------------------------
@@ -264,9 +270,13 @@ section {
   right: 0;
 }
 
+.header a {
+  text-decoration: none;
+}
+
 .header .logo img {
   max-height: 40px;
-  margin-right: 6px;
+  margin-right: 5px;
 }
 
 .header .logo h1 {
@@ -280,6 +290,12 @@ section {
 .header .logo h1 span {
   color: var(--color-primary);
 }
+
+.header .glyphicon {
+  color:var(--color-primary);
+  font-size: 15px;
+}
+
 
 /*--------------------------------------------------------------
 # Desktop Navigation
@@ -412,6 +428,7 @@ section {
     visibility: visible;
   }
 }
+
 
 @media (min-width: 1280px) and (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -884,6 +901,7 @@ section {
   margin-bottom: 0;
 }
 
+
 /*--------------------------------------------------------------
 # Our Projects Section
 --------------------------------------------------------------*/
@@ -1071,6 +1089,7 @@ section {
 
 .testimonials .testimonial-item p {
   font-style: italic;
+  font-size: 130%;
   margin: 15px auto 15px auto;
 }
 
@@ -2018,6 +2037,7 @@ section {
 
 .hero .carousel-control-prev {
   justify-content: start;
+  text-decoration: none;
 }
 
 @media (min-width: 640px) {
@@ -2028,6 +2048,7 @@ section {
 
 .hero .carousel-control-next {
   justify-content: end;
+  text-decoration: none;
 }
 
 @media (min-width: 640px) {
@@ -2661,6 +2682,7 @@ section {
 
 .footer .footer-content .footer-info {
   margin-bottom: 30px;
+  
 }
 
 .footer .footer-content .footer-info h3 {
