@@ -25,6 +25,10 @@ def show_event_detail(request, pk):
 def show_event(request):
     data = Event.objects.all()
     user = request.user
+
+    context = {
+        'event_data' : data,
+    }
     if user.is_authenticated:
         user_profile = Profile.objects.get(user=user)
         context = {
