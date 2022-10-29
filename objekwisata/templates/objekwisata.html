@@ -3,9 +3,9 @@
 
 <html>
   <head>  
-    {% block meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}
     <title>TraveLoGue</title>
     {% endblock meta %}
     
@@ -22,6 +22,14 @@
   
   {% block content %}
   <body>
+
+    <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/images/labuanbajo.jpg);">
+      <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+          <h2>Recommended Attractions</h2>
+          <ol><li>Get below the surface of Indonesia like a local and start a one-of-a-kind adventure. find the recommended attractions here.</li></ol>
+          <ol><li><a href="index.html">Home</a></li><li>Attractions</li></ol>
+      </div>
+    </div>
           
     <div class="container">
       <h1 class="text-center">Attractions</h1>
