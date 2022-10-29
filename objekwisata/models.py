@@ -4,8 +4,7 @@ from django.db import models
 
 # Create your models here.
 class ObjekWisata(models.Model):
+    title = models.CharField(max_length=40)
+    description = models.CharField(max_length=100, default=" ")
+    address_link = models.URLField(default="https://goo.gl/maps/5D8wXfWReu4EhZNB6")
     image = models.ImageField(null=True, blank=True, upload_to='images/')
-    lokasi = models.CharField(max_length=250, default="Indonesia")
-    title = models.CharField(max_length=25)
-    deskripsi = models.CharField(max_length=50)
-    alamat = models.URLField()
