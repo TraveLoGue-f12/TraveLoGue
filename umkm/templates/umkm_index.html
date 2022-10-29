@@ -1,4 +1,4 @@
-
+{% extends 'base.html' %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -44,7 +44,7 @@
 
 
 <html lang="en">
-  {% include 'navbar.html' %}
+  
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,21 +64,26 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
   </head>
 
-
+  {% block content %}
   <body>
-    {% block content %}
     
     
-
+    
+  <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Local Shops</h2>
+        <ol><li><a href="index.html">Home</a></li><li>Local Shops</li></ol>
+    </div>
+  </div>
   <div class="container">
     <br>
     <h1 class="text-center">LOCAL SHOPS</h1>
     <br>
-    <div class ="row">
+    <div class ="row" id="cards">
      
  
-      {% for data in datalist %}
-      <div class ="col-12 col-md-6 col-lg-4 list-umkm">
+      <!-- {% for data in datalist %}
+      <div class ="col-12 col-md-6 col-lg-4 " id="list-umkm">
         <div class ="card">
           <div class="card-header overflow-hidden p-0">
             {% if data.image %}
@@ -103,7 +108,7 @@
       </div>
       <br>
       
-    {% endfor %}
+    {% endfor %} -->
     </div>
   </div>
 
@@ -123,12 +128,12 @@
           <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
             Add Task
           </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
         </div>
         <div class="modal-body">
           <div class="flex justify-center">
             <div class="lg:w-64 mt-3">
-              <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+              <form method="POST" action="" class="register-form" enctype="multipart/form-data" id='umkmForm'>
                 {% csrf_token %}
                 <table>
                     <tr>
@@ -154,7 +159,8 @@
                             
                 </table>
                 <br>
-                <input type="submit" name="submit" value="Add Shop" class="submit"/>
+                <button id="halo" >add</button>
+                <!-- <input type="submit" name="submit" value="Add Shop" class="submit" id="#add-task" /> -->
                 <br>
                 <br>
                
@@ -167,10 +173,91 @@
       </div>
     </div>
 
-  {% endblock content %}
+  
   
   </body>
-  {% include 'footer.html' %}
+  {% endblock content %}
   
 </html>
+{% block script %}
+  
+<script>
+  $(document).ready(function () {
+      umkmCards();
 
+      
+  });
+  // document.getElementById("halo").onclick = addUMKM
+
+  $('#halo').click(function () {
+                $.post(
+                    '/rekomendasi-umkm/add_umkm_ajax/',
+                    {
+                        name: $('#name').val(),
+                        description: $('#description').val(),
+                        link_website: $('#link_website').val(),
+                        image : $('#link_website').val(),
+
+                    },
+                    function (data, status) {
+                        if (status == 'success') {
+                            $(`#cards`).append(card(data))
+                            $('#name').val('')
+                            $('#description').val('')
+                            $('#link_website').val('')
+                            $('#image').val('')
+                        }
+                    },
+                )
+            })
+            
+  function deleteCard(id) {
+            $.ajax({
+                url: `/rekomendasi-umkm/delete-ajax/${id}`,
+                type: 'DELETE',
+                success: function (result) {
+                    $(`#card-${id}`).remove()
+                }
+            });
+        }
+
+  // function addUMKM() {
+  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
+  //       method: "POST",
+  //       body: new FormData(document.querySelector("#umkmForm"))
+  //       }).then(umkmCards)
+  //       return false
+  //   }
+
+  function umkmCards() {
+      let stringHTML = "";
+      $.ajax({
+          url: "json",
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+              
+              for (i=0; i<data.length; i++){
+                  
+                  stringHTML += ` 
+                  <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+                      <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+                       
+                          <div class="card-body">
+                              <h5 class="card-title">${data[i].fields.name}</h5>
+                              <br>
+                              <p class="card-under-title">${data[i].fields.description}</p>
+                              <br>
+                              <a href="umkm-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
+                              
+                              <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
+                          </div>
+                      </div>
+                  </div>`;
+                  $('#cards').html(stringHTML);
+              }
+          }
+      });
+    }
+</script>
+{% endblock script %}

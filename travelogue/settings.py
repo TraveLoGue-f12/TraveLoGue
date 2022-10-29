@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'forum',
     'example_app',
+    'Event',
     'umkm',
     'crispy_forms',
     'planner',
@@ -115,6 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -152,4 +154,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
