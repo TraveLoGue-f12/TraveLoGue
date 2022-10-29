@@ -25,28 +25,28 @@ def show_event_detail(request, pk):
 def show_event(request):
     data = Event.objects.all()
     user = request.user
-    user_profile = Profile.objects.get(user=user)
+    if user.is_authenticated:
+        user_profile = Profile.objects.get(user=user)
+        context = {
+            'event_data' : data,
+            'status' : user_profile.full_name
+        }
 
-    context = {
-        'event_data' : data,
-        'status' : user_profile.full_name
-    }
-
-    if user_profile.status == 'L':
-        if request.method == 'POST':
-            form = EventForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('Event:show_event'))
-        else:
-            form = EventForm()
-            response = {
-            'status': user_profile.full_name,
-            'event_data': data,
-            'form': form,
-            'detector': "yes",
-            }   
-            return render(request, 'event.html', response)
+        if user_profile.status == 'L':
+            if request.method == 'POST':
+                form = EventForm(request.POST, request.FILES)
+                if form.is_valid():
+                    form.save()
+                    return HttpResponseRedirect(reverse('Event:show_event'))
+            else:
+                form = EventForm()
+                response = {
+                'status': user_profile.full_name,
+                'event_data': data,
+                'form': form,
+                'detector': "yes",
+                }   
+                return render(request, 'event.html', response)
 
     return render(request, "event.html", context)
 
