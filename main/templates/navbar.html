@@ -15,18 +15,18 @@
     <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
     <nav id="navbar" class="navbar">
     <ul>
-        <li><a href="/" class="nav-link active home">Home</a></li>
-        <li><a href="{% url 'main:index' %}#about" class="nav-link">About Us</a></li>
-        <li class="dropdown "><a href="#" class="nav-link"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+        <li><a href="/" class="nav-link active home" id="home">Home</a></li>
+        <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
+        <li class="dropdown "><a href="/#abc" class="nav-link rekomendasi" id="rekomendasi"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
         <ul>
-            <li><a href="/rekomendasi-umkm">Local Shops</a></li>
-            <li><a href="#">Attractions</a></li>
-            <li><a href="#">Upcoming Events</a></li>
+            <li><a href="/rekomendasi-umkm" id="rekomen-umkm">Local Shops</a></li>
+            <li><a href="#" id="rekomen-attr">Attractions</a></li>
+            <li><a href="#" id="rekomen-event">Upcoming Events</a></li>
         </ul>
         </li>
-        <li><a href="/planner" class="nav-link">My Planner</a></li>
-        <li><a href="/forum" class="nav-link">QnA Forum</a></li>
-        <li><a href="#" class="nav-link">Contact Us</a></li>
+        <li><a href="/planner/" class="nav-link planner" id="planner">My Planner</a></li>
+        <li><a href="/forum" class="nav-link forum" id="forum">QnA Forum</a></li>
+        <li><a href="/" class="nav-link contact">Contact Us</a></li>
 
         {% if user.is_authenticated %}
         <li class="dropdown">
@@ -51,19 +51,19 @@
 <script>
     $(document).ready(function (){
         const activePage = window.location.pathname;
-        console.log(activePage);
-        console.log(document.querySelectorAll('.nav-link'))
-        const navLink = document.querySelectorAll('.nav-link').forEach(link => {
-            if(link.href.includes(`${activePage}`) && ! link.classList.includes('home')){
-                link.classList.add('active');
-                
-            }
-            else{
-                link.classList.remove('active')
-            }
-            console.log(link.classList)
-            // console.log(link.href)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            
         })
+        if(activePage == "/"){
+            document.getElementById('home').classList.add('active');
+        } else if(activePage == "/planner/"){
+            document.getElementById('planner').classList.add('active');
+        }  else if(activePage.includes( "/rekomendasi")){
+            document.getElementById('rekomendasi').classList.add('active');
+        }
+        
+        
     })
     
     
