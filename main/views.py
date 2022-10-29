@@ -11,16 +11,6 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'index.html')
 
-@login_required(login_url='/login')
-def home(request):
-    user = request.user
-    user_profile = Profile.objects.get(user=user)
-
-    context = {
-        "status" : user_profile.status
-    }
-    return render(request, 'home.html', context)
-
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -29,12 +19,18 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
-            response = HttpResponseRedirect(reverse("main:home")) # membuat response
+            response = HttpResponseRedirect(reverse("main:index")) # membuat response
             return response
         else:
             messages.info(request, 'Invalid username/password!')
+            
     context = {}
     return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    response = redirect('main:login_user')
+    return response
 
 def signup(request):
     form = SignUpForm()
