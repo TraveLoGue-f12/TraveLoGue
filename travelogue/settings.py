@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'objekwisata',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project_django.urls'
+ROOT_URLCONF = 'travelogue.urls'
 
 TEMPLATES = [
     {
@@ -75,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_django.wsgi.application'
+WSGI_APPLICATION = 'travelogue.wsgi.application'
 
 
 # Database
@@ -142,7 +144,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

@@ -1,9 +1,8 @@
-from django.db import models  
-from django.forms import ModelForm, fields  
-from .models import ObjekWisata
-from django import forms  
+from django.forms import ModelForm
+from objekwisata.models import ObjekWisata
+
 
 class ObjekWisataForm(ModelForm):
     class Meta:
         model = ObjekWisata
-        fields = ('image', 'title', 'description', 'alamat')
+        fields = '__all__'
