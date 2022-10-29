@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block script %} 
+<script>
+    $(document).ready(function(){
+        $.get("/planner/json/", function(data) {
+            if (data.length == 0) {
+                $("#trips").append(`
+                <div style="text-align:center">
+                    <img id="#placeholder" src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
+                    <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No trips planned yet</h3>
+                </div>`)
+            } else {
+                for (i=0; i<data.length; i++){
+                    var image;
+                    if (i%3 == 0) {
+                        image = "img/beach.svg";
+                    } else if (i%3 == 1) {
+                        image = "img/city.svg";
+                    } else {
+                        image = "img/nature.svg";
+                    } 
+                    $("#trips").append(`
+                        <div id="${data[i].pk}--task" class="col-md-4 col-lg-3 mb-3">
+                            <div class="card d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <img src="{% static '${image}' %}" class="card-img-top" style="object-fit:cover;object-position: center; max-height: 50%;">
+                                <h5 class="card-title">${data[i].fields.name}</h5>
+                                <p class="card-text mb-1 date">${data[i].fields.trip_date}</p>
+                                <p class="card-text">${data[i].fields.notes}</p>
+                                <div class="mt-auto">
+                                </div>
+                            </div>
+                            </div>
+                        </div>`)
+                }
+            }
+        });
+        
+
+        $('input[name="daterange"]').daterangepicker(
+        {
+            locale: {format: 'DD/MM/YYYY'},
+            startDate: '01/11/2022',
+            endDate: '02/11/2022'
+        });
+        
+        $("#submit_trip").click(function(){
+          $.post("/planner/addtrip/", {
+            image: $("#image").val(),
+            name: $("#tripName").val(),
+            tripDate: $("#tripDate").val(),
+            tripNotes: $("#tripNotes").val()
+          },
+            function(result, status){
+                if (status == 'success') {
+                    var image;
+                    if (i%3 == 0) {
+                        image = "img/beach.svg";
+                    } else if (i%3 == 1) {
+                        image = "img/city.svg";
+                    } else {
+                        image = "img/nature.svg";
+                    } 
+                    $("#trips").append(`
+                        <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
+                        <div class="card">
+                            <div class="card-body d-flex flex-column">
+                            <img src="{% static '${image}' %}" class="card-img-top" style="object-fit:cover;object-position: center; max-height: 50%;">
+                            <h5 class="card-title">${result.fields.name}</h5>
+                            <p class="card-text mb-1 date">${result.fields.trip_date}</p>
+                            <p class="card-text">${result.fields.notes}</p>
+                            </div>
+                        </div>
+                    </div>`);
+                    $('#image').val('')
+                    $('#name').val('')
+                    $('#tripNotes').val('')
+                    }
+            }
+          )
+        });
+
+    });
+
+</script>
+{% endblock script %}
+
+{% block content %}
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>My Planner</h2>
+        <ol><li><a href="index.html">Home</a></li><li>My Planner</li></ol>
+    </div>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>My Trips</h1>
+        </div>
+        <div>
+            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Plan new trip</span>
+            </button>    
+        </div>
+    </div>
+
+    <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="planTripLabel">Plan new trip</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+              {% csrf_token %}           
+              <div class="mb-3">
+                <label for="tripName" class="form-label">Trip name</label>
+                <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
+              </div>
+              <div class="mb-3">
+                <label for="tripDate" class="form-label">Select date</label>
+                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="tripNotes" class="form-label">Notes</label>
+                <textarea class="form-control" id="tripNotes" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="submit_trip" type="button" class="btn btn-primary" data-bs-dismiss="modal">Plan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="row" id="trips">
+
+    </div>
+</div>
+{% endblock content %}
