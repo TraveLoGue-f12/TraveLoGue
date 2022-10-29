@@ -6,7 +6,3 @@ class UMKM(models.Model):
     description = models.TextField()
     link_website = models.URLField()
     image = models.ImageField(null = True, blank =True,upload_to='images/')
-
-class ImageField(models.ImageField):
-    def value_to_string(self,obj):
-        return obj.fig.url  

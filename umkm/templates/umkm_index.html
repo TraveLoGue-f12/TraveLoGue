@@ -123,7 +123,7 @@
           <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
             Add Task
           </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
         </div>
         <div class="modal-body">
           <div class="flex justify-center">
@@ -154,7 +154,8 @@
                             
                 </table>
                 <br>
-                <input type="submit" name="submit" value="Add Shop" class="submit" id="#add-task" />
+                <button id="halo" >add</button>
+                <!-- <input type="submit" name="submit" value="Add Shop" class="submit" id="#add-task" /> -->
                 <br>
                 <br>
                
@@ -176,11 +177,15 @@
 
 <script>
   $(document).ready(function () {
-      taskCards();
+      umkmCards();
 
-      $('#add-task').click(function () {
+      
+  });
+  // document.getElementById("halo").onclick = addUMKM
+
+  $('#halo').click(function () {
                 $.post(
-                    '/umkm/add_umkm/',
+                    '/rekomendasi-umkm/add_umkm_ajax/',
                     {
                         name: $('#name').val(),
                         description: $('#description').val(),
@@ -199,37 +204,47 @@
                     },
                 )
             })
-  });
-  document.getElementById("button").onclick = addUMKM
+            
+  function deleteCard(id) {
+            $.ajax({
+                url: `/rekomendasi-umkm/delete-ajax/${id}`,
+                type: 'DELETE',
+                success: function (result) {
+                    $(`#card-${id}`).remove()
+                }
+            });
+        }
 
-  function addUMKM() {
-        fetch("/umkm/add_umkm_ajax/", {
-        method: "POST",
-        body: new FormData(document.querySelector("#umkmForm"))
-        }).then(taskCards)
-        return false
-    }
+  // function addUMKM() {
+  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
+  //       method: "POST",
+  //       body: new FormData(document.querySelector("#umkmForm"))
+  //       }).then(umkmCards)
+  //       return false
+  //   }
 
-  function taskCards() {
+  function umkmCards() {
       let stringHTML = "";
       $.ajax({
           url: "json",
           type: "GET",
           dataType: "json",
           success: function(data) {
+              
               for (i=0; i<data.length; i++){
                   
                   stringHTML += ` 
-                  <div class ="col-12 col-md-6 col-lg-4">
+                  <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
                       <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                         
+                       
                           <div class="card-body">
                               <h5 class="card-title">${data[i].fields.name}</h5>
                               <br>
                               <p class="card-under-title">${data[i].fields.description}</p>
                               <br>
                               <a href="umkm-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
-                              <a href="delete/${data[i].pk}", class="btn btn-danger">Delete</a>
+                              
+                              <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
                           </div>
                       </div>
                   </div>`;

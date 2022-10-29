@@ -1,10 +1,11 @@
-from django.shortcuts import render
+
 from umkm.forms import UMKMForm
 from django.http.response import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core import serializers
 from umkm.models import UMKM
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
@@ -59,6 +60,7 @@ def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
     return redirect('umkm:rekomendasi_umkm')
     
+@csrf_exempt
 def add_umkm_ajax(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -79,4 +81,11 @@ def add_umkm_ajax(request):
         }
 
         return JsonResponse(result)
+
+@csrf_exempt
+def delete_umkm_ajax(request, id):
+    if request.method == "DELETE":
+        umkm = get_object_or_404(UMKM, id = id)
+        umkm.delete()
+    return HttpResponse(status=202)
     
