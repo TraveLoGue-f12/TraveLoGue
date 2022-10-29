@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('forum/', include('forum.urls')),
-    path('rekomendasi-umkm/', include('umkm.urls'))
+    path('rekomendasi-umkm/', include('umkm.urls')),
+    path('planner/', include('planner.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

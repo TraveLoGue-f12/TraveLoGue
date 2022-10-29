@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'example_app',
     'umkm',
     'crispy_forms',
+    'planner',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
