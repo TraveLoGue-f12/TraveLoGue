@@ -4,6 +4,9 @@ from django.http.response import HttpResponse, HttpResponseRedirect, JsonRespons
 from django.urls import reverse
 from django.core import serializers
 from umkm.models import UMKM
+from django.shortcuts import redirect
+
+
 def index(request):
     return render(request, 'umkm_index.html')
 
@@ -12,7 +15,7 @@ def add_umkm(request):
         form = UMKMForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('umkm:show_data'))
+            return HttpResponseRedirect(reverse('umkm:rekomendasi_umkm'))
     else:
         form = UMKMForm()
         response = {'form': form}
@@ -22,12 +25,30 @@ def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
 
-def show_data(req):
+def show_data(request):
     
     data_UMKM = UMKM.objects.all()
-  
-    ctx = {
+    response = {
         'datalist':  data_UMKM,
-    }
+ 
+    }  
+    
+    if request.method == 'POST':
+        form = UMKMForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('umkm:rekomendasi_umkm'))
+    else:
+        form = UMKMForm()
+        response = {
+        'datalist':  data_UMKM,
+        'form': form,
+        }   
+        return render(request, 'umkm_index.html', response)
 
-    return render(req, "umkm_index.html", ctx)
+    return render(request, "umkm_index.html", response)
+
+def delete_card(request, pk):
+    UMKM.objects.get(id=pk).delete()
+    return redirect('umkm:rekomendasi_umkm')
+    

@@ -1,43 +1,49 @@
 <!--  Load static files -->
 {% load static %}
+  
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-        
+      <a href="/" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="static/img/logo.png" alt=""> -->
+        <h1>TraveLoGue<span>.</span></h1>
+      </a>
 
-        <!-- Text Logo - Use this if you don't have a graphic logo -->
-        <a class="navbar-brand logo-text page-scroll" href="{% url 'main:home' %}">TraveLoGue</a>
-
-        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav ml-auto">
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="{% url 'main:home' %}">Recommended Local Shops</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'main:home' %}">Recommended Attractions</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'main:home' %}">Event Promotions</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'main:home' %}">Travel Forum</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'main:home' %}">Travel Planner</a>
-                    </div>
-                </li>
-                <li class="nav-item scroll-to-section">
-                    <a href="#footer">Contact Us</a>
-                </li>
-                
-                
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="" class="active">Home</a></li>
+          <li><a href="{% url 'main:index' %}#about">About Us</a></li>
+          <li class="dropdown"><a href="#"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="/rekomendasi-umkm">Local Shops</a></li>
+              <li><a href="#">Attractions</a></li>
+              <li><a href="#">Upcoming Events</a></li>
             </ul>
-        </div> <!-- end of navbar-collapse -->
-        <a class="btn btn-primary" href="{% url 'main:home' %}">Login</a>
-    </div> <!-- end of container -->
-</nav> <!-- end of navbar -->
-<!-- end of navigation -->
+          </li>
+          <li><a href="/planner">My Planner</a></li>
+          <li><a href="/forum">QnA Forum</a></li>
+          <li><a href="#">Contact Us</a></li>
+
+          {% if user.is_authenticated %}
+          <li class="dropdown">
+            <a href="#"><span>{{request.user}}</span><i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="dropdown">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <ul>
+                <li><a href="/login">Login</a></li>
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
