@@ -80,15 +80,25 @@
             <a href="{% url 'Event:membuat_event' %}  ">Add</a>
         </button> -->
 
-        <div class="buttonAdd">
+        <!-- {% if status == L %} -->
+        <!-- <div class="buttonAdd">
             <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
                 <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
             </button>
-        </div>
+        </div> -->
+        <!-- {% endif %} -->
 
         <div class="container">
             <br>
-            <h1 class="text-center">Coming Soon Event</h1>
+            {% if detector %}
+                <div class="buttonAdd">
+                    <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
+                        <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
+                    </button>
+                </div>
+            {% endif %}
+            <h1 class="text-center">Coming Soon Event, {{status}}!</h1>
+
             <br>
             <div class ="row" id="cards">
             <!-- <div class="row row-cols-1 row-cols-md-3 g-4 mx-5" id="cards"> -->
@@ -142,7 +152,7 @@
                             <div class ="col-12 col-md-6 col-lg-4">
                                 <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
                                     <div class="card-header overflow-hidden p-0">
-                                        <img class="w-100" src="${data[i].fields.image.url}" >
+                                        <img class="w-100" src="${data[i].fields.image}" >
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-title">${data[i].fields.title}</h5>
