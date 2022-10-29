@@ -303,6 +303,9 @@ section {
 @media (min-width: 1280px) {
   .navbar {
     padding: 0;
+    height: 0rem;
+    min-height: 12vh;
+    
   }
 
   .navbar ul {
