@@ -25,8 +25,15 @@ def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
 
+def show_umkm_by_id(request, pk):
+    data = UMKM.objects.get(id=pk)
+    context = {
+        'data' : data,
+    }
+    return render(request, "umkm_detail.html", context)
+
 def show_data(request):
-    
+  
     data_UMKM = UMKM.objects.all()
     response = {
         'datalist':  data_UMKM,
@@ -51,4 +58,25 @@ def show_data(request):
 def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
     return redirect('umkm:rekomendasi_umkm')
+    
+def add_umkm_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        link_website = request.POST.get('link_website')
+        
+        image = request.POST.get('image')
+        umkm = UMKM.objects.create(name=name,  description=description,image=image, link_website=link_website)
+
+        result = {
+            'fields': {
+                'name' : umkm.name,
+                'description' : umkm.description,
+                'link_website': umkm.link_website,
+                'image': umkm.image
+            },
+            'pk' : umkm.pk
+        }
+
+        return JsonResponse(result)
     
