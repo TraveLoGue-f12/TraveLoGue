@@ -185,32 +185,45 @@
   $(document).ready(function () {
       umkmCards();
 
+      $('#halo').click(function () {
+                $.post(
+                    '/rekomendasi-umkm/add_umkm_ajax/',
+                    {
+                        name: $('#name').val(),
+                        description: $('#description').val(),
+                        link_website: $('#link_website').val(),
+                        image : $('#link_website').val(),
+
+                    },
+                    function (data, status) {
+                        if (status == 'success') {
+                            $(`#cards`).append(card(data))
+                            $('#name').val('')
+                            $('#description').val('')
+                            $('#link_website').val('')
+                            $('#image').val('')
+                        }
+                    },
+                )
+            })
+      
+      
       
   });
-  document.getElementById("halo").onclick = addUMKM
+  // document.getElementById("halo").onclick = addUMKM
 
-  // $('#halo').click(function () {
-  //               $.post(
-  //                   '/rekomendasi-umkm/add_umkm_ajax/',
-  //                   {
-  //                       name: $('#name').val(),
-  //                       description: $('#description').val(),
-  //                       link_website: $('#link_website').val(),
-  //                       image : $('#link_website').val(),
-
-  //                   },
-  //                   function (data, status) {
-  //                       if (status == 'success') {
-  //                           $(`#cards`).append(card(data))
-  //                           $('#name').val('')
-  //                           $('#description').val('')
-  //                           $('#link_website').val('')
-  //                           $('#image').val('')
-  //                       }
-  //                   },
-  //               )
-  //           })
+  
             
+  
+
+  // function addUMKM() {
+  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
+  //       method: "POST",
+  //       body: new FormData(document.querySelector("#umkmForm"))
+  //       }).then(umkmCards)
+  //       return false
+  //   }
+
   function deleteCard(id) {
             $.ajax({
                 url: `/rekomendasi-umkm/delete-ajax/${id}`,
@@ -220,14 +233,6 @@
                 }
             });
         }
-
-  function addUMKM() {
-        fetch("/rekomendasi-umkm/add_umkm_ajax/", {
-        method: "POST",
-        body: new FormData(document.querySelector("#umkmForm"))
-        }).then(umkmCards)
-        return false
-    }
 
   function umkmCards() {
       let stringHTML = "";
