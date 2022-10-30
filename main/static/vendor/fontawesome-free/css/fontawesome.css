@@ -3854,8 +3854,9 @@ readers do not read off random characters that represent icons */
 .fa-hourglass-empty::before {
   content: "\f254"; }
 
-.fa-mountain::before {
+.fa-shop::before {
   content: "\f6fc"; }
+
 
 .fa-user-doctor::before {
   content: "\f0f0"; }
@@ -4226,7 +4227,7 @@ readers do not read off random characters that represent icons */
 .fa-battery-3::before {
   content: "\f242"; }
 
-.fa-mountain-city::before {
+.fa-shop::before {
   content: "\e52e"; }
 
 .fa-coins::before {
@@ -4700,7 +4701,7 @@ readers do not read off random characters that represent icons */
 .fa-book-reader::before {
   content: "\f5da"; }
 
-.fa-mountain-sun::before {
+.fa-shop::before {
   content: "\e52f"; }
 
 .fa-arrows-left-right-to-line::before {

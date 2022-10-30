@@ -10,10 +10,10 @@
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
         <h2>Event Details</h2>
         <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
-        <ol><li><a href="index.html">Home</a></li><li>Event Details</li></ol>
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Event Details</li></ol>
             <div class="buttonAdd">
-                <button type="button" class="btn btn-primary" style="background-color: rgb(85, 89, 90)">
-                    <a href="{% url 'Event:show_event' %}">Back</a>
+                <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Back</a>
                 </button>
             </div>
     </div>
@@ -46,15 +46,17 @@
             </div> -->
             <article class="blog-details">
                 <div class="post-img">
-                  <img src="{{data.image.url}}" alt="" class="img-fluid">
+                    {% if data.image %}
+                        <img src="{{data.image.url}}" alt="" class="img-fluid">
+                    {% endif %}
                 </div>
   
                 <h2 class="title">{{data.title}}</h2>
   
                 <div class="meta-top">
                   <ul>
-                    <li class="d-flex align-items-center"><i class="bi bi-person"></i>{{data.place}}</li>
-                    <li class="d-flex align-items-center"><i class="bi bi-clock"></i>{{data.date}}</li>
+                    <li class="d-flex align-items-center"><i class="bi bi-map"></i>{{data.place}}</li>
+                    <li class="d-flex align-items-center"><i class="bi bi-calendar"></i>{{data.date}}</li>
                   </ul>
                 </div><!-- End meta top -->
   
