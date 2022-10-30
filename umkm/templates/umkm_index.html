@@ -187,29 +187,29 @@
 
       
   });
-  // document.getElementById("halo").onclick = addUMKM
+  document.getElementById("halo").onclick = addUMKM
 
-  $('#halo').click(function () {
-                $.post(
-                    '/rekomendasi-umkm/add_umkm_ajax/',
-                    {
-                        name: $('#name').val(),
-                        description: $('#description').val(),
-                        link_website: $('#link_website').val(),
-                        image : $('#link_website').val(),
+  // $('#halo').click(function () {
+  //               $.post(
+  //                   '/rekomendasi-umkm/add_umkm_ajax/',
+  //                   {
+  //                       name: $('#name').val(),
+  //                       description: $('#description').val(),
+  //                       link_website: $('#link_website').val(),
+  //                       image : $('#link_website').val(),
 
-                    },
-                    function (data, status) {
-                        if (status == 'success') {
-                            $(`#cards`).append(card(data))
-                            $('#name').val('')
-                            $('#description').val('')
-                            $('#link_website').val('')
-                            $('#image').val('')
-                        }
-                    },
-                )
-            })
+  //                   },
+  //                   function (data, status) {
+  //                       if (status == 'success') {
+  //                           $(`#cards`).append(card(data))
+  //                           $('#name').val('')
+  //                           $('#description').val('')
+  //                           $('#link_website').val('')
+  //                           $('#image').val('')
+  //                       }
+  //                   },
+  //               )
+  //           })
             
   function deleteCard(id) {
             $.ajax({
@@ -221,13 +221,13 @@
             });
         }
 
-  // function addUMKM() {
-  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
-  //       method: "POST",
-  //       body: new FormData(document.querySelector("#umkmForm"))
-  //       }).then(umkmCards)
-  //       return false
-  //   }
+  function addUMKM() {
+        fetch("/rekomendasi-umkm/add_umkm_ajax/", {
+        method: "POST",
+        body: new FormData(document.querySelector("#umkmForm"))
+        }).then(umkmCards)
+        return false
+    }
 
   function umkmCards() {
       let stringHTML = "";
@@ -242,7 +242,7 @@
                   stringHTML += ` 
                   <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
                       <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                       
+                        <img class="w-100" src="${data[i].fields.imageURL}" >
                           <div class="card-body">
                               <h5 class="card-title">${data[i].fields.name}</h5>
                               <br>
