@@ -185,11 +185,7 @@
   $(document).ready(function () {
       umkmCards();
 
-      
-  });
-  // document.getElementById("halo").onclick = addUMKM
-
-  $('#halo').click(function () {
+      $('#halo').click(function () {
                 $.post(
                     '/rekomendasi-umkm/add_umkm_ajax/',
                     {
@@ -210,7 +206,24 @@
                     },
                 )
             })
+      
+      
+      
+  });
+  // document.getElementById("halo").onclick = addUMKM
+
+  
             
+  
+
+  // function addUMKM() {
+  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
+  //       method: "POST",
+  //       body: new FormData(document.querySelector("#umkmForm"))
+  //       }).then(umkmCards)
+  //       return false
+  //   }
+
   function deleteCard(id) {
             $.ajax({
                 url: `/rekomendasi-umkm/delete-ajax/${id}`,
@@ -220,14 +233,6 @@
                 }
             });
         }
-
-  // function addUMKM() {
-  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
-  //       method: "POST",
-  //       body: new FormData(document.querySelector("#umkmForm"))
-  //       }).then(umkmCards)
-  //       return false
-  //   }
 
   function umkmCards() {
       let stringHTML = "";
@@ -242,7 +247,7 @@
                   stringHTML += ` 
                   <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
                       <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                       
+                        <img class="w-100" src="${data[i].fields.imageURL}" >
                           <div class="card-body">
                               <h5 class="card-title">${data[i].fields.name}</h5>
                               <br>
