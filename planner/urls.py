@@ -1,3 +1,4 @@
+from turtle import update
 from django.urls import path
 from planner.views import *
 
@@ -7,4 +8,6 @@ urlpatterns = [
     path('', show_planner, name='planner'),
     path('json/', trips_json, name='trips_json'),
     path('addtrip/', addtrip_json, name='addtrip_json'),
+    path('delete/<int:pk>/', delete_trip, name='delete_trip'),
+    path('change/<int:pk>/', update_trip, name="update_trip")
 ]
