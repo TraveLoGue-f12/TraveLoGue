@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
-{% block meta %}
-<title>TraveLoGue</title>
-{% endblock meta %}
+{% block title %} Planner {% endblock title %}
 
 {% block script %} 
 <script>
@@ -11,31 +10,36 @@
         $.get("/planner/json/", function(data) {
             if (data.length == 0) {
                 $("#trips").append(`
-                <div style="text-align:center">
-                    <img id="#placeholder" src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
+                <div id="placeholderDiv" style="text-align:center">
+                    <img src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
                     <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No trips planned yet</h3>
                 </div>`)
             } else {
                 for (i=0; i<data.length; i++){
                     var image;
-                    if (i%3 == 0) {
+                    if (data[i].pk%3 == 0) {
                         image = "img/beach.svg";
-                    } else if (i%3 == 1) {
+                    } else if (data[i].pk%3 == 1) {
                         image = "img/city.svg";
                     } else {
                         image = "img/nature.svg";
                     } 
+                    var start_date = data[i].fields.start_date.split("-");
+                    var end_date = data[i].fields.end_date.split("-");
+
                     $("#trips").append(`
                         <div id="${data[i].pk}--task" class="col-md-4 col-lg-3 mb-3">
-                            <div class="card d-flex">
-                            <div class="card-body d-flex flex-column">
-                                <img src="{% static '${image}' %}" class="card-img-top" style="object-fit:cover;object-position: center; max-height: 50%;">
-                                <h5 class="card-title">${data[i].fields.name}</h5>
-                                <p class="card-text mb-1 date">${data[i].fields.trip_date}</p>
-                                <p class="card-text">${data[i].fields.notes}</p>
-                                <div class="mt-auto">
+                            <div class="planner card d-flex">
+                                <div class="planner card-body d-flex flex-column">
+                                    <img src="{% static '${image}' %}" class="planner card-img-top">
+                                    <h5 class="planner card-title">${data[i].fields.name}</h5>
+                                    <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
+                                    <p class="planner card-text">${data[i].fields.notes}</p>
+                                    <div class="d-flex justify-content-around">
+                                        <a href="/planner/delete/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="/planner/change/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </div>                            
                                 </div>
-                            </div>
                             </div>
                         </div>`)
                 }
@@ -60,24 +64,33 @@
             function(result, status){
                 if (status == 'success') {
                     var image;
-                    if (i%3 == 0) {
+                    if (result.pk%3 == 0) {
                         image = "img/beach.svg";
-                    } else if (i%3 == 1) {
+                    } else if (result.pk%3 == 1) {
                         image = "img/city.svg";
                     } else {
                         image = "img/nature.svg";
                     } 
+                    var start_date = result.fields.start_date.split("-");
+                    var end_date = result.fields.end_date.split("-");
+                    if (document.getElementById("placeholderDiv")) {
+                        document.getElementById("placeholderDiv").outerHTML = "";}
                     $("#trips").append(`
                         <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
-                        <div class="card">
-                            <div class="card-body d-flex flex-column">
-                            <img src="{% static '${image}' %}" class="card-img-top" style="object-fit:cover;object-position: center; max-height: 50%;">
-                            <h5 class="card-title">${result.fields.name}</h5>
-                            <p class="card-text mb-1 date">${result.fields.trip_date}</p>
-                            <p class="card-text">${result.fields.notes}</p>
-                            </div>
-                        </div>
-                    </div>`);
+                            <div class="planner card">
+                                <div class="planner card-body d-flex flex-column">
+                                    <img src="{% static '${image}' %}" class="card-img-top planner">
+                                    <h5 class="planner card-title">${result.fields.name}</h5>
+                                    <p class="planner card-text mb-1 date">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
+                                    <p class="planner card-text">${result.fields.notes}</p>
+                                    <div class="d-flex justify-content-around">
+                                        <a href="/planner/delete/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
+                                        <a href="/planner/change/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>`
+                        );
                     $('#image').val('')
                     $('#name').val('')
                     $('#tripNotes').val('')
@@ -98,30 +111,21 @@
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>My Planner</li></ol>
     </div>
 </div>
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h1>My Trips</h1>
-        </div>
-        <div>
-            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                <span style="font-size:1.5rem">&nbsp;Plan new trip</span>
-            </button>    
-        </div>
+<div class="container min-vh-100">
+    <div class="d-flex flex-row-reverse my-4">
+        <button type="button" class="btn btn-add-plan my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <span>&nbsp;Add plan</span>
+        </button>   
     </div>
 
     <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="planTripLabel">Plan new trip</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
-            </div>
             <div class="modal-body" style="text-align:left;">
               {% csrf_token %}           
               <div class="mb-3">
-                <label for="tripName" class="form-label">Trip name</label>
+                <label for="tripName" class="form-label">What's the plan?</label>
                 <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
               </div>
               <div class="mb-3">
@@ -135,11 +139,12 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button id="submit_trip" type="button" class="btn btn-primary" data-bs-dismiss="modal">Plan</button>
+              <button id="submit_trip" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
             </div>
           </div>
         </div>
       </div>
+
 
     <div class="row" id="trips">
 
