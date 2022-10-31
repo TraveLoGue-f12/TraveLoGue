@@ -1,158 +1,124 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
 
-<style>
-  .card{
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
-  }
-  .card:hover{
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+{% block script %} 
+<script>
+    $(document).ready(function(){
+        $.get('/forum/question_json/', function(data){
+            if (data.length == 0){
+                $("#forumCards").append(`
+                    <div style="text-align:center">
+                        <img id="#placeholder" src="{% static 'img/emptyquestion.svg' %}" style="width:75%; margin-top:0%">
+                        <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No questions yet</h3>
+                    </div>`)
+            } else {
+                for (i=data.length-1; i>=0; i--){
+                    $("#forumCards").append(`
+                        <div id="${data[i].pk}--question" class="col-md-4 col-lg-3 mb-3">
+                            <div class="card d-flex">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">${data[i].fields.title}</h5>
+                                    <p class="card-text mb-1 date">${data[i].fields.question}</p>
+                                    <p class="card-text">${data[i].fields.username} ● ${data[i].fields.date}</p>
+                                    <button onclick="deleteCard(${data[i].pk})" class="btn">Delete</button>
+                                    <div class="mt-auto"></div>
+                                </div>
+                            </div>
+                        </div>`)
+                }
+            }
+        });
+
+        $('#submit_question').click(function(){
+            $.post('/forum/add_question/', {
+                title: $('#title').val(),
+                question: $('#question').val()
+            },
+                function(result, status){
+                    if (status == 'success'){
+                        $("#forumCards").prepend(`
+                        <div id="${result.pk}--question" class="col-md-4 col-lg-3 mb-3">
+                            <div class="card d-flex">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">${result.fields.title}</h5>
+                                    <p class="card-text mb-1 date">${result.fields.question}</p>
+                                    <p class="card-text">${result.fields.username} ● ${result.fields.date}</p>
+                                    <button onclick="deleteCard(${result.pk})" class="btn">Delete</button>
+                                    <div class="mt-auto"></div>
+                                </div>
+                            </div>
+                        </div>`);
+                        $('#title').val('')
+                        $('#question').val('')
+                    }
+                }
+            )
+        });
+    });
+
+    function deleteCard(id) {
+        $.ajax({
+            url: `/forum/delete_question/${id}`,
+            type: 'DELETE',
+            success: function (result) {
+                $(`#${id}--question`).remove()
+            }
+        });
     }
-</style>
+</script>
 
+{% endblock script %}
 
-<html lang="en">
-  {% include 'navbar.html' %}
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block meta %}
-    <title>TraveLoGue</title>
-    {% endblock meta %}
-  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  
-    <!-- Style -->
-    <link href="{% static 'styles.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-  </head>
+{% block content %}
 
-
-  <body>
-    <button data-toggle="modal" data-target="#addModal">add question</button>
-
-  <div class="container">
-    {% block content %}
-    <br>
-    <h1 class="text-center">LOCAL SHOPS</h1>
-    <br>
-    <div class ="row" id="cards">
-    
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/navbar.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>QnA Forum</h2>
+        <ol><li><a href="index.html">Home</a></li><li>QnA Forum</li></ol>
     </div>
-  </div>
-
-  <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">Add Question</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Questions</h1>
         </div>
-        <div class="modal-body">
-          <div class="flex justify-center">
-            <div class="lg:w-64 mt-3">
-              <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="questionForm">
-                {% csrf_token %}
-                <table>
-                    <tr>
-                        <td>Title: </td>
-                        <td>{{question_form.title}}</td>
-                    </tr>
-        
-                    <tr>
-                      <td>Question: </td>
-                      <td>{{question_form.question}}</td>
-                    </tr>   
-                </table>
-                <br>
-                <button id="button" type="submit" class="button_select button_select_new button" data-bs-dismiss="modal">Create Task</button>
-                <br>
-              </form>
-            </div>
-          </div>
-        </div> 
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="answerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
-            Add Answer
-          </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div>
+            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#questionModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Ask a question</span>
+            </button>    
         </div>
-        <div class="modal-body">
-          <div class="flex justify-center">
-            <div class="lg:w-64 mt-3">
-              
-            </div>
-          </div>
-        </div> 
-      </div>
     </div>
-  </div>
-    <script>
-      $(document).ready(function () {
-          taskCards();
-      });
-      document.getElementById("button").onclick = addTodo
+    <div class="modal" id="questionModal" tabindex="-1" aria-labelledby="questionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="questionLabel">Ask your question here!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+                </div>
+                <div class="modal-body" style="text-align:left;">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Question title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Question</label>
+                        <textarea class="form-control" id="question" rows="3" placeholder="Type your question here..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="submit_question" type="button" class="btn btn-primary" data-bs-dismiss="modal">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      function addTodo() {
-            fetch("/forum/add/", {
-            method: "POST",
-            body: new FormData(document.querySelector("#questionForm"))
-            }).then(taskCards)
-            return false
-        }
-
-      function taskCards() {
-          let stringHTML = "";
-          $.ajax({
-              url: "json",
-              type: "GET",
-              dataType: "json",
-              success: function(data) {
-                  for (i=0; i<data.length; i++){
-                      stringHTML += `
-                      <div class="col-md-6 col-lg-4">
-                        <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                          <div class="card-body d-flex flex-column">
-                            <h4 class="card-title" style="font-weight: bold" id="title">${data[i].fields.title}</h4>
-                            <h5 class="card-text" id="question">${data[i].fields.question}</h5>
-                            <button data-toggle="modal" data-target="#answerModal">Answer</button>
-                            <a href="delete/${data[i].pk}", class="button">Delete</a>
-                          </div>
-                        </div>
-                      </div>`;
-                      $('#cards').html(stringHTML);
-                  }
-              }
-          });
-        }
-    </script>
-  
-
-  {% endblock content %}
-  
-  </body>
-  {% include 'footer.html' %}
-  
-</html>
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
+    <div class="row" id="forumCards"></div>
+</div>
+{% endblock content %}
