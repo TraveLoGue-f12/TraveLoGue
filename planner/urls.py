@@ -1,4 +1,3 @@
-from turtle import update
 from django.urls import path
 from planner.views import *
 
