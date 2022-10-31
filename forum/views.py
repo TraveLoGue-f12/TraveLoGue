@@ -28,10 +28,12 @@ def question_json(request):
     data = Question.objects.all()
     return HttpResponse(serializers.serialize('json', data), content_type='application/json')
 
-def answer_json(request):
-    data = Answer.objects.all()
-    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+def answer_json(request, pk):
+    question = Question.objects.get(pk=pk)
 
+    data = Answer.objects.filter(question=question)
+    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+    
 @csrf_exempt
 def add_question_ajax(request):
     if request.method == 'POST':
@@ -57,7 +59,7 @@ def add_question_ajax(request):
         }
         return JsonResponse(result)
 
-@csrf_exempt
+""" @csrf_exempt
 def add_answer_ajax(request, pk):
     question = Question.objects.get(pk=pk)
     question.is_answered = True
@@ -82,11 +84,36 @@ def add_answer_ajax(request, pk):
                 'answer': answer.answer,
             }
         }
-        return JsonResponse(result)
+        return JsonResponse(result) """
 
+@csrf_exempt
+def add_answer(request, pk):
+    get_question = Question.objects.get(pk=pk)
+    get_question.is_answered = True
+    get_question.save()
 
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            question = get_question
+            answer = request.POST.get('answer') 
+            date = datetime.date.today()
 
+            Answer.objects.create(
+                user = user,
+                username = request.user.username,
+                question = question,
+                answer = answer,
+                date = date
+            )
 
+            question.is_answered = True
+            return HttpResponseRedirect(reverse('forum:show_forum'))
+    else:
+        form = AnswerForm()
+        response = {'form': form}
+        return render(request, 'add_answer.html', response)
         
     """ form = AnswerForm(request.POST)
     if form.is_valid():

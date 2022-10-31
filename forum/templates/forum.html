@@ -8,6 +8,9 @@
 {% block script %} 
 <script>
     $(document).ready(function(){
+        var answers = '{{ list_of_answers }}'
+        cardString = ''
+        htmlString = ''
         $.get('/forum/question_json/', function(data){
             if (data.length == 0){
                 $("#forumCards").append(`
@@ -16,47 +19,34 @@
                         <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No questions yet</h3>
                     </div>`)
             } else {
+                                                
                 for (i=data.length-1; i>=0; i--){
-                    $("#forumCards").append(`
-                        <div id="${data[i].pk}--question" class="col-md-4 col-lg-3 mb-3">
-                            <div class="card d-flex">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">${data[i].fields.title}</h5>
-                                    <p class="card-text mb-1 date">${data[i].fields.question}</p>
-                                    <p class="card-text">${data[i].fields.username} ● ${data[i].fields.date}</p>
-                                    <button onclick="deleteCard(${data[i].pk})" class="btn">Delete</button>
-                                    <div class="mt-auto"></div>
-                                </div>
-                            </div>
-                        </div>`)
+                    cardString += `<div id="${data[i].pk}--column" class="col-md-4 col-lg-3 mb-3">
+                                        <div id="${data[i].pk}--question" class="card d-flex">
+                                            <div class="card-body d-flex flex-column">
+                                                <h5 class="card-title">${data[i].fields.title}</h5>
+                                                <p class="card-text mb-1 date">${data[i].fields.question}</p>
+                                                <p class="card-text">${data[i].fields.username} ● ${data[i].fields.date}</p>`
+
+                    $("#forumCards").append(cardString)
+
+                    $.ajax({
+                        url: `/forum/answer_json/${data[i].pk}`,
+                        type: 'GET',
+                        success: answer => {
+                            document.getElementById("123--question").append(`<p>[</p>`)
+                        }
+                    })
+                            cardString = ''
+                    
                 }
             }
         });
-
+        
+        
         $('#submit_question').click(function(){
-            $.post('/forum/add_question/', {
-                title: $('#title').val(),
-                question: $('#question').val()
-            },
-                function(result, status){
-                    if (status == 'success'){
-                        $("#forumCards").prepend(`
-                        <div id="${result.pk}--question" class="col-md-4 col-lg-3 mb-3">
-                            <div class="card d-flex">
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title">${result.fields.title}</h5>
-                                    <p class="card-text mb-1 date">${result.fields.question}</p>
-                                    <p class="card-text">${result.fields.username} ● ${result.fields.date}</p>
-                                    <button onclick="deleteCard(${result.pk})" class="btn">Delete</button>
-                                    <div class="mt-auto"></div>
-                                </div>
-                            </div>
-                        </div>`);
-                        $('#title').val('')
-                        $('#question').val('')
-                    }
-                }
-            )
+            addQuestion()
+            
         });
     });
 
@@ -69,6 +59,39 @@
             }
         });
     }
+
+    function addQuestion() {
+            fetch("/forum/add_question/", {
+            method: "POST",
+            body: new FormData(document.querySelector("#questionForm"))
+            }).then(questionCards)
+            return false
+        }
+
+    function questionCards() {
+        let stringHTML = "";
+        let cardString = "";
+        $.ajax({
+            url: "question_json",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                var newest = data.length - 1;
+                cardString += `<div id="${data[newest].pk}--column" class="col-md-4 col-lg-3 mb-3">
+                                    <div id="${data[newest].pk}--question" class="card d-flex">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">${data[newest].fields.title}</h5>
+                                            <p class="card-text mb-1 date">${data[newest].fields.question}</p>
+                                            <p class="card-text">${data[newest].fields.username} ● ${data[newest].fields.date}</p>
+                                        </div>
+                                    </div>
+                                </div>`
+                
+                    $('#forumCards').prepend(cardString);
+                    cardString = "";
+                }
+            })
+        }
 </script>
 
 {% endblock script %}
@@ -101,14 +124,39 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
                 </div>
                 <div class="modal-body" style="text-align:left;">
+                    <form id="questionForm" onsubmit="return false">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>Title: </td>
+                            <td>{{question_form.title}}</td>
+                        </tr>
+                        <tr>
+                          <td>Question: </td>
+                          <td>{{question_form.question}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="submit_question" type="button" class="btn btn-primary" data-bs-dismiss="modal">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="answer" tabindex="-1" aria-labelledby="answerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="answerLabel">Post your answer here!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+                </div>
+                <div class="modal-body" style="text-align:left;">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Question title">
-                    </div>
-                    <div class="mb-3">
-                        <label for="question" class="form-label">Question</label>
-                        <textarea class="form-control" id="question" rows="3" placeholder="Type your question here..."></textarea>
+                        <label for="answer" class="form-label">Answer</label>
+                        <textarea class="form-control" id="answer" rows="3" placeholder="Type your question here..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
