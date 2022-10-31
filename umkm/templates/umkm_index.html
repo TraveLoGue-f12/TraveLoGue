@@ -20,6 +20,8 @@
     transition: .3s ;
     overflow: hidden;
     cursor: pointer;
+    max-height: 20rem ;
+
    
   }
 
@@ -75,51 +77,35 @@
         <ol><li><a href="index.html">Home</a></li><li>Local Shops</li></ol>
     </div>
   </div>
+  
   <div class="container">
+    
+   
+    
+   {% if thisUser.is_local %}
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+          <h1>OUR RECOMMENDATION</h1>
+      </div>
+      <div>
+        <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <span style="font-size:1.5rem">&nbsp;ADD SHOP</span>
+        </button>     
+      </div>
+    </div>
+    {% endif %}
+    
     <br>
-    <h1 class="text-center">LOCAL SHOPS</h1>
+    
     <br>
     <div class ="row" id="cards">
      
  
-      <!-- {% for data in datalist %}
-      <div class ="col-12 col-md-6 col-lg-4 " id="list-umkm">
-        <div class ="card">
-          <div class="card-header overflow-hidden p-0">
-            {% if data.image %}
-          
-            <img class="w-100" src="{{data.image.url}}" >
-            {% endif %}
-          </div>
-          
-          <div class="card-body">
-            
-            <h5 class="card-title">{{data.name}}</h5>
-            <h5 class="card-title">{{data.description}}</h5>
-
-            <div>
-              <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
-              <button class="btn btn-primary"><a href="{% url 'umkm:add_umkm' %} ">Add</a></button>
-            </div>
-            
-            
-          </div>
-        </div>
-      </div>
-      <br>
-      
-    {% endfor %} -->
+    
     </div>
   </div>
-
-  <button
-          class="inline-flex space-x-2 items-center justify-center px-6 py-3 rounded-xl"  data-toggle="modal"
-          data-target="#exampleModal"
-          
-          >
-          a
-          <!-- <a href="{% url 'umkm:add_umkm' %}  ">Add</a> -->
-  </button>
+  
 
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
@@ -192,7 +178,7 @@
                         name: $('#name').val(),
                         description: $('#description').val(),
                         link_website: $('#link_website').val(),
-                        image : $('#link_website').val(),
+                        image : $('#image').val(),
 
                     },
                     function (data, status) {
@@ -249,9 +235,7 @@
                       <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
                         <img class="w-100" src="${data[i].fields.imageURL}" >
                           <div class="card-body">
-                              <h5 class="card-title">${data[i].fields.name}</h5>
-                              <br>
-                              <p class="card-under-title">${data[i].fields.description}</p>
+                              <h3 class="card-title">${data[i].fields.name}</h5>
                               <br>
                               <a href="umkm-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
                               
