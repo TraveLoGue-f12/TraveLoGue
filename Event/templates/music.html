@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Music</h2>
+        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Event Details</li></ol>
+            <div class="buttonAdd">
+                <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Back</a>
+                </button>
+            </div>
+    </div>
+</div>
+
+<section id="blog" class="blog" style="padding-top: 1px; padding-bottom: 1px;">
+    <!-- <div class="container-fluid" style="background-color: #E8F7FC;"> -->
+        <div class="col-lg-12" style="display: flex; flex-wrap:wrap; gap: 50px;justify-content: center; padding-top: 90px; padding-bottom: 70px;">
+          <div style="font-family: 'Poppins'; text-align: center; padding-bottom: 70px;" class="section-heading  wow fadeInDown" >
+            <h6 style="display: flex; flex-wrap:wrap; gap: 50px;justify-content: center;">COVID ASSISTANT</h6>
+            <h4 style="display: flex; flex-wrap:wrap; gap: 50px;justify-content: center;"> Your Medicines Summary</h4>
+            <p style="display: flex; flex-wrap:wrap; gap: 50px;justify-content: center; color: rgb(13, 23, 63); font-family: 'Poppins';" >Pilih tanggal untuk melihat summary anda</p>
+            <select style="width: 40%; border-radius: 5px; background-color: white; border-left: rgb(13, 23, 63); box-shadow: 5px 5px 10px rgb(0, 0, 0, 9);" class="pilihhari" id="hari" name="hari">
+              <option id="placeholder" value="" disable selected hidden>Pilih Tanggal</option>
+              {% for month in data %}
+              <option value="{{month.date}}">Tanggal</option>
+              {% endfor %}
+            </select>
+            <button style="color:white; width: 20%; background:rgb(13, 23, 63); box-shadow: 5px 5px 10px rgb(0, 0, 0, 9); border-radius: 15px; " type="button" class="tampilkan">Search</button>
+          </div>
+        </div>
+      <!-- </div>     -->
+</section>
+
+<section id="blog" class="blog">
+    <div class="buttonAdd">
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_user_event' %}">My Event</a>
+        </button>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <!-- <div class ="row" id="cards"> -->
+        <div class="row gy-4 posts-list" id="cards">
+            {% for mydata in data %}
+                <div class="col-xl-4 col-md-6">
+                    <div class="post-item position-relative h-100">
+                    <div class="post-img position-relative overflow-hidden">
+                        <img src="{{mydata.imageURL}}" class="img-fluid" alt="">
+                        <span class="post-date">{{mydata.date}}</span>
+                    </div>
+                        <div class="post-content d-flex flex-column">
+                            <h3 class="post-title">{{mydata.title}}</h3>
+                            <p>{{mydata.description}}</p>
+                            <hr>
+                        </div>
+                    </div>
+                    <!-- <div>
+                        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                            <a href="edit-event/{{mydata.pk}}">Edit</a>
+                        </button>
+                    </div> -->
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}
