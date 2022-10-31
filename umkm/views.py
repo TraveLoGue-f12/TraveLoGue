@@ -6,7 +6,7 @@ from django.core import serializers
 from umkm.models import UMKM
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db.models.fields.files import ImageFieldFile
 
 def index(request):
     return render(request, 'umkm_index.html')
@@ -36,6 +36,15 @@ def show_umkm_by_id(request, pk):
 def show_data(request):
   
     data_UMKM = UMKM.objects.all()
+
+    for data in data_UMKM:
+        if isinstance(data.image, ImageFieldFile):
+            
+            data.imageURL = str(data.image.url)
+
+        data.save()
+    
+    
     response = {
         'datalist':  data_UMKM,
  
