@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Create new task | Todolist</title>
+{% endblock meta %}
+
+{% block content %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
+<style>
+  form {
+    border-radius:0.5em; 
+    box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.211);   
+    background-color: rgba(178, 178, 178, 0.211);   
+    margin: auto;
+    width: 450px;
+    padding: 1em;
+    border-radius: 1em;
+    justify-content: center ;
+  }
+</style>
+
+<button><a class="btn btn-primary btn-lg btn-block" href="../">Back</a></button>
+
+<div class = "add-shop">
+    <h1>Add Shop</h1>
+    <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Title: </td>
+                <td>{{form.title}}</td>
+            </tr>
+
+            <tr>
+              <td>Question: </td>
+              <td>{{form.question}}</td>
+            </tr>
+        </table>
+        <br>
+        <input type="submit" name="submit" value="Add Shop" class="submit"/>
+        <br>
+        <br>
+       
+    </form>
+
+</div>
+
+{% endblock content %}

@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from forum.models import Question, Answer
-
+    
 class QuestionForm(ModelForm):
     class Meta:
         model = Question
