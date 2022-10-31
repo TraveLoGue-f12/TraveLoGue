@@ -6,17 +6,17 @@
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
         <h2>My Planner</h2>
-        <ol><li><a href="index.html">Home</a></li><li><a href=planner.html>My Planner</a></li><li>Update Cover Image</li></ol>
+        <ol><li><a href="index.html">Home</a></li><li><a href=planner.html>My Planner</a></li><li>Edit Plan</li></ol>
     </div>
 </div>
-<div class="container edit-plan">
-    <h1>Edit Plan</h1>
+<div class="container d-flex flex-column align-items-center pb-5">
+        <h2 class="edit-text py-4">Edit Plan</h2>
     <form action="" method="POST">
         {% csrf_token %}
-        <div class="container">
-            <table>{{ form|crispy }}</table>
+        <div class="container edit-plan pb-2">
+            <table>{% crispy form %}</table>
             <a href="/planner/" class="btn btn-secondary">Cancel</a>
-            <input type="submit" class="btn btn-primary" value="Edit">  
+            <input type="submit" class="btn btn-add-plan" value="Edit">  
         </div>
     </form>
 </div>

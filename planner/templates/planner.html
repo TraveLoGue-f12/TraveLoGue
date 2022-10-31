@@ -36,8 +36,8 @@
                                     <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
                                     <p class="planner card-text">${data[i].fields.notes}</p>
                                     <div class="d-flex justify-content-around">
-                                        <a href="/planner/delete/${data[i].pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-trash"></span></a>
-                                        <a href="/planner/change/${data[i].pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="/planner/delete/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="/planner/change/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
                                     </div>                            
                                 </div>
                             </div>
@@ -77,17 +77,20 @@
                         document.getElementById("placeholderDiv").outerHTML = "";}
                     $("#trips").append(`
                         <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
-                        <div class="planner card">
-                            <div class="planner card-body d-flex flex-column">
-                            <img src="{% static '${image}' %}" class="card-img-top planner">
-                            <h5 class="planner card-title">${result.fields.name}</h5>
-                            <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
-                            <p class="planner card-text">${result.fields.notes}</p>
-                            <a href="/planner/delete/${result.pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
-                            <a href="/planner/change/${result.pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-pencil"></span></a>
-                            </div>
-                        </div>
-                    </div>`);
+                            <div class="planner card">
+                                <div class="planner card-body d-flex flex-column">
+                                    <img src="{% static '${image}' %}" class="card-img-top planner">
+                                    <h5 class="planner card-title">${result.fields.name}</h5>
+                                    <p class="planner card-text mb-1 date">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
+                                    <p class="planner card-text">${result.fields.notes}</p>
+                                    <div class="d-flex justify-content-around">
+                                        <a href="/planner/delete/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
+                                        <a href="/planner/change/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>`
+                        );
                     $('#image').val('')
                     $('#name').val('')
                     $('#tripNotes').val('')
@@ -108,7 +111,7 @@
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>My Planner</li></ol>
     </div>
 </div>
-<div class="container">
+<div class="container min-vh-100">
     <div class="d-flex flex-row-reverse my-4">
         <button type="button" class="btn btn-add-plan my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
