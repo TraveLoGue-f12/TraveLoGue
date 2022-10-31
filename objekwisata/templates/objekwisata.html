@@ -122,7 +122,7 @@
                     <input type="file" id="image" name="image" accept="images/*"><br>
                   </div>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
+                  <button type="submit" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
                   <br>
                   </form>
               </div>
@@ -145,11 +145,28 @@
     document.getElementById("btn_new_attr").onclick = add_attraction
 
     function add_attraction(){
-      fetch("/objekwisata/add_objekwisata_ajax/", {
-      method: "POST",
-      body: new FormData(document.querySelector("#objekwisataForm"))
-      }).then(show_attraction)
-      return false
+      $.post(
+          '/objekwisata/add_objekwisata_ajax/',
+          {
+              title: $('#title').val(),
+              location: $('#location').val(),
+              description: $('#description').val(),
+              address_link: $('#address_link').val(),
+              image : $('#image').val(),
+
+          },
+          function (data, status) {
+              show_attraction()
+              if (status == 'success') {
+                  $(`#card_attraction`).append(card(data))
+                  $('#title').val('')
+                  $('#location').val('')
+                  $('#description').val('')
+                  $('#address_link').val('')
+                  $('#image').val('')
+              }
+          },
+      )
     }
 
     function show_attraction(){

@@ -6,5 +6,5 @@ class ObjekWisata(models.Model):
     description = models.CharField(max_length=100)
     location = models.CharField(max_length=20)
     address_link = models.URLField()
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
+    image = models.ImageField(null=True, blank=True, upload_to='images/')
     imageURL = models.TextField(null=True) 
