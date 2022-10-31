@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Event Details</h2>
+        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Event Details</li></ol>
+            <div class="buttonAdd">
+                <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Back</a>
+                </button>
+            </div>
+    </div>
+</div>
+
+
+    
+
+<section id="blog" class="blog">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <!-- <div class="post-item position-relative h-100">
+
+            <div class="post-img position-relative overflow-hidden">
+                <img src="${data[i].fields.image.url}" class="img-fluid" alt="">
+                <span class="post-date">${data[i].fields.date}</span>
+            </div>
+
+            <div class="post-content d-flex flex-column">
+
+                <h3 class="post-title">${data[i].fields.title}</h3>
+
+                <p>${data[i].fields.description}</p>
+
+                <hr>
+
+                <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+            </div>
+
+            </div> -->
+            <article class="blog-details">
+                <div class="post-img">
+                    {% if data.image %}
+                        <img src="{{data.image.url}}" alt="" class="img-fluid">
+                    {% endif %}
+                </div>
+  
+                <h2 class="title">{{data.title}}</h2>
+  
+                <div class="meta-top">
+                  <ul>
+                    <li class="d-flex align-items-center"><i class="bi bi-map"></i>{{data.place}}</li>
+                    <li class="d-flex align-items-center"><i class="bi bi-calendar"></i>{{data.date}}</li>
+                  </ul>
+                </div><!-- End meta top -->
+  
+                <div class="content">
+                    {{data.description}}
+                </div><!-- End post content -->
+  
+                <div class="meta-bottom">
+                  <i class="bi bi-tags"></i>
+                  <ul class="tags">
+                    <li><a href="{% url 'Event:show_event' %}">Local Events</a></li>
+                  </ul>
+                </div><!-- End meta bottom -->
+  
+              </article><!-- End blog post -->
+        <!-- <div class ="row" id="cards"> -->
+        <!-- <div class="row gy-4 posts-list" id="cards">
+        </div> -->
+    </div>
+</section>
+<!-- <div class="container"> -->
+    <!-- <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>My Trips</h1>
+        </div>
+        <div>
+            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Plan new trip</span>
+            </button>    
+        </div>
+    </div> -->
+
+    
+
+    <!-- <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="planTripLabel">Plan new trip</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+              {% csrf_token %}           
+              <div class="mb-3">
+                <label for="tripName" class="form-label">Trip name</label>
+                <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
+              </div>
+              <div class="mb-3">
+                <label for="tripDate" class="form-label">Select date</label>
+                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="tripNotes" class="form-label">Notes</label>
+                <textarea class="form-control" id="tripNotes" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="submit_trip" type="button" class="btn btn-primary" data-bs-dismiss="modal">Plan</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    <!-- <div class="row" id="trips"> -->
+
+    <!-- </div> -->
+<!-- </div> -->
+{% endblock content %}
