@@ -115,11 +115,11 @@
                   </div>
                   <div class="input-box">
                     <span class="details" for="address_link" style="font-weight: 700;">URL Google Maps :</span><br>
-                    {{form.address_link}}
+                    <input type="url" id="address_link" name="address_link"><br>
                   </div>
                   <div class="input-box">
                     <span class="details" for="image" style="font-weight: 700;">Image :</span><br>
-                    {{form.image}}
+                    <input type="file" id="image" name="image" accept="images/*"><br>
                   </div>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="button" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
@@ -163,7 +163,7 @@
             attraction += `
             <div class="col-4">
               <div class="card">
-                <img class="card-img-top" src="${data[i].fields.imageURL}" >
+                <img class="card-img-top" src="${data[i].fields.imageURL}">
                 <div class="card-body">
                   <h2 class="card-title">${data[i].fields.title}</h2>
                   <h5 class="card-text">${data[i].fields.location}</h5>
