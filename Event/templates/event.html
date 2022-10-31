@@ -7,55 +7,191 @@
 
 {% block script %} 
 <script>
-    $(document).ready(function () {
-                taskCards();
-            });
-        document.getElementById("button").onclick = addTodo
+//     function show_data_obat() {
+//         $.ajax({
+//             url: "{% url 'Event:show_event' %}",
+//             type: "GET",
+//             dataType: "json",
+//             success: function(data){
+
+//             for (i of data){
+//                 status = i.fields.status_obat ? "Tersedia" : "Tidak Tersedia";
+//                 result = `
+//                 <tr id="${i.pk}"><td>${i.fields.nama_obat}</td>
+//                     <td>${i.fields.description}</td>
+//                     <td>${i.fields.harga}</td>
+//                     <td id="status-obat-${i.pk}">${status}
+//                         <button class="bg-green-500 hover:bg-green-700 rounded-2xl p-2 text-white font-bold delete" onclick="change_status_obat(${i.pk})">
+//                         Ubah</button>
+//                     </td>
+//                     <td><button class="bg-red-500 rounded-2xl hover:bg-red-700 p-2 text-white font-bold delete" onclick="delete_obat(${i.pk})">
+//                         Remove</button></td></tr>`
+
+//                 $("#table-obat tbody").prepend(result);
+//             }   
+//             },
+//             error: function(data) {
+//                 console.log('Error')
+//             }
+//         })
+//     };
+
+//     $(document).on("submit", "#eventForm", function (e){
+//     e.preventDefault();
+//     $.ajax({
+//       type: "POST",
+//       url: "{% url 'Event:show_event' %}",
+//       data: {
+//         nama_obat: $("#nama_obat").val(),
+//         description: $("#description").val(),
+//         harga: $("#harga").val(),
+//         status_obat: $("#status_obat").val(),
+//         csrfmiddlewaretoken: "{{ csrf_token }}"
+//       },
+//       dataType: "json",
+//       success: function (data) {
+//         status = data.fields.status_obat ? "Tersedia" : "Tidak Tersedia";
+//         result = `
+//         <tr id="${data.pk}"><td>${data.fields.nama_obat}</td>
+//             <td>${data.fields.description}</td>
+//             <td>${data.fields.harga}</td>
+//             <td id="status-obat-${i.pk}">${status}
+//                 <button class="bg-green-500 rounded-2xl p-2 text-white font-bold delete" onclick="change_status_obat(${i.pk})">
+//                         Ubah</button></td>
+//             <td><button class="bg-green-500 rounded-2xl p-2 text-white font-bold delete" onclick="delete_obat(${data.pk})">
+//                 Remove</button></td></tr>`
+//         $("#table-obat tbody").prepend(result);
+//         alert("Data berhasil ditambahkan")
+//         $("#form-add-obat").each(function(){
+//         this.reset();
+//         });
+//       },
+//     });
+//   });
+
+//   $(document).ready(function () {
+//         show_data_obat();
+//     });
+    // $(document).ready(function () {
+    //             taskCards();
+    //         });
+    //     document.getElementById("button").onclick = addTodo
     
-        function addTodo() {
-                fetch("/event/add-new/", {
-                method: "POST",
-                body: new FormData(document.querySelector("#eventForm"))
-                }).then(taskCards)
-                return false
+    //     function addTodo() {
+    //             fetch("/event/add-new/", {
+    //             method: "POST",
+    //             body: new FormData(document.querySelector("#eventForm"))
+    //             }).then(taskCards)
+    //             return false
+    //         }
+    
+    //     function taskCards() {
+    //         let stringHTML = "";
+    //         $.ajax({
+    //             url: "json",
+    //             type: "GET",
+    //             dataType: "json",
+    //             success: function(data) {
+    //                 for (i=0; i<data.length; i++){
+    //                     stringHTML += `<div class="col-xl-4 col-md-6">
+    //                         <div class="post-item position-relative h-100">
+    //                         <div class="post-img position-relative overflow-hidden">
+    //                             <img src="${data[i].fields.image.url}" class="img-fluid" alt="">
+    //                             <span class="post-date">${data[i].fields.date}</span>
+    //                         </div>
+    //                         <div class="post-content d-flex flex-column">
+    //                             <h3 class="post-title">${data[i].fields.title}</h3>
+    //                             <p>${data[i].fields.description}</p>
+    //                             <hr>
+    //                             <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+    //                         </div>
+    //                         </div>
+    //                     </div>`;
+    //                     $('#cards').html(stringHTML);
+    //                 }
+    //             }
+    //         });
+    //     }
+
+    $(document).ready(function(){
+        $.get("/event/json/", function(data) {
+            for (i=0; i<data.length; i++){
+                $("#cards").append(`
+                <div class="col-xl-4 col-md-6">
+                    <div class="post-item position-relative h-100">
+                    <div class="post-img position-relative overflow-hidden">
+                        <img src="${data[i].fields.imageURL}" class="img-fluid" alt="">
+                        <span class="post-date">${data[i].fields.date}</span>
+                    </div>
+                    <div class="post-content d-flex flex-column">
+                        <h3 class="post-title">${data[i].fields.title}</h3>
+                        <p>${data[i].fields.description}</p>
+                        <hr>
+                        <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                    </div>
+                </div>`)
             }
-    
-        function taskCards() {
-            let stringHTML = "";
-            $.ajax({
-                url: "json",
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
-                    for (i=0; i<data.length; i++){
-                        stringHTML += `<div class="col-xl-4 col-md-6">
-                            <div class="post-item position-relative h-100">
+        });
+        
 
-                            <div class="post-img position-relative overflow-hidden">
-                                <img src="${data[i].fields.image.url}" class="img-fluid" alt="">
-                                <span class="post-date">${data[i].fields.date}</span>
-                            </div>
-
-                            <div class="post-content d-flex flex-column">
-
-                                <h3 class="post-title">${data[i].fields.title}</h3>
-
-                                <p>${data[i].fields.description}</p>
-
-                                <hr>
-
-                                <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
-
-                            </div>
-
-                            </div>
-                        </div>`;
-                        $('#cards').html(stringHTML);
+        // $('input[name="daterange"]').daterangepicker(
+        // {
+        //     locale: {format: 'DD/MM/YYYY'},
+        //     startDate: '01/11/2022',
+        //     endDate: '02/11/2022'
+        // });
+        
+        $("#submit_event").click(function(){
+          $.post("/event/add-new/", {
+            image: $("#image").val(),
+            title: $("#title").val(),
+            place: $("#place").val(),
+            date: $("#date").val(),
+            description: $("#description").val(),
+            category: $("#category").val()
+          },
+            function(result){
+                // if (status == 'success') {
+                //     var image;
+                //     if (result.pk%3 == 0) {
+                //         image = "img/beach.svg";
+                //     } else if (result.pk%3 == 1) {
+                //         image = "img/city.svg";
+                //     } else {
+                //         image = "img/nature.svg";
+                //     } 
+                    // var start_date = result.fields.start_date.split("-");
+                    // var end_date = result.fields.end_date.split("-");
+                    // if (document.getElementById("placeholderDiv")) {
+                    //     document.getElementById("placeholderDiv").outerHTML = "";}
+                    $("#cards").append(`
+                    <div class="col-xl-4 col-md-6">
+                        <div class="post-item position-relative h-100">
+                        <div class="post-img position-relative overflow-hidden">
+                            <img src="${result.fields.imageURL}" class="img-fluid" alt="">
+                            <span class="post-date">${result.fields.date}</span>
+                        </div>
+                        <div class="post-content d-flex flex-column">
+                            <h3 class="post-title">${result.fields.title}</h3>
+                            <p>${result.fields.description}</p>
+                            <hr>
+                            <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                        </div>
+                        </div>
+                    </div>`);
+                    $("#image").val(''),
+                    $("#title").val(''),
+                    $("#place").val(''),
+                    $("#date").val(''),
+                    $("#description").val(''),
+                    $("#category").val('')
                     }
-                }
-            });
-        }
+            // }
+          )
+        });
 
+    });
 </script>
 {% endblock script %}
 
@@ -68,6 +204,9 @@
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Events</li></ol>
         {% if detector %}
             <div class="buttonAdd">
+                <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" href="{% url 'Event:show_music_event' %}">Music</a>
+                </button>
                 <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
                     <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
                 </button>
@@ -86,27 +225,40 @@
                 <div class="modal-body" style="background-color: rgb(255, 255, 255);">
                     <div class="flex justify-center">
                         <div class="lg:w-64 mt-3">
-                            <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm">
+                            <!-- <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm"> -->
                             {% csrf_token %}
                             <div class="input-box">
                                 <span class="details" for="title" style="font-weight: 700;">Event title :</span><br>
                                 <input type="text" id="title" name="title"><br>
-                              </div>
-                            <div class="input-box">
-                            <span class="details" for="date" style="font-weight: 700;">Date :</span><br>
-                            <input type="date" id="date" name="date"><br>
                             </div>
                             <div class="input-box">
-                            <span class="details" for="place" style="font-weight: 700;">Place :</span><br>
-                            <input type="text" id="place" name="place"><br>
+                                <span class="details" for="category" style="font-weight: 700;">Event Category :</span><br>
+                                <select id="category" name="category">
+                                    <option value="Music">Music</option>
+                                    <option value="Culinary">Culinary</option>
+                                    <option value="Sport">Sport</option>
+                                    <option value="Culture">Culture</option>
+                                    <option value="Festival">Festival</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                <!-- <input type="text" id="description" name="description"><br> -->
                             </div>
                             <div class="input-box">
-                            <span class="details" for="description" style="font-weight: 700;">Description :</span><br>
-                            <input type="text" id="description" name="description"><br>
+                                <span class="details" for="date" style="font-weight: 700;">Date :</span><br>
+                                <input type="date" id="date" name="date"><br>
+                            </div>
+                            <div class="input-box">
+                                <span class="details" for="place" style="font-weight: 700;">Place :</span><br>
+                                <input type="text" id="place" name="place"><br>
+                            </div>
+                            <div class="input-box">
+                                <span class="details" for="description" style="font-weight: 700;">Description :</span><br>
+                                <input type="text" id="description" name="description"><br>
                             </div>
                             <div class="input-box">
                                 <span class="details" for="description" style="font-weight: 700;">Image :</span><br>
-                                {{form.image}}
+                                <!-- {{form.image}} -->
+                                <input type="file" id="image" name="image"><br>
                             </div>
                 
                             <!-- <table>
@@ -151,21 +303,29 @@
                               </div>
                             <br> -->
                             <br>
-                            <input type="submit" name="submit" value="Add Event" class="submit"/>
+                            <!-- <input type="submit" name="submit" value="Add Event" class="submit"/> -->
                             <br>
                             <br>
-                            </form>
+                            <!-- </form> -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="submit_event" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>
     </div>
 
 <section id="blog" class="blog">
+    {% if detector %}
+        <div class="buttonAdd">
+            <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                <a class="text-decoration-none text-white" href="{% url 'Event:show_user_event' %}">My Event</a>
+            </button>
+        </div>
+    {% endif %}
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <!-- <div class ="row" id="cards"> -->
         <div class="row gy-4 posts-list" id="cards">

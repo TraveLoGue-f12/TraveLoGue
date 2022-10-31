@@ -1,0 +1,501 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>TraveLoGue</title>
+{% endblock meta %}
+
+{% block script %} 
+<script>
+    $(document).ready(function(){
+        $.get("/planner/json/", function(data) {
+            if (data.length == 0) {
+                $("#trips").append(`
+                <div id="placeholderDiv" style="text-align:center">
+                    <img src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
+                    <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No trips planned yet</h3>
+                </div>`)
+            } else {
+                for (i=0; i<data.length; i++){
+                    var image;
+                    if (data[i].pk%3 == 0) {
+                        image = "img/beach.svg";
+                    } else if (data[i].pk%3 == 1) {
+                        image = "img/city.svg";
+                    } else {
+                        image = "img/nature.svg";
+                    } 
+                    var start_date = data[i].fields.start_date.split("-");
+                    var end_date = data[i].fields.end_date.split("-");
+
+                    $("#trips").append(`
+                        <div id="${data[i].pk}--task" class="col-md-4 col-lg-3 mb-3">
+                            <div class="planner card d-flex">
+                                <div class="planner card-body d-flex flex-column">
+                                    <img src="{% static '${image}' %}" class="planner card-img-top">
+                                    <h5 class="planner card-title">${data[i].fields.name}</h5>
+                                    <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
+                                    <p class="planner card-text">${data[i].fields.notes}</p>
+                                    <div class="d-flex justify-content-around">
+                                        <a href="/planner/delete/${data[i].pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="/planner/change/${data[i].pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>`)
+                }
+            }
+        });
+        
+
+        $('input[name="daterange"]').daterangepicker(
+        {
+            locale: {format: 'DD/MM/YYYY'},
+            startDate: '01/11/2022',
+            endDate: '02/11/2022'
+        });
+        
+        $("#submit_trip").click(function(){
+          $.post("/planner/addtrip/", {
+            image: $("#image").val(),
+            name: $("#tripName").val(),
+            tripDate: $("#tripDate").val(),
+            tripNotes: $("#tripNotes").val()
+          },
+            function(result, status){
+                if (status == 'success') {
+                    var image;
+                    if (result.pk%3 == 0) {
+                        image = "img/beach.svg";
+                    } else if (result.pk%3 == 1) {
+                        image = "img/city.svg";
+                    } else {
+                        image = "img/nature.svg";
+                    } 
+                    var start_date = result.fields.start_date.split("-");
+                    var end_date = result.fields.end_date.split("-");
+                    if (document.getElementById("placeholderDiv")) {
+                        document.getElementById("placeholderDiv").outerHTML = "";}
+                    $("#trips").append(`
+                        <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
+                        <div class="planner card">
+                            <div class="planner card-body d-flex flex-column">
+                            <img src="{% static '${image}' %}" class="card-img-top planner">
+                            <h5 class="planner card-title">${result.fields.name}</h5>
+                            <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
+                            <p class="planner card-text">${result.fields.notes}</p>
+                            <a href="/planner/delete/${result.pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
+                            <a href="/planner/change/${result.pk}" class="btn btn-delete-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                        </div>
+                    </div>`);
+                    $('#image').val('')
+                    $('#name').val('')
+                    $('#tripNotes').val('')
+                    }
+            }
+          )
+        });
+
+    });
+//     $(document).ready(function () {
+//     let tab = '';
+//       $.ajax({
+//         url: "/event/json/",
+//         type: "GET",
+//         dataType: "json",
+//         success: function(data){
+//           let counter = 0;
+//           console.log("something")
+//           for (i=0; i<data.length; i++){
+//               tab += `
+//               <div class="col-xl-4 col-md-6">
+//                     <div class="post-item position-relative h-100">
+
+//                     <div class="post-img position-relative overflow-hidden">
+//                         <img src="${data[i].fields.image.url}" style="width: 700px; height:325px" class="img-fluid" alt="">
+//                         <span class="post-date">${data[i].fields.date}</span>
+//                     </div>
+
+//                     <div class="post-content d-flex flex-column">
+
+//                         <h3 class="post-title">${data[i].fields.title}</h3>
+
+//                         <p>${data[i].fields.description}</p>
+
+//                         <hr>
+
+//                         <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+//                             <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+//                         </button>
+//                     </div>
+
+//                     </div>
+//                 </div>
+//                         `;
+//             };
+//             $('#cards').append(tab);
+//             }
+//         })
+//     });
+
+//     function deleteCard(id) {
+//             $.ajax({
+//                 url: `/event/delete/${id}`,
+//                 type: 'DELETE',
+//                 success: function (result) {
+//                     $(`#card-${id}`).remove()
+//                 }
+//             });
+//         }
+
+//   $(document).on("submit", "#eventForm", function (e) {
+//     e.preventDefault();
+//     console.log("somethingnknk")
+//     $.ajax({
+//       type: "POST",
+//       url: "/event/addevent/",
+//       data: {
+//         image: $("#id_image").val(),
+//         title: $("#id_title").val(),
+//         place: $("#id_place").val(),
+//         date: $("#id_date").val(),
+//         stat: $("#id_date").val(),
+//         description: $("#id_description").val(),
+//         csrfmiddlewaretoken: "{{ csrf_token }}",
+//       },
+//       dataType: "json",
+//       success: function () {
+//         alert("Data berhasil ditambahkan")
+//         window.location.href = "/event/";;
+//       },
+//     });
+//   });
+    $(document).ready(function(){
+        $.get("/event/json/", function(data) {
+            for (i=0; i<data.length; i++){
+                console.log("something")
+                $("#cards").append(`
+                <div class="col-xl-4 col-md-6">
+                    <div class="post-item position-relative h-100">
+
+                    <div class="post-img position-relative overflow-hidden">
+                        <img src="${data[i].fields.image.url}" class="img-fluid" alt="">
+                        <span class="post-date">${data[i].fields.date}</span>
+                    </div>
+
+                    <div class="post-content d-flex flex-column">
+
+                        <h3 class="post-title">${data[i].fields.title}</h3>
+
+                        <p>${data[i].fields.description}</p>
+
+                        <hr>
+
+                        <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+                    </div>
+
+                    </div>
+                </div>`)
+            }
+        });
+        
+
+    //     // $('input[name="daterange"]').daterangepicker(
+    //     // {
+    //     //     locale: {format: 'DD/MM/YYYY'},
+    //     //     startDate: '01/11/2022',
+    //     //     endDate: '02/11/2022'
+    //     // });
+        
+    //     // $("#submit_event").click(function(){
+    //     //     console.log("inicekmodal")
+    //     //   $.post("/event/addevent/", {
+    //     //     image: $("#image").val(),
+    //     //     title: $("#title").val(),
+    //     //     date: $("#date").val(),
+    //     //     description: $("#description").val(),
+    //     //     place: $("#place").val(),
+    //     //   },
+    //     //     function(result){
+    //     //         console.log("inicekmodal2")
+    //     //         $("#cards").append(`
+    //     //             <div class="col-xl-4 col-md-6">
+    //     //                 <div class="post-item position-relative h-100">
+
+    //     //                 <div class="post-img position-relative overflow-hidden">
+    //     //                     <img src="${result.fields.image.url}" class="img-fluid" alt="">
+    //     //                     <span class="post-date">${result.fields.date}</span>
+    //     //                 </div>
+
+    //     //                 <div class="post-content d-flex flex-column">
+
+    //     //                     <h3 class="post-title">${result.fields.title}</h3>
+
+    //     //                     <p>${result.fields.description}</p>
+
+    //     //                     <hr>
+
+    //     //                     <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+    //     //                 </div>
+
+    //     //                 </div>
+    //     //             </div>`);
+    //     //     }
+    //     //   )
+    //     // });
+
+    //     $("#submit_event").click(function(){
+    //         console.log("inicekmodal")
+    //       $.post("/event/addevent/", {
+    //         // image: $("#image").val(),
+    //         title: $("#id_title").val(),
+    //         place: $("#id_place").val(),
+    //         date: $("#id_date").val(),
+    //         description: $("#id_description").val()
+    //       },
+    //         function(result){
+    //             console.log("inipasPOST")
+    //             // if (status == 'success') {
+    //                 // var image;
+    //                 $("#cards").append(`
+    //                     <div class="col-xl-4 col-md-6">
+    //                         <div class="post-item position-relative h-100">
+
+    //                         <div class="post-img position-relative overflow-hidden">
+    //                             <img src="${result.fields.image.url}" class="img-fluid" alt="">
+    //                             <span class="post-date">${result.fields.date}</span>
+    //                         </div>
+
+    //                         <div class="post-content d-flex flex-column">
+
+    //                             <h3 class="post-title">${result.fields.title}</h3>
+
+    //                             <p>${result.description}</p>
+
+    //                             <hr>
+
+    //                             <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+    //                         </div>
+
+    //                         </div>
+    //                     </div>`);
+    //                 // $('#title').val('')
+    //                 // $('#date').val('')
+    //                 // $('#place').val('')
+    //                 // $('#description').val('')
+    //                 // }
+    //         }
+    //       )
+    //     });
+
+    // });
+
+    // $(document).ready(function () {
+    //             taskCards();
+    //         });
+
+    // document.getElementById("button").onclick = addTodo
+
+    // function addTodo() {
+    //         fetch("/event/add-new/", {
+    //         method: "POST",
+    //         body: new FormData(document.querySelector("#eventForm"))
+    //         }).then(taskCards)
+    //         return false
+    //     }
+
+    // function taskCards() {
+    //     let stringHTML = "";
+    //     $.ajax({
+    //         url: "json",
+    //         type: "GET",
+    //         dataType: "json",
+    //         success: function(data) {
+    //             for (i=0; i<data.length; i++){
+    //                 var datacheck = data[i]
+    //                 stringHTML += `
+    //                 <div class="col-xl-4 col-md-6">
+    //                     <div class="post-item position-relative h-100">
+
+    //                         <div class="post-img position-relative overflow-hidden">
+    //                             <img src="${data[i].fields.imageURL}" style="width: 700px; height:325px" alt="">
+    //                             <span class="post-date">${data[i].fields.date}</span>
+    //                         </div>
+
+    //                         <div class="post-content d-flex flex-column">
+
+    //                             <h3 class="post-title">${data[i].fields.title}</h3>
+
+    //                             <p>${data[i].fields.description}</p>
+
+    //                             <hr>
+
+    //                             <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+
+    //                         </div>
+
+    //                     </div>
+    //                 </div>`;
+    //                 $('#cards').html(stringHTML);
+    //             }
+    //         }
+    //     });
+    // }
+
+</script>
+{% endblock script %}
+
+{% block content %}
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Upcoming Local Events</h2>
+        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <!-- <p data-aos="fade-up">Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</p> -->
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Events</li></ol>
+        {% if detector %}
+            <div class="buttonAdd">
+                <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+                    <a class="text-decoration-none text-white" data-toggle="modal" data-target="#createTaskModal">Add Event</a>
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background-color: rgb(255, 255, 255);">
+                <div class="modal-header text-gray-300" style="background-color: rgb(255, 255, 255);">
+                    <h5 class="modal-title text-gray-300">Add New Event!</h5>
+                </div>
+                <div class="modal-body" style="background-color: rgb(255, 255, 255);">
+                    <div class="flex justify-center">
+                        <div class="lg:w-64 mt-3">
+                            <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm">
+                                {% csrf_token %}
+                                <div class="input-box">
+                                    <span class="details" for="title" style="font-weight: 700;">Event title :</span><br>
+                                    {{form.title}}
+                                    <!-- <input type="text" id="title" name="title"><br> -->
+                                </div>
+                                <div class="input-box">
+                                    <span class="details" for="type" style="font-weight: 700;">Event Type :</span><br>
+                                    {{form.type}}
+                                    <!-- <input type="date" id="date" name="date"><br> -->
+                                </div>
+                                <div class="input-box">
+                                    <span class="details" type="date" for="date" style="font-weight: 700;">Date :</span><br>
+                                    {{form.date}}
+                                    <!-- <input type="date" id="date" name="date"><br> -->
+                                </div>
+                                <div class="input-box">
+                                    <span class="details" for="place" style="font-weight: 700;">Place :</span><br>
+                                    {{form.place}}
+                                    <!-- <input type="text" id="place" name="place"><br> -->
+                                </div>
+                                <div class="input-box">
+                                    <span class="details" for="description" style="font-weight: 700;">Description :</span><br>
+                                    {{form.description}}
+                                    <!-- <input type="text" id="description" name="description"><br> -->
+                                </div>
+                                <div class="input-box">
+                                    <span class="details" for="image" style="font-weight: 700;">Image :</span><br>
+                                    {{form.image}}
+                                </div>
+                                <div class="input-box">
+                                    <input id="submit_event" type="submit" name="submit" value="submit" class="button" data-bs-dismiss="modal"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- <button id="submit_event" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<section id="blog" class="blog">
+    <div class="buttonAdd">
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_music_event' %}">Music</a>
+        </button>
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Culinary</a>
+        </button>
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Festival</a>
+        </button>
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Indonesia Culture</a>
+        </button>
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Sport</a>
+        </button>
+        <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
+            <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Others</a>
+        </button>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <!-- <div class ="row" id="cards"> -->
+        <div class="row gy-4 posts-list" id="cards">
+        </div>
+    </div>
+</section>
+<!-- <div class="container"> -->
+    <!-- <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>My Trips</h1>
+        </div>
+        <div>
+            <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Plan new trip</span>
+            </button>    
+        </div>
+    </div> -->
+
+    
+
+    <!-- <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="planTripLabel">Plan new trip</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body" style="text-align:left;">
+              {% csrf_token %}           
+              <div class="mb-3">
+                <label for="tripName" class="form-label">Trip name</label>
+                <input type="text" class="form-control" id="tripName" placeholder="Java Roadtrip 2022">
+              </div>
+              <div class="mb-3">
+                <label for="tripDate" class="form-label">Select date</label>
+                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="tripNotes" class="form-label">Notes</label>
+                <textarea class="form-control" id="tripNotes" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button id="submit_trip" type="button" class="btn btn-primary" data-bs-dismiss="modal">Plan</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    <!-- <div class="row" id="trips"> -->
+
+    <!-- </div> -->
+<!-- </div> -->
+{% endblock content %}
