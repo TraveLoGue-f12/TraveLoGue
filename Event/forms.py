@@ -1,3 +1,15 @@
+# from django import forms
+# from django.db.models import fields
+# from .models import Event
+# from .models import *
+# from django.forms import ModelForm
+# # from django.forms import widgets
+
+
+# class EventForm(forms.ModelForm):
+#     class Meta:
+#         model = Event
+#         fields = ['title', 'description', 'date', 'place', 'image','type']
 from django import forms
 from django.db.models import fields
 from .models import Event
@@ -13,4 +25,6 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
+
         fields = ['title', 'description', 'date', 'place', 'category']
+
