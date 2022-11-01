@@ -22,6 +22,7 @@ urlpatterns = [
     path('add/', membuat_event, name='membuat_event'),
     path('add-new/', add_event, name='add_event'),
     path('delete/<int:pk>', delete, name='delete'),
+    path('my-event/delete/<int:pk>', delete, name='delete'),
     path('event-detail/<int:pk>', show_event_detail, name='show_event_detail'),
     path('music/event-detail/<int:pk>', show_event_detail, name='show_event_detail'),
     path('sport/event-detail/<int:pk>', show_event_detail, name='show_event_detail'),

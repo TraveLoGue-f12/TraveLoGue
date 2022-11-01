@@ -73,6 +73,7 @@ def show_others_event(request):
     }
     return render(request, "others.html", context)
 
+@login_required(login_url='/login')
 def show_user_event(request):
     user = request.user
     if user.is_authenticated:
@@ -82,6 +83,7 @@ def show_user_event(request):
         }
         return render(request, 'userevent.html', context)
 
+@login_required(login_url='/login')
 def show_event(request):
     data = Event.objects.all()
     user = request.user
@@ -131,7 +133,7 @@ def show_event_json(request):
 def delete(request, pk):
     data = Event.objects.get(id=pk)
     data.delete()
-    return HttpResponseRedirect(reverse('Event:show_event'))
+    return HttpResponseRedirect(reverse('Event:show_user_event'))
 
 def membuat_event(request):
     if request.method == 'POST':

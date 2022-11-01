@@ -146,10 +146,12 @@
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     <span style="font-size:1.5rem">&nbsp;Add New Event</span>
                 </button>
-                <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
+                <!-- <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
                     <span aria-hidden="true"></span>
                     <a style="font-size:1.5rem" class="text-decoration-none text-white" href="{% url 'Event:show_user_event' %}">My Event</a>
-                </button>   
+                </button>    -->
+                <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'Event:show_user_event' %}">My Event </a>
+
             </div>
         {% endif %}
     </div>
@@ -258,8 +260,8 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="submit_event" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal fade">Cancel</button>
+                    <button id="submit_event" type="submit" class="btn btn-primary" data-bs-dismiss="modal fade">Add</button>
                 </div>
             </div>
         </div>
