@@ -1,11 +1,12 @@
-from hashlib import new
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from forum.models import Question, Answer
 from forum.forms import AnswerForm, QuestionForm
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.urls import reverse
+from main.models import Profile
 import datetime
 
 # Create your views here.
@@ -14,14 +15,19 @@ def show_forum(request):
     question_data = Question.objects.all()
     answer_data = Answer.objects.all()
     question_form = QuestionForm()
-    answer_form = AnswerForm()
-
+    user = request.user
     context = {
         "list_of_questions" : question_data,
         "list_of_answers" : answer_data,
         "question_form" : question_form,
-        "answer_form" : answer_form,
+        "user_status" : "",
+        "user": user.username
     }
+
+    if user.is_authenticated:
+        profile = Profile.objects.get(user=user)
+        context['user_status'] = profile.status
+    
     return render(request, 'forum.html', context)
 
 def question_json(request):
@@ -34,6 +40,7 @@ def answer_json(request, pk):
     data = Answer.objects.filter(question=question)
     return HttpResponse(serializers.serialize('json', data), content_type='application/json')
     
+@login_required(login_url='/login/')
 @csrf_exempt
 def add_question_ajax(request):
     if request.method == 'POST':
@@ -86,6 +93,7 @@ def add_answer_ajax(request, pk):
         }
         return JsonResponse(result) """
 
+@login_required(login_url='/login/')
 @csrf_exempt
 def add_answer(request, pk):
     get_question = Question.objects.get(pk=pk)
@@ -153,7 +161,7 @@ else:
         return render(request, 'add_question.html', response) """
         
 
-
+@login_required(login_url='/login/')
 @csrf_exempt
 def delete_forum(request, id):
     Question.objects.get(pk=id).delete()
