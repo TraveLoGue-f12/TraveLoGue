@@ -3,103 +3,59 @@
 {% load static %}
 
 
-<!doctype html>
 
-<html lang="en">
     
-    {% include 'navbar.html' %}
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-        {% block meta %}
-        <title>TraveLoGue</title>
-        {% endblock meta %}
-    </head>
+<head>
+    <link rel="stylesheet" href="{%static 'css/detail.css' %}">
+</head>
+    
 
-    <body>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        {% block content %}
 
-        <style>
-            .card-img-top {
-            width: 100%;
-            height: 40vw;
-            object-fit: cover;
-            object-position: center;
-          }
-          .card{
-        
-            border-radius: 15px;
-            background: rgb(255, 255, 255);
-            box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-            transition: .3s ;
+{% block content %}
+
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
+    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+        <h2>Local Shops</h2>
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Local Shops</li></ol>
+    </div>
+</div>
+
+<br>
+<br>
+
+
+
+
+
+<br>
+
+<div class="container">
+    
+    <div class="row row-cols-1 row-cols-md-1 g-4 mx-5">
+        <div class="d-flex justify-content-between align-items-center">
+    
+    
+            <button type="button" onclick="location.href='/rekomendasi-umkm/'">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;BACK</span>
+            </button> 
             
-            cursor: pointer;
-            margin-left: 10px;
-            margin-right: 50px;
-          }
-        
-          
-
-          .card-title{
-              font-size: 200%;
-          }
-        
-          .blmada{
-            font-style: italic;
-            text-align: center;
-          }
-        
-        </style>
-        <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
-            <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
-                <h2>Local Shops</h2>
-                <ol><li><a href="index.html">Home</a></li><li>Local Shops</li></ol>
+        </div>
+        <div class ="card">
+            {% if data.image %}
+                <img class="card-img-top" src="{{data.image.url}}" alt="Card image cap">
+            {% endif %}
+            <div class="card-body" style="background-color: #ffffff">
+                <h5 class="card-title">{{data.name}}</h5>
+                <h5 class="card-under-title">{{data.description}}</h5>
+                
+                <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
+                
             </div>
         </div>
+    </div>
+</div>
+<br>
 
-        <br>
-        <br>
-        
-
-        
-
-        
-        <br>
-
-        <div class="container">
-            
-            <div class="row row-cols-1 row-cols-md-1 g-4 mx-5">
-                <div class="d-flex justify-content-between align-items-center">
-            
-            
-                    <button type="button" onclick="location.href='/rekomendasi-umkm/'">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span style="font-size:1.5rem">&nbsp;BACK</span>
-                    </button> 
-                    
-                </div>
-                <div class ="card">
-                    {% if data.image %}
-                        <img class="card-img-top" src="{{data.image.url}}" alt="Card image cap">
-                    {% endif %}
-                    <div class="card-body" style="background-color: #ffffff">
-                        <h5 class="card-title">{{data.name}}</h5>
-                        <h5 class="card-under-title">{{data.description}}</h5>
-                        
-                        <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-
-        {% endblock content %}
-    </body>
-
-    {% include 'footer.html' %}
-
-</html>
+{% endblock content %}
+   

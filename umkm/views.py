@@ -47,6 +47,7 @@ def show_data(request):
     print("lobal: " + str(thisUser.is_local()))
     print("tourist: " + str(thisUser.is_tourist()))
     
+    
     data_UMKM = UMKM.objects.all()
 
     for data in data_UMKM:
