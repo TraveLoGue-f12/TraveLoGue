@@ -7,10 +7,11 @@ from umkm.models import UMKM
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
+from django.contrib.auth.decorators import login_required
+from main.models import Profile
 
-def index(request):
-    return render(request, 'umkm_index.html')
 
+@login_required(login_url='/login')
 def add_umkm(request):
     if request.method == 'POST':
         form = UMKMForm(request.POST, request.FILES)
@@ -22,9 +23,11 @@ def add_umkm(request):
         response = {'form': form}
         return render(request, 'add_umkm.html', response)
 
+@login_required(login_url='/login')
 def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
+
 
 def show_umkm_by_id(request, pk):
     data = UMKM.objects.get(id=pk)
@@ -33,20 +36,32 @@ def show_umkm_by_id(request, pk):
     }
     return render(request, "umkm_detail.html", context)
 
+# @login_required(login_url='/login')
 def show_data(request):
-  
+    getUser = Profile.objects.filter(user=request.user)
+    print(getUser)
+
+    for user in getUser:
+        thisUser = user
+        
+    print("lobal: " + str(thisUser.is_local()))
+    print("tourist: " + str(thisUser.is_tourist()))
+    
+    
     data_UMKM = UMKM.objects.all()
 
     for data in data_UMKM:
         if isinstance(data.image, ImageFieldFile):
             
             data.imageURL = str(data.image.url)
+            print(data.imageURL)
 
         data.save()
     
     
     response = {
         'datalist':  data_UMKM,
+        'thisUser': thisUser,
  
     }  
     
@@ -60,11 +75,13 @@ def show_data(request):
         response = {
         'datalist':  data_UMKM,
         'form': form,
+        'thisUser': thisUser,
         }   
         return render(request, 'umkm_index.html', response)
 
     return render(request, "umkm_index.html", response)
 
+@login_required(login_url='/login')
 def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
     return redirect('umkm:rekomendasi_umkm')

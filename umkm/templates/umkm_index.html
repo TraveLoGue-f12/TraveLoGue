@@ -1,268 +1,109 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-
-<style>
-  /* body {
-    background-image: url(https://img.freepik.com/free-vector/white-background-with-triangle-patterns_1017-18410.jpg?w=2000);
-  }  */
-
-  .card-img-top {
-    width: 100%;
-    height: 15vw;
-    object-fit: cover;
-  }
-  .card{
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
-    transition: .3s ;
-    overflow: hidden;
-    cursor: pointer;
-   
-  }
-
-  .card:hover{
-    transform: scale(1.09);
-    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-  }
-
-  .navbar{
-    background-color: rgb(0, 0, 0);
-  }
-
-  .blmada{
-    font-style: italic;
-    text-align: center;
-  }
-
-  .cardlink{
-    size: 0;
-  }
-</style>
 
 
-<html lang="en">
-  
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block meta %}
-    <title>TraveLoGue</title>
-    {% endblock meta %}
-  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  
-    <!-- Style -->
-    <link href="{% static 'styles.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-  </head>
+<head>
+  <link rel="stylesheet" href="{%static 'css/index.css' %}">
+</head>
 
-  {% block content %}
-  <body>
-    
-    
-    
-  <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
-    <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
-        <h2>Local Shops</h2>
-        <ol><li><a href="index.html">Home</a></li><li>Local Shops</li></ol>
-    </div>
-  </div>
-  <div class="container">
-    <br>
-    <h1 class="text-center">LOCAL SHOPS</h1>
-    <br>
-    <div class ="row" id="cards">
-     
- 
-      <!-- {% for data in datalist %}
-      <div class ="col-12 col-md-6 col-lg-4 " id="list-umkm">
-        <div class ="card">
-          <div class="card-header overflow-hidden p-0">
-            {% if data.image %}
-          
-            <img class="w-100" src="{{data.image.url}}" >
-            {% endif %}
-          </div>
-          
-          <div class="card-body">
-            
-            <h5 class="card-title">{{data.name}}</h5>
-            <h5 class="card-title">{{data.description}}</h5>
-
-            <div>
-              <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
-              <button class="btn btn-primary"><a href="{% url 'umkm:add_umkm' %} ">Add</a></button>
-            </div>
-            
-            
-          </div>
-        </div>
-      </div>
-      <br>
-      
-    {% endfor %} -->
-    </div>
-  </div>
-
-  <button
-          class="inline-flex space-x-2 items-center justify-center px-6 py-3 rounded-xl"  data-toggle="modal"
-          data-target="#exampleModal"
-          
-          >
-          a
-          <!-- <a href="{% url 'umkm:add_umkm' %}  ">Add</a> -->
-  </button>
-
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
-            Add Task
-          </h1>
-
-        </div>
-        <div class="modal-body">
-          <div class="flex justify-center">
-            <div class="lg:w-64 mt-3">
-              <form method="POST" action="" class="register-form" enctype="multipart/form-data" id='umkmForm'>
-                {% csrf_token %}
-                <table>
-                    <tr>
-                        <td>Name: </td>
-                        <td>{{form.name}}</td>
-                    </tr>
-        
-                    <tr>
-                      <td>Description: </td>
-                      <td>{{form.description}}</td>
-                    </tr>
-        
-                  
-                    <tr>
-                      <td>Image: </td>
-                      <td>{{form.image}}</td>
-                    </tr>
-        
-                    <tr>
-                      <td>Website: </td>
-                      <td>{{form.link_website}}</td>
-                    </tr>
-                            
-                </table>
-                <br>
-                <button id="halo" >add</button>
-                <!-- <input type="submit" name="submit" value="Add Shop" class="submit" id="#add-task" /> -->
-                <br>
-                <br>
-               
-            </form>
-              </div>
-            </div>
-          </div>
-         
-        </div>
-      </div>
-    </div>
-
-  
-  
-  </body>
-  {% endblock content %}
-  
-</html>
 {% block script %}
-  
-<script>
-  $(document).ready(function () {
-      umkmCards();
 
-      $('#halo').click(function () {
-                $.post(
-                    '/rekomendasi-umkm/add_umkm_ajax/',
-                    {
-                        name: $('#name').val(),
-                        description: $('#description').val(),
-                        link_website: $('#link_website').val(),
-                        image : $('#link_website').val(),
+<script src="{%static 'js/script.js' %}" defer></script>
 
-                    },
-                    function (data, status) {
-                        if (status == 'success') {
-                            $(`#cards`).append(card(data))
-                            $('#name').val('')
-                            $('#description').val('')
-                            $('#link_website').val('')
-                            $('#image').val('')
-                        }
-                    },
-                )
-            })
-      
-      
-      
-  });
-  // document.getElementById("halo").onclick = addUMKM
-
-  
-            
-  
-
-  // function addUMKM() {
-  //       fetch("/rekomendasi-umkm/add_umkm_ajax/", {
-  //       method: "POST",
-  //       body: new FormData(document.querySelector("#umkmForm"))
-  //       }).then(umkmCards)
-  //       return false
-  //   }
-
-  function deleteCard(id) {
-            $.ajax({
-                url: `/rekomendasi-umkm/delete-ajax/${id}`,
-                type: 'DELETE',
-                success: function (result) {
-                    $(`#card-${id}`).remove()
-                }
-            });
-        }
-
-  function umkmCards() {
-      let stringHTML = "";
-      $.ajax({
-          url: "json",
-          type: "GET",
-          dataType: "json",
-          success: function(data) {
-              
-              for (i=0; i<data.length; i++){
-                  
-                  stringHTML += ` 
-                  <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
-                      <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                        <img class="w-100" src="${data[i].fields.imageURL}" >
-                          <div class="card-body">
-                              <h5 class="card-title">${data[i].fields.name}</h5>
-                              <br>
-                              <p class="card-under-title">${data[i].fields.description}</p>
-                              <br>
-                              <a href="umkm-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
-                              
-                              <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
-                          </div>
-                      </div>
-                  </div>`;
-                  $('#cards').html(stringHTML);
-              }
-          }
-      });
-    }
-</script>
 {% endblock script %}
+
+
+
+{% block content %}
+
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
+  <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+      <h2>Local Shops</h2>
+      <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Local Shops</li></ol>
+  </div>
+</div>
+
+<div class="container">
+  
+  
+  
+  {% if thisUser.is_local %}
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h1>OUR RECOMMENDATION</h1>
+    </div>
+    <div>
+      <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <span style="font-size:1.5rem">&nbsp;ADD SHOP</span>
+      </button>     
+    </div>
+  </div>
+  {% endif %}
+  
+  <br>
+  
+  <br>
+  <div class ="row" id="cards">
+    
+
+  
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
+          Add Task
+        </h1>
+
+      </div>
+      <div class="modal-body">
+        <div class="flex justify-center">
+          <div class="lg:w-64 mt-3">
+            <form method="POST" action="" class="register-form" enctype="multipart/form-data" id='umkmForm'>
+              {% csrf_token %}
+              <table>
+                  <tr>
+                      <td>Name: </td>
+                      <td>{{form.name}}</td>
+                  </tr>
+      
+                  <tr>
+                    <td>Description: </td>
+                    <td>{{form.description}}</td>
+                  </tr>
+      
+                
+                  <tr>
+                    <td>Image: </td>
+                    <td>{{form.image}}</td>
+                  </tr>
+      
+                  <tr>
+                    <td>Website: </td>
+                    <td>{{form.link_website}}</td>
+                  </tr>
+                          
+              </table>
+              <br>
+              <button id="halo" >Add</button>
+              <br>
+              <br>
+              
+          </form>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+  
+
