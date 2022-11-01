@@ -55,6 +55,7 @@
         });
         
         $("#submit_trip").click(function(){
+            // console.log("inicekmodal")
           $.post("/planner/addtrip/", {
             image: $("#image").val(),
             name: $("#tripName").val(),
@@ -62,6 +63,7 @@
             tripNotes: $("#tripNotes").val()
           },
             function(result, status){
+                // console.log("inicekmodal2")
                 if (status == 'success') {
                     var image;
                     if (result.pk%3 == 0) {
