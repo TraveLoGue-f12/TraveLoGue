@@ -32,14 +32,11 @@ def delete_trip(request, pk):
 def update_trip(request, pk):
     trip = Trips.objects.get(id=pk)
     form = updateTripForm(instance=trip)
-    print(333)
     
     if request.method == "POST":
-        print(222)
         form = updateTripForm(request.POST, instance=trip)
         if form.is_valid():
             form.save()
-            print(111)
             return redirect('planner:planner')
     
     context = {'form':form}
