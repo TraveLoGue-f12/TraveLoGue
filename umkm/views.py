@@ -28,7 +28,7 @@ def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
 
-
+@login_required(login_url='/login')
 def show_umkm_by_id(request, pk):
     data = UMKM.objects.get(id=pk)
     context = {
@@ -36,7 +36,7 @@ def show_umkm_by_id(request, pk):
     }
     return render(request, "umkm_detail.html", context)
 
-# @login_required(login_url='/login')
+@login_required(login_url='/login')
 def show_data(request):
     getUser = Profile.objects.filter(user=request.user)
     print(getUser)

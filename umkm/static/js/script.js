@@ -56,7 +56,8 @@ function umkmCards() {
                         <div class="card-body">
                             <h3 class="card-title">${data[i].fields.name}</h5>
                             <br>
-                            <a href="umkm-detail/${data[i].pk}", class="btn btn-primary">Read More</a>
+                            <a class="card-text stretched-link" href="umkm-detail/${data[i].pk}" target="_blank">Read More</a>
+                            
                             
                             <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
                         </div>
