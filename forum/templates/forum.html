@@ -11,7 +11,7 @@
     $(document).ready(function(){
         let cardString = '';
         var status = '{{user_status}}';
-        var user = '{{user}}';
+        var user = '{{user_loggedin}}';
 
         $.get('/forum/question_json/', function(data){
             if (data.length == 0){
@@ -80,7 +80,7 @@
     function questionCards() {
         let cardString = "";
         var status = '{{user_status}}';
-        var user = '{{user}}'
+        var user = '{{user_loggedin}}'
         $.ajax({
             url: "question_json",
             type: "GET",
@@ -140,6 +140,11 @@
             </button>    
         </div>
         {% endif %}
+    </div>
+    <div>
+        {% for recent in recently_asked_forum %}
+            <span style="display: block; width: fit-content; margin: 0 auto;" class="badge rounded-pill text-bg-success">Recently asked by {{ recent.username }}: {{ recent.title }}</span>
+        {% endfor %}
     </div>
     <div class="modal" id="questionModal" tabindex="-1" aria-labelledby="questionLabel" aria-hidden="true">
         <div class="modal-dialog">
