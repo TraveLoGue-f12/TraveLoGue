@@ -5,4 +5,4 @@ from django.forms import ModelForm
 class UMKMForm(ModelForm):
     class Meta:
         model = UMKM
-        fields = '__all__'
+        fields = ["name", "description", "link_website", "image"]
