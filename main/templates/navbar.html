@@ -4,8 +4,7 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header d-flex align-items-center">
 <body>
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between" id=>
-
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
     <a href="/" class="logo d-flex align-items-center">
     <img src="/static/img/logo.png" alt="">
@@ -19,17 +18,10 @@
         <li><a href="/" class="nav-link active home" id="home">Home</a></li>
         <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
         <li class="dropdown "><a href="#" class="nav-link rekomendasi" id="rekomendasi"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-
         <ul>
-            <li><a href="/" class="nav-link active home" id="home">Home</a></li>
-            <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
-            <li class="dropdown "><a href="#" class="nav-link rekomendasi" id="rekomendasi"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-            <ul>
-    
-                <li><a href="/rekomendasi-umkm" id="rekomen-umkm">Local Shops</a></li>
+                <li><a href="/local-shops" id="rekomen-umkm">Local Shops</a></li>
                 <li><a href="/objekwisata" id="rekomen-attr">Attractions</a></li>
                 <li><a href="/event" id="rekomen-event">Upcoming Events</a></li>
-    
             </ul>
             </li>
             <li><a href="/planner/" class="nav-link planner" id="planner">My Planner</a></li>
@@ -69,12 +61,14 @@
             document.getElementById('home').classList.add('active');
         } else if(activePage.includes( "/planner")){
             document.getElementById('planner').classList.add('active');
-        } else if(activePage.includes( "/rekomendasi")){
+        } else if(activePage.includes( "/local-shops")){
             document.getElementById('rekomendasi').classList.add('active');
         } else if(activePage.includes( "/event")){
             document.getElementById('rekomendasi').classList.add('active');
         }  else if(activePage.includes( "/objekwisata")){
             document.getElementById('rekomendasi').classList.add('active');
+        } else if(activePage.includes( "/forum")){
+            document.getElementById('forum').classList.add('active');
         }
         
         
