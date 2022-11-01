@@ -6,9 +6,8 @@
 <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
     <a href="/" class="logo d-flex align-items-center">
-    <!-- Uncomment the line below if you also wish to use an image logo -->
-    <!-- <img src="static/img/logo.png" alt=""> -->
-    <h1>TraveLoGue<span>.</span></h1>
+    <img src="/static/img/logo.png" alt="">
+    <h1 class="pb-4 px-3">TraveLoGue<span>.</span></h1>
     </a>
 
     <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -57,13 +56,13 @@
             link.classList.remove('active');
             
         })
-        if(activePage == "/"){
+        if (activePage == "/"){
             document.getElementById('home').classList.add('active');
-        } else if(activePage == "/planner/"){
+        } else if(activePage.includes( "/planner")){
             document.getElementById('planner').classList.add('active');
-        }  else if(activePage.includes( "/rekomendasi")){
+        } else if(activePage.includes( "/rekomendasi")){
             document.getElementById('rekomendasi').classList.add('active');
-        }  else if(activePage.includes( "/event")){
+        } else if(activePage.includes( "/event")){
             document.getElementById('rekomendasi').classList.add('active');
         }
         
