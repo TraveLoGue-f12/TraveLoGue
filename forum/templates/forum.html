@@ -2,13 +2,17 @@
 {% load static %}
 
 {% block meta %}
-<title>TraveLoGue</title>
 {% endblock meta %}
+
+{% block title %}QnA Forum{% endblock title %}
 
 {% block script %} 
 <script>
     $(document).ready(function(){
-        let cardString = ''
+        let cardString = '';
+        var status = '{{user_status}}';
+        var user = '{{user}}';
+
         $.get('/forum/question_json/', function(data){
             if (data.length == 0){
                 $("#forumCards").append(`
@@ -24,9 +28,14 @@
                                             <div id="${data[i].pk}--question" class="card-body d-flex flex-column">
                                                 <h5 class="card-title">${data[i].fields.title}</h5>
                                                 <p class="card-text mb-1 date">${data[i].fields.question}</p>
-                                                <p class="card-text">${data[i].fields.username} ● ${data[i].fields.date}</p>
-                                                <a href="add_answer/${data[i].pk}", class="btn">Answer</a>
-                                                <a href="delete_question/${data[i].pk}", class="btn">Delete</a>`
+                                                <p class="card-text">${data[i].fields.username} ● ${data[i].fields.date}</p>`
+
+                    if (status == 'L'){
+                        cardString += `<a href="add_answer/${data[i].pk}", class="btn">Answer</a>`
+                    }
+                    if (user == data[i].fields.username){
+                        cardString += `<a href="delete_question/${data[i].pk}", class="btn">Delete</a>`
+                    }
 
                     $.get(`/forum/answer_json/${data[i].pk}`, function(answer){
                         for (j=0; j<answer.length; j++){
@@ -70,6 +79,8 @@
 
     function questionCards() {
         let cardString = "";
+        var status = '{{user_status}}';
+        var user = '{{user}}'
         $.ajax({
             url: "question_json",
             type: "GET",
@@ -81,20 +92,26 @@
                                         <div id="${data[newest].pk}--question" class="card-body d-flex flex-column">
                                             <h5 class="card-title">${data[newest].fields.title}</h5>
                                             <p class="card-text mb-1 date">${data[newest].fields.question}</p>
-                                            <p class="card-text">${data[newest].fields.username} ● ${data[newest].fields.date}</p>
-                                            <a href="add_answer/${data[newest].pk}", class="btn">Answer</a>
-                                            <a href="delete_question/${data[newest].pk}", class="btn">Delete</a>`
-                
-                                $.get(`/forum/answer_json/${data[newest].pk}`, function(answer){
-                                for (j=0; j<answer.length; j++){
-                                    document.getElementById(`${answer[j].fields.question}--question`).innerHTML += 
-                                    `<p class="card-text">${answer[j].fields.answer}</p>
-                                    <p class="card-text">${answer[j].fields.username} ● ${answer[j].fields.date}</p>`
-                                }
-                            })
-                    $('#forumCards').prepend(cardString);
-                    cardString = "";
-                }
+                                            <p class="card-text">${data[newest].fields.username} ● ${data[newest].fields.date}</p>`
+                if (status == 'L'){
+                    cardString += `<a href="add_answer/${data[newest].pk}", class="btn">Answer</a>`
+                }  
+                if (user == data[newest].fields.username){
+                        cardString += `<a href="delete_question/${data[newest].pk}", class="btn">Delete</a>`
+                    }      
+
+                    $.get(`/forum/answer_json/${data[newest].pk}`, function(answer){
+                    for (j=0; j<answer.length; j++){
+                        document.getElementById(`${answer[j].fields.question}--question`).innerHTML += 
+                            document.getElementById(`${answer[j].fields.question}--question`).innerHTML += 
+                        document.getElementById(`${answer[j].fields.question}--question`).innerHTML += 
+                        `<p class="card-text">${answer[j].fields.answer}</p>
+                        <p class="card-text">${answer[j].fields.username} ● ${answer[j].fields.date}</p>`
+                    }
+                })
+                $('#forumCards').prepend(cardString);
+                cardString = "";
+            }
             })
         }
 </script>
@@ -105,7 +122,7 @@
 
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/navbar.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
-        <h2>QnA Forum</h2>
+        <h2>QnA Forum {{user_status}}</h2>
         <ol><li><a href="index.html">Home</a></li><li>QnA Forum</li></ol>
     </div>
 </div>
@@ -114,12 +131,16 @@
         <div>
             <h1>Questions</h1>
         </div>
+
+        {% if user_status == 'T' %}
         <div>
             <button type="button" class="btn btn-default my-auto" data-bs-toggle="modal" data-bs-target="#questionModal">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 <span style="font-size:1.5rem">&nbsp;Ask a question</span>
             </button>    
         </div>
+        {% else %}
+        {% endif %}
     </div>
     <div class="modal" id="questionModal" tabindex="-1" aria-labelledby="questionLabel" aria-hidden="true">
         <div class="modal-dialog">
