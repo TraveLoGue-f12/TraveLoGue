@@ -26,13 +26,10 @@
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/images/labuanbajo.jpg);">
       <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
           <h2>Recommended Attractions</h2>
-          <ol><li>Get below the surface of Indonesia like a local and start a one-of-a-kind adventure. find the recommended attractions here.</li></ol>
-          <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Attractions</li></ol>
-          <div class="buttonAdd">
-            <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
-                <a class="text-decoration-none text-white" data-toggle="modal" data-target="#exampleModal">Add Attraction</a>
-            </button>
-        </div>
+
+          <ol><li>Get below the surface of Indonesia like a local and start a one-of-a-kind adventure.</li></ol>
+          <ol><li><a href="index.html">Home</a></li><li>Attractions</li></ol>
+
       </div>
     </div>
           
@@ -43,7 +40,8 @@
           <div class="card">
             <img class="card-img-top" src="{% static 'images/borobudur.jpg'  %}" >
             <div class="card-body">
-              <h3 class="card-title">Candi Borobudur</h3>
+              <h2 class="card-title">Candi Borobudur</h2>
+              <h5 class="card-text">Yogyakarta</h5>
               <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
               <a class="card-text" href="https://goo.gl/maps/k9BWqqj7uNeZHjqQ9" target="_blank">See on maps</a>
             </div>
@@ -78,10 +76,10 @@
           </div>
         </div>
 
-        <div id="card_attraction">
-        </div>
         
         <!-- insert new attraction -->
+        <div id="card_attraction">
+        </div>
         
       </div>
     </div>
@@ -97,21 +95,25 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Add Attraction</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="flex justify-center">
               <div class="lg:w-64 mt-3">
-                  <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="ObjekWisataForm">
+                  <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="objekwisataForm">
                   {% csrf_token %}
                   <div class="input-box">
                       <span class="details" for="title" style="font-weight: 700;">Attraction Title :</span><br>
                       <input type="text" id="title" name="title"><br>
-                    </div>
+                  </div>
                   <div class="input-box">
-                  <span class="details" for="description" style="font-weight: 700;">Short Description :</span><br>
-                  <input type="details" id="description" name="description"><br>
+                    <span class="details" for="location" style="font-weight: 700;">Attraction Location :</span><br>
+                    <input type="text" id="location" name="location"><br>
+                  </div>
+                  <div class="input-box">
+                    <span class="details" for="description" style="font-weight: 700;">Short Description :</span><br>
+                    <input type="text" id="description" name="description"><br>
                   </div>
                   <div class="input-box">
                     <span class="details" for="address_link" style="font-weight: 700;">URL Google Maps :</span><br>
@@ -119,17 +121,16 @@
                   </div>
                   <div class="input-box">
                     <span class="details" for="image" style="font-weight: 700;">Image :</span><br>
-                    <!-- {{form.image}} -->
-                    <input type="file" id="image" name="image"><br>
+                    <input type="file" id="image" name="image" accept="images/*"><br>
                   </div>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
                   <br>
                   </form>
               </div>
           </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="add_attraction()">Submit</button>
           </div>
         </div>
       </div>
@@ -138,64 +139,65 @@
   </body>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        function show_attraction(){
-            let attraction="";
-            $.ajax({
-                url: "{% url 'objekwisata:show_objekwisata_json' %}",
-                type: "GET",
-                dataType: "json",
-                success: function(alldata){
-                    for (data of alldata){  
-                        attraction += `
-                        <div class="col-4">
-                          <div class="card">
-                            <img class="card-img-top" src="${data.fields.image}" >
-                            <div class="card-body">
-                              <h3 class="card-title">${data.fields.title}</h3>
-                              <p class="card-text">${data.fields.description}</p>
-                              <a class="card-text" href="${data.fields.address_link}" target="_blank">See in maps</a>
-                            </div>
-                          </div>
-                        </div>`;
-                        $('#card_attraction').html(attraction)
-                    }
-                },
-                error: function(alldata) {
-                    console.log("error")
-                }
-            })
-        }
-        
-        function add_attraction(){
-            event.preventDefault(); // mematikan fungsi default bawaan
-            $.ajax ({
-                url: "{% url 'objekwisata:add_objekwisata' %}",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    title:$("#title").val(),
-                    description:$("#description").val(),
-                    location:$("#location").val(),
-                    address_link:$("#address_link").val(),
-                    image:$("#image").val(),
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                success: function(data){
-                    show_todo();
-                    // clearing form after submission
-                    const inputs = document.querySelectorAll('#title, #description, #location, #address_link, #image');
-                    inputs.forEach(input => {
-                        input.value = '';
-                    });
-                },
-            });   
-        }
+  <script>
+    $(document).ready(function () {
+      show_attraction();
+    })
 
-        $(document).ready(function () {
-            show_attraction();
-        })
-    </script>
+    document.getElementById("btn_new_attr").onclick = add_attraction
+
+    function add_attraction(){
+      $.post(
+          '/objekwisata/add_objekwisata_ajax/',
+          {
+              title: $('#title').val(),
+              location: $('#location').val(),
+              description: $('#description').val(),
+              address_link: $('#address_link').val(),
+              image : $('#image').val(),
+
+          },
+          function (data, status) {
+              show_attraction()
+              if (status == 'success') {
+                  $(`#card_attraction`).append(card(data))
+                  $('#title').val('')
+                  $('#location').val('')
+                  $('#description').val('')
+                  $('#address_link').val('')
+                  $('#image').val('')
+              }
+          },
+      )
+    }
+
+    function show_attraction(){
+      let attraction="";
+      $.ajax({
+        url: "json",
+        type: "GET",
+        dataType: "json",
+        success: function(data){
+          for (i=0; i<data.length; i++){
+            attraction += `
+            <div class="col-4">
+              <div class="card">
+                <img class="card-img-top" src="${data[i].fields.imageURL}">
+                <div class="card-body">
+                  <h2 class="card-title">${data[i].fields.title}</h2>
+                  <h5 class="card-text">${data[i].fields.location}</h5>
+                  <p class="card-text">${data[i].fields.description}</p>
+                  <a class="card-text" href="${data[i].fields.address_link}" target="_blank">See on maps</a>
+                </div>
+              </div>
+            </div>`;
+            $('#card_attraction').html(attraction);
+          }          
+        }
+      });
+    }
+
+  </script>
 
 </html>
 {% endblock content %}

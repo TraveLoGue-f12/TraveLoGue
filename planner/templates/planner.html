@@ -55,7 +55,6 @@
         });
         
         $("#submit_trip").click(function(){
-            // console.log("inicekmodal")
           $.post("/planner/addtrip/", {
             image: $("#image").val(),
             name: $("#tripName").val(),
@@ -63,7 +62,6 @@
             tripNotes: $("#tripNotes").val()
           },
             function(result, status){
-                // console.log("inicekmodal2")
                 if (status == 'success') {
                     var image;
                     if (result.pk%3 == 0) {
@@ -83,7 +81,7 @@
                                 <div class="planner card-body d-flex flex-column">
                                     <img src="{% static '${image}' %}" class="card-img-top planner">
                                     <h5 class="planner card-title">${result.fields.name}</h5>
-                                    <p class="planner card-text mb-1 date">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
+                                    <p class="planner card-text mb-1">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
                                     <p class="planner card-text">${result.fields.notes}</p>
                                     <div class="d-flex justify-content-around">
                                         <a href="/planner/delete/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
@@ -107,12 +105,16 @@
 {% endblock script %}
 
 {% block content %}
+
+<!-- Breadcrumbs -->
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
         <h2>My Planner</h2>
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>My Planner</li></ol>
     </div>
 </div>
+
+<!-- Body -->
 <div class="container min-vh-100">
     <div class="d-flex flex-row-reverse my-4">
         <button type="button" class="btn btn-add-plan my-auto" data-bs-toggle="modal" data-bs-target="#planTripModal">
@@ -121,6 +123,7 @@
         </button>   
     </div>
 
+    <!-- Add Plan Modal -->
     <div class="modal" id="planTripModal" tabindex="-1" aria-labelledby="planTripLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -132,7 +135,7 @@
               </div>
               <div class="mb-3">
                 <label for="tripDate" class="form-label">Select date</label>
-                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate"></textarea>
+                <input type="text" name="daterange" value="01/01/2015 - 01/31/2015" class="form-control" id="tripDate">
               </div>
               <div class="mb-3">
                 <label for="tripNotes" class="form-label">Notes</label>
@@ -141,13 +144,14 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button id="submit_trip" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+              <button id="submit_trip" type="submit" class="btn btn-add-plan" data-bs-dismiss="modal">Add</button>
             </div>
           </div>
         </div>
       </div>
 
 
+    <!-- Cards -->
     <div class="row" id="trips">
 
     </div>

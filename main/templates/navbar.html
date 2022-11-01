@@ -18,16 +18,14 @@
         <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
         <li class="dropdown "><a href="#" class="nav-link rekomendasi" id="rekomendasi"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
         <ul>
-
             <li><a href="/rekomendasi-umkm" id="rekomen-umkm">Local Shops</a></li>
             <li><a href="/objekwisata" id="rekomen-attr">Attractions</a></li>
             <li><a href="/event" id="rekomen-event">Upcoming Events</a></li>
-
         </ul>
         </li>
         <li><a href="/planner/" class="nav-link planner" id="planner">My Planner</a></li>
         <li><a href="/forum" class="nav-link forum" id="forum">QnA Forum</a></li>
-        <li><a href="/" class="nav-link contact">Contact Us</a></li>
+        <li><a href="#footer" class="nav-link scroll-to-section">Contact Us</a></li>
 
         {% if user.is_authenticated %}
         <li class="dropdown">
@@ -64,6 +62,8 @@
             document.getElementById('rekomendasi').classList.add('active');
         } else if(activePage.includes( "/event")){
             document.getElementById('rekomendasi').classList.add('active');
+        } else if(activePage.includes( "/forum")){
+            document.getElementById('forum').classList.add('active');
         }
         
         

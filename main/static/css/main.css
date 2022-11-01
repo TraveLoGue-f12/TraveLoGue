@@ -65,7 +65,7 @@ p {
 /*--------------------------------------------------------------
 # Authentication
 --------------------------------------------------------------*/
-.auth.container {
+.login.container {
   padding-top: 17%;
 }
 
@@ -78,6 +78,14 @@ p {
   .auth h2 {
     font-size:20px
   }
+}
+
+.signup .container.auth {
+  padding-top:5%
+}
+
+.signup .auth h2 {
+  font-size: 25px
 }
 
 .auth .form-group input {
@@ -96,7 +104,7 @@ p {
 }
 
 .auth .form-group .btn-primary:hover {
-  background-color: #feba00bf;
+  background-color: #dea60d;
 }
 
 /*--------------------------------------------------------------
@@ -113,12 +121,12 @@ section {
 
 .section-header {
   text-align: center;
-  padding-bottom: 70px;
+  padding-bottom: 40px;
 }
 
 .section-header h2 {
+  font-family: var(--font-secondary);
   font-size: 32px;
-  font-weight: 700;
   position: relative;
   color: #2e3135;
 }
@@ -891,6 +899,11 @@ section {
 
 .features .nav-link:hover {
   color: var(--color-primary);
+  background-color: transparent;
+}
+
+.features .nav-link:focus {
+  outline:0;
 }
 
 .features .nav-link.active {
@@ -1134,7 +1147,7 @@ section {
 }
 
 .testimonials .swiper-pagination {
-  margin-top: 20px;
+  margin-top: 50px;
   position: relative;
 }
 
@@ -1838,76 +1851,33 @@ section {
   }
 }
 
-/*********************/
-/*     Questions     */
-/*********************/
-.accordion-1 {
-  padding-top: 7.75rem;
-  padding-bottom: 6.75rem;
+/*--------------------------------------------------------------
+# FAQ Section
+--------------------------------------------------------------*/
+.accordion h2 {
+  display:flex;
+  align-items: stretch;
+}
+.accordion h2 button {
+  font-size: 20px;
+  height:100%
+}
+.accordion-button:active,
+.accordion-button:focus {
+  background-color:none;
+  outline:none;
+}
+.accordion-body {
+  font:var(--font-default)
 }
 
-.accordion-1 .h2-heading {
-  margin-bottom: 2.5rem;
-  text-align: center;
-}
 
-.accordion-1 .card {
-  margin-bottom: 1.75rem;
-  border: none;
-}
-
-.accordion-1 .card-header {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-}
-
-.accordion-1 .card button {
-  padding: 0;
-  color: #24262a;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-family: "Poppins";
-}
-
-.accordion-1 .card button:hover {
-  text-decoration: none;
-}
-
-.accordion-1 .card button:before {
-  float: left;
-  margin-right: 0.625rem;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f078";
-  transition: all 0.2s;
-}
-
-.accordion-1 .card button.collapsed:before {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-
-.accordion-1 .card-body {
-  padding: 0.75rem 1.5rem 0.5rem 1.5rem;
-}
-
-  /* Accordion */
-  .accordion-1 .accordion {
-    width: 730px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  /* end of accordion */
-  
 /*--------------------------------------------------------------
 # Recent Blog Posts Section
 --------------------------------------------------------------*/
 .recent-blog-posts .post-item {
   /* border-radius: 15px; */
-  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
   transition: 0.3s;
 }
 
@@ -1938,6 +1908,14 @@ section {
   transition: 0.3s;
   margin-bottom: 15px;
 }
+
+.recent-blog-posts .post-item p {
+  -webkit-line-clamp: 4;
+  display:-webkit-box;
+  -webkit-box-orient: vertical;
+  overflow:hidden;
+}
+
 
 .recent-blog-posts .post-item .meta i {
   font-size: 16px;
@@ -2719,14 +2697,15 @@ section {
 }
 .card-text.planner  {
   font-family: var(--font-secondary);
-  font-size: 90%;
 }
+
 .btn-add-plan {
   background-color: var(--color-white);
   font-family: var(--font-primary);
   border: 0.25rem solid var(--color-primary);
   color:var(--color-primary);
 }
+
 .btn-add-plan:hover {
   background-color: var(--color-primary);
   font-family: var(--font-primary);
@@ -2738,6 +2717,7 @@ section {
 .btn-plan {
   color:var(--color-primary);
 }
+
 .card-img-top.planner {
   object-fit:cover;
   object-position: center;
@@ -2761,7 +2741,7 @@ section {
 --------------------------------------------------------------*/
 .footer {
   color: #fff;
-  background: url("../img/footer-bg.jpg") top center no-repeat;
+  background: url("/static/img/footer.png") top center no-repeat;
   background-size: cover;
   font-size: 14px;
   padding: 80px 0 60px 0;
@@ -2786,7 +2766,6 @@ section {
   padding: 2px 0 2px 0;
   line-height: 1;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 .footer .footer-content .footer-info h3 span {
@@ -2822,7 +2801,7 @@ section {
 .footer .footer-content h4 {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: #e8bf4e;
   position: relative;
   padding-bottom: 12px;
 }
@@ -2869,4 +2848,10 @@ section {
 
 .footer .footer-legal .credits a {
   color: var(--color-primary);
+}
+
+@media (max-width:575px) {
+  .footer .footer-content .footer-links {
+    justify-content: center;
+  }
 }

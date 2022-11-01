@@ -7,6 +7,7 @@
 
 {% block script %} 
 <script>
+
     $(document).ready(function(){
         $.get("/event/json/", function(data) {
             console.log(data)
@@ -66,7 +67,9 @@
                             <h3 class="post-title">${result.fields.title}</h3>
                             <p>${result.fields.description}</p>
                             <hr>
+
                             <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
+
                         </div>
                         </div>
                     </div>`);
@@ -76,12 +79,14 @@
                     $("#date").val(''),
                     $("#description").val(''),
                     $("#category").val('')
+
                     alert("Event has added")
                 },
                 error: function (response) {
                     $('#msg').html(response.message); // display error response
                 }
             });
+
         });
 
     });
@@ -141,10 +146,12 @@
             <h1>Local Events</h1>
         </div>
         {% if detector %}
+
             <div>
                 <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#createTaskModal">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     <span style="font-size:1.5rem">&nbsp;Add New Event</span>
+
                 </button>
                 <!-- <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
                     <span aria-hidden="true"></span>
@@ -251,11 +258,15 @@
                             </div>
                             <div class="input-box">
                                 <span class="details" for="description" style="font-weight: 700;">Image :</span><br>
+
+
                                 <input type="file" id="image" name="image"><br>
                             </div>
                             <br>
+
                             <br>
                             <br>
+
                         </div>
                     </div>
                 </div>
@@ -268,15 +279,18 @@
     </div>
 
 <section id="blog" class="blog">
+
     <div class="d-flex justify-content-between align-items-center" style="padding-left: 140px; padding-right: 140px; padding-bottom: 30px;">
         <div>
             <h1>All Events</h1>
         </div>
     </div>
 
+
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 posts-list" id="cards">
         </div>
     </div>
 </section>
+
 {% endblock content %}
