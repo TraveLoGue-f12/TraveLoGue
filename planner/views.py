@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
 from main.models import Profile
+from planner.forms import updateTripForm
 from planner.models import Trips
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+@login_required(login_url='/login')
 def show_planner(request):
     user = request.user
     if user.is_authenticated:
@@ -17,11 +19,31 @@ def show_planner(request):
             "plans" : Trips.objects.filter(user=user)
         }
         return render(request, 'planner.html', context)
-    return render(request, 'planner_unauth.html')
+
 
 def trips_json(request):
     data = Trips.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def delete_trip(request, pk):
+    Trips.objects.get(id=pk).delete()
+    return redirect('planner:planner')
+
+def update_trip(request, pk):
+    trip = Trips.objects.get(id=pk)
+    form = updateTripForm(instance=trip)
+    print(333)
+    
+    if request.method == "POST":
+        print(222)
+        form = updateTripForm(request.POST, instance=trip)
+        if form.is_valid():
+            form.save()
+            print(111)
+            return redirect('planner:planner')
+    
+    context = {'form':form}
+    return render(request, 'edit-plan.html', context)
 
 @csrf_exempt
 def addtrip_json(request):
@@ -56,4 +78,5 @@ def addtrip_json(request):
         }
 
         return JsonResponse(result)
+
 

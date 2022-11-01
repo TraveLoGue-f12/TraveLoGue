@@ -8,11 +8,9 @@
 {% block content %}
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
-
-        <h2>My Event</h2>
-        <ol><li>The events you added. You can edit and delete it</li></ol>
-        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>My Events</li></ol>
-
+        <h2>Others</h2>
+        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Event Details</li></ol>
             <div class="buttonAdd">
                 <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
                     <a class="text-decoration-none text-white" href="{% url 'Event:show_event' %}">Back</a>
@@ -21,15 +19,11 @@
     </div>
 </div>
 
-
-
 <section id="blog" class="blog">
-
     <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <!-- <div class ="row" id="cards"> -->
         <div class="row gy-4 posts-list" id="cards">
             {% for mydata in data %}
-                <div class="col-xl-4 col-md-6">
+                <div class="col-sm-4 col-sm-6">
                     <div class="post-item position-relative h-100">
                     <div class="post-img position-relative overflow-hidden">
                         <img src="{{mydata.imageURL}}" class="img-fluid" alt="">
@@ -39,19 +33,8 @@
                             <h3 class="post-title">{{mydata.title}}</h3>
                             <p>{{mydata.description}}</p>
                             <hr>
+                            <a href="event-detail/{{mydata.pk}}" class="readmore stretched-link"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
                         </div>
-
-                        <div class="container" style="padding-bottom: 20px;">
-                            <button type="button" class="btn" style="background-color: rgb(85, 89, 90)">
-                                <a href="edit-event/{{mydata.pk}}">Edit</a>
-                                <br>
-                            </button>
-                            <button type="button" class="btn" style="background-color: rgb(85, 89, 90)"> Buat Delete blm kelar
-                                <!-- <a href="edit-event/{{mydata.pk}}">Edit</a>
-                                <br> -->
-                            </button>
-                        </div>
-
                     </div>
                 </div>
             {% endfor %}

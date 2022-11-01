@@ -6,15 +6,20 @@
 <body>
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between" id=>
 
-        <a href="/" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="static/img/logo.png" alt=""> -->
-        <h1>TraveLoGue<span>.</span></h1>
-        </a>
-    
-        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-        <nav id="navbar" class="navbar">
+
+    <a href="/" class="logo d-flex align-items-center">
+    <img src="/static/img/logo.png" alt="">
+    <h1 class="pb-4 px-3">TraveLoGue<span>.</span></h1>
+    </a>
+
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+    <nav id="navbar" class="navbar">
+    <ul>
+        <li><a href="/" class="nav-link active home" id="home">Home</a></li>
+        <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
+        <li class="dropdown "><a href="#" class="nav-link rekomendasi" id="rekomendasi"><span>Recommendations</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+
         <ul>
             <li><a href="/" class="nav-link active home" id="home">Home</a></li>
             <li><a href="{% url 'main:index' %}#about" class="nav-link about" id="about">About Us</a></li>
@@ -60,13 +65,13 @@
             link.classList.remove('active');
             
         })
-        if(activePage == "/"){
+        if (activePage == "/"){
             document.getElementById('home').classList.add('active');
-        } else if(activePage == "/planner/"){
+        } else if(activePage.includes( "/planner")){
             document.getElementById('planner').classList.add('active');
-        }  else if(activePage.includes( "/rekomendasi")){
+        } else if(activePage.includes( "/rekomendasi")){
             document.getElementById('rekomendasi').classList.add('active');
-        }  else if(activePage.includes( "/event")){
+        } else if(activePage.includes( "/event")){
             document.getElementById('rekomendasi').classList.add('active');
         }  else if(activePage.includes( "/objekwisata")){
             document.getElementById('rekomendasi').classList.add('active');

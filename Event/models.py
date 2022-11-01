@@ -33,3 +33,5 @@ class Event(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to='images/')
     imageURL = models.TextField(null = True)
     category = models.CharField(max_length=10, null=True, blank=True)
+    month = models.TextField(max_length=20, null=True, blank=True)
+
