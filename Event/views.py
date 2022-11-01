@@ -1,3 +1,122 @@
+# from django.shortcuts import render
+# from django.contrib.auth.decorators import login_required
+# from main.models import Profile
+# from django.contrib.auth import authenticate, login, logout
+# from Event.forms import EventForm
+# from Event.models import Event
+# from django.http.response import HttpResponse
+# from django.http import JsonResponse
+# from django.core import serializers
+# from django.urls import reverse
+# from django.http import HttpResponseRedirect
+# from django.views.decorators.csrf import csrf_exempt
+# from django.db.models.fields.files import ImageFieldFile
+
+# # Create your views here.
+
+# @login_required(login_url='/login')
+# def show_event_detail(request, pk):
+#     data = Event.objects.get(id=pk)
+#     context = {
+#         'data' : data,
+#     }
+#     return render(request, "event_detail.html", context)
+
+# def show_music_event(request):
+#     data = Event.objects.all()
+#     data_filter = Event.objects.filter(data.status_event=="Music")
+#     context = {
+#         'data' : data_filter,
+#     }
+#     return render(request, "music.html", context)
+
+# def show_event(request):
+#     data_event = Event.objects.all()
+#     user = request.user
+
+#     # for data in data_event:
+#     #     if data.imageURL is not None:
+#     #         if isinstance(data.image, ImageFieldFile):
+#     #             data.imageURL = str(data.image.url)
+#     #     data.save()
+
+#     context = {
+#         'event_data' : data_event,
+#     }
+
+#     if user.is_authenticated:
+#         user_profile = Profile.objects.get(user=user)
+#         context = {
+#             'event_data' : data_event,
+#             'status' : user_profile.full_name
+#         }
+
+#         if user_profile.status == 'L':
+#             if request.method == 'POST':
+#                 form = EventForm(request.POST, request.FILES)
+#                 if form.is_valid():
+#                     form.save()
+#                     return HttpResponseRedirect(reverse('Event:show_event'))
+#             else:
+#                 form = EventForm()
+#                 response = {
+#                 'status': user_profile.full_name,
+#                 'event_data': data_event,
+#                 'form': form,
+#                 'detector': "yes",
+#                 }   
+#                 return render(request, 'event.html', response)
+
+#     return render(request, "event.html", context)
+
+# @login_required(login_url='/login')
+# def show_event_json(request):
+#     event = Event.objects.all()
+#     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+# @login_required(login_url='/login')
+# def delete(request, pk):
+#     data = Event.objects.get(id=pk)
+#     data.delete()
+#     return HttpResponseRedirect(reverse('Event:show_event'))
+
+# def membuat_event(request):
+#     if request.method == 'POST':
+#         form_event = EventForm(request.POST, request.FILES)
+#         if form_event.is_valid():
+#             form_event.save()
+#             response = HttpResponseRedirect(reverse("Event:show_event")) 
+#             return response
+#     else:
+#         form_event = EventForm()
+#         return render(request, "add_event.html", {"form": form_event})
+
+# @login_required(login_url='/login')
+# @csrf_exempt
+# def add_event(request):
+#     if request.method == 'POST':
+#         title = request.POST.get('title')
+#         description = request.POST.get('description')
+#         date = request.POST.get('date')
+#         place = request.POST.get('place')
+#         image = request.POST.get('image')
+#         # type = request.POST.get('type')
+#         event = Event.objects.create(title=title, date=date, place=place, description=description,image=image)
+
+#         result = {
+#             'fields': {
+#                 'title' : event.title,
+#                 'description' : event.description,
+#                 'date' : event.date,
+#                 'place': event.place,
+#                 'image':str(event.image),
+#                 # 'type': event.type
+#                 # 'image': event.image
+#             },
+#             'pk' : event.pk
+#         }
+
+#         return JsonResponse(result)
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from main.models import Profile
@@ -10,6 +129,7 @@ from django.core import serializers
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models.fields.files import ImageFieldFile
 
 # Create your views here.
 
@@ -21,10 +141,77 @@ def show_event_detail(request, pk):
     }
     return render(request, "event_detail.html", context)
 
+@login_required(login_url='/login')
+def show_music_event(request):
+    data = Event.objects.filter(category="Music")
+    # get_month = data.date
+    # bulan = get_month[3:5]
+    context = {
+        # 'bulan': bulan,
+        'data' : data,
+    }
+    return render(request, "music.html", context)
+
+@login_required(login_url='/login')
+def show_sport_event(request):
+    data = Event.objects.filter(category="Sport")
+    context = {
+        'data' : data,
+    }
+    return render(request, "sport.html", context)
+
+@login_required(login_url='/login')
+def show_culinary_event(request):
+    data = Event.objects.filter(category="Culinary")
+    context = {
+        'data' : data,
+    }
+    return render(request, "culinary.html", context)
+
+@login_required(login_url='/login')
+def show_festival_event(request):
+    data = Event.objects.filter(category="Festival")
+    context = {
+        'data' : data,
+    }
+    return render(request, "festival.html", context)
+
+@login_required(login_url='/login')
+def show_culture_event(request):
+    data = Event.objects.filter(category="Culture")
+    context = {
+        'data' : data,
+    }
+    return render(request, "culture.html", context)
+
+@login_required(login_url='/login')
+def show_others_event(request):
+    data = Event.objects.filter(category="Others")
+    context = {
+        'data' : data,
+    }
+    return render(request, "others.html", context)
+
+def show_user_event(request):
+    user = request.user
+    if user.is_authenticated:
+        user_profile = Profile.objects.get(user=user)
+        context = {
+            "data" : Event.objects.filter(user=user)
+        }
+        return render(request, 'userevent.html', context)
 
 def show_event(request):
     data = Event.objects.all()
     user = request.user
+
+    for datadetail in data:
+        if datadetail.image != "":
+            if isinstance(datadetail.image, ImageFieldFile):
+                
+                datadetail.imageURL = str(datadetail.image.url)
+
+            datadetail.save()
 
     context = {
         'event_data' : data,
@@ -76,16 +263,40 @@ def membuat_event(request):
         form_event = EventForm()
         return render(request, "add_event.html", {"form": form_event})
 
+def edit_event(request, pk):
+    event = Event.objects.get(id=pk)
+    form = EventForm(instance=event)
+    
+    if request.method == "POST":
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('Event:show_user_event'))
+    
+    context = {'form':form}
+    return render(request, 'editevent.html', context)
+
 @login_required(login_url='/login')
 @csrf_exempt
 def add_event(request):
     if request.method == 'POST':
+        print(request.POST.get('title'))
+        # request.FILES.get('image')
+        # handle_uploaded_file(request.FILES.get('image'))
         title = request.POST.get('title')
         description = request.POST.get('description')
-        date = request.POST.get('description')
+        date = request.POST.get('date')
         place = request.POST.get('place')
-        image = request.POST.get('image')
-        event = Event.objects.create(title=title, date=date, place=place, description=description,image=image)
+
+        image = request.FILES.get('image')
+        print("ini image")
+        print(image)
+        # imageURL = request.POST.get('imageURL')
+        category = request.POST.get('category')
+        # month = request.POST.get(date[5:7])
+        # month = date[5:7]
+        event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, image=image, category=category)
+
 
         result = {
             'fields': {
@@ -93,7 +304,12 @@ def add_event(request):
                 'description' : event.description,
                 'date' : event.date,
                 'place': event.place,
-                'image': event.image
+
+                # 'imageURL': event.image.url,
+                'image': str(event.image),
+                # 'imageURL': event.imageURL,
+                'category': event.category,
+
             },
             'pk' : event.pk
         }

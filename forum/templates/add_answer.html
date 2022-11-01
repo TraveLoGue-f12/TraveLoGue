@@ -1,71 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block meta %}
-<title>Create new task | Todolist</title>
-{% endblock meta %}
+{% block title %}QnA Forum{% endblock title %}
 
 {% block content %}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
-<style>
-  * {
-    font-family: "Work Sans";
-    text-align:center;
-    vertical-align: middle;
-    color: #2e3c4d;
-  }
-  td, input, textarea {
-    text-align: left; 
-  }
-  form {
-    border-radius:0.5em; 
-    box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.211);   
-    background-color: rgba(178, 178, 178, 0.211);   
-    margin: auto;
-    width: 450px;
-    padding: 1em;
-    border-radius: 1em;
-    justify-content: center ;
-  }
-  h1 {
-    color:#413f76;
-  }
- 
-  .add-shop {
-    padding-top:10%;
-    padding-bottom: 20%;
-    
-  }
 
-  .submit {
-    margin-top: 0.5em;
-    border-radius: 0.5em;
-    font-weight: 1000;
-    color:rgba(255, 255, 255, 0.966);
-    background-color:#5755a2;
-    border-color: transparent;
-    box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.3);
-  }
-</style>
-
-<button><a class="btn btn-primary btn-lg btn-block" href="../">Back</a></button>
-
-<div class = "add-shop">
-    <h1>Add Shop</h1>
-    <form method="POST" action="" class="register-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-            <tr>
-              <td>Answer: </td>
-              <td>{{form.answer}}</td>
-            </tr>
-        </table>
-        <br>
-        <input type="submit" name="submit" value="Add Shop" class="submit"/>
-        <br>
-        <br>
-       
-    </form>
-
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/navbar.jpg);">
+  <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+    <h2>QnA Forum</h2>
+    <ol><li><a href="index.html">Home</a></li><li>QnA Forum</li></ol>
+  </div>
 </div>
 
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center flex-column">
+    <div>
+        <h1>Add your answer!</h1>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between align-items-center flex-column">
+    <form method="POST" action="" class="register-form" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <td>{{form.answer}}</td>
+        </tr>
+      </table>
+      <br>
+      <a class="btn" href="../">Cancel</a>
+      <input type="submit" name="submit" value="Add Answer" class="btn submit"/>
+    </form>
+  </div>
+</div>
 {% endblock content %}
