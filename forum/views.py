@@ -155,8 +155,6 @@ else:
 
 
 @csrf_exempt
-def delete_forum_ajax(request, id):
-    if request.method == "DELETE":
-        question = get_object_or_404(Question, id = id)
-        question.delete()
-    return HttpResponse(status=202)
+def delete_forum(request, id):
+    Question.objects.get(pk=id).delete()
+    return HttpResponseRedirect(reverse('forum:show_forum'))
