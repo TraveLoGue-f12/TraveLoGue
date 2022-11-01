@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $('#halo').click(function () {
             $.post(
-                '/rekomendasi-umkm/add_umkm_ajax/',
+                '/local-shops/add_umkm_ajax/',
                 {
                     name: $('#name').val(),
                     description: $('#description').val(),
@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 function deleteCard(id) {
         $.ajax({
-            url: `/rekomendasi-umkm/delete-ajax/${id}`,
+            url: `/local-shops/delete-ajax/${id}`,
             type: 'DELETE',
             success: function (result) {
                 $(`#card-${id}`).remove()
@@ -56,7 +56,7 @@ function umkmCards() {
                         <div class="card-body">
                             <h3 class="card-title">${data[i].fields.name}</h5>
                             <br>
-                            <a class="card-text stretched-link" href="umkm-detail/${data[i].pk}" target="_blank">Read More</a>
+                            <a class="card-text " href="shop-detail/${data[i].pk}" target="_blank">Read More</a>
                             
                             
                             <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
