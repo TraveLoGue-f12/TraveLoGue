@@ -16,12 +16,19 @@ def show_forum(request):
     answer_data = Answer.objects.all()
     question_form = QuestionForm()
     user = request.user
+
+    if 'recently_asked' not in request.session:
+        recently_asked_forum = None
+    else:
+        recently_asked_forum = Question.objects.filter(pk__in=request.session['recently_asked'])
+
     context = {
         "list_of_questions" : question_data,
         "list_of_answers" : answer_data,
         "question_form" : question_form,
         "user_status" : "",
-        "user": user.username
+        "user_loggedin": user.username,
+        "recently_asked_forum": recently_asked_forum
     }
 
     if user.is_authenticated:
@@ -64,34 +71,20 @@ def add_question_ajax(request):
                 'date': new_question.date
             }
         }
-        return JsonResponse(result)
 
-""" @csrf_exempt
-def add_answer_ajax(request, pk):
-    question = Question.objects.get(pk=pk)
-    question.is_answered = True
-    question.save()
+        if 'recently_asked' in request.session:
+            if new_question.pk in request.session['recently_asked']:
+                request.session['recently_asked'].remove(new_question.pk)
 
-    if request.method == "POST":
-        answer = request.POST.get('answer')
-        question = request.POST.get('question')
+            request.session['recently_asked'].insert(0, new_question.pk)
+            if len(request.session['recently_asked']) > 1:
+                request.session['recently_asked'].pop()
+        else:
+            request.session['recently_asked'] = [new_question.pk]
 
-        answer = Answer.objects.create(
-            user = request.user,
-            username = request.user.username,
-            question = question,
-            answer = answer,
-            date = datetime.date.today()
-            )
+        request.session.modified = True
         
-        result = {
-            'pk': answer.pk,
-            'fields': {
-                'question': answer.question,
-                'answer': answer.answer,
-            }
-        }
-        return JsonResponse(result) """
+        return JsonResponse(result)
 
 @login_required(login_url='/login/')
 @csrf_exempt
@@ -122,44 +115,6 @@ def add_answer(request, pk):
         form = AnswerForm()
         response = {'form': form}
         return render(request, 'add_answer.html', response)
-        
-    """ form = AnswerForm(request.POST)
-    if form.is_valid():
-        user = request.user
-        question = get_question
-        answer = request.POST.get('answer') 
-
-        Answer.objects.create(
-            user = user,
-            question = question,
-            answer = answer
-        )
-
-        return HttpResponseRedirect(reverse('forum:show_forum'))
-else:
-    form = AnswerForm()
-    response = {'form': form}
-    return render(request, 'add_answer.html', response) """
-
-""" def add_question(request):
-    if request.method == 'POST':
-        form = QuestionForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = request.user
-            title = request.POST.get('title')
-            question = request.POST.get('question')
-
-            Question.objects.create(
-                user = user,
-                title = title,
-                question = question
-            )
-            return HttpResponseRedirect(reverse('forum:show_forum'))
-    else:
-        form = QuestionForm()
-        response = {'form': form}
-        return render(request, 'add_question.html', response) """
-        
 
 @login_required(login_url='/login/')
 @csrf_exempt
