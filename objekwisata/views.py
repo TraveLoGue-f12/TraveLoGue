@@ -8,19 +8,29 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
+from main.models import Profile
+
 
 # Create your views here.
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
+
 
     for data in data_objekwisata:
         if data.image:
             if isinstance(data.image, ImageFieldFile):
                 data.imageURL = str(data.image.url)
             data.save()
+
     response = {
         'data':  data_objekwisata,
+        'user_status': '',
+        'user_loggedin': request.user.username,
     }  
+
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        response['user_status'] = profile.status
     
     if request.method == 'POST':
         form = ObjekWisataForm(request.POST, request.FILES)
@@ -32,7 +42,13 @@ def index(request):
         response = {
             'data':  data_objekwisata,
             'form': form,
-        }   
+            'user_status' : '',
+        }  
+
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(user=request.user)
+            response['user_status'] = profile.status
+  
         return render(request, 'objekwisata.html', response)
 
     return render(request, "objekwisata.html", response)
@@ -48,7 +64,7 @@ def add_objekwisata_ajax(request):
         description = request.POST.get('description')
         location = request.POST.get('location')
         address_link = request.POST.get('address_link')
-        image = request.POST.get('image')
+        image = request.FILES.get('image')
 
         objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link, image=image)
 
@@ -58,7 +74,7 @@ def add_objekwisata_ajax(request):
                 'description': objekwisata.description,
                 'location': objekwisata.location,
                 'address_link': objekwisata.address_link,
-                'image': objekwisata.image
+                'image': str(objekwisata.image),
             },
             'pk': objekwisata.pk
         }

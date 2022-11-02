@@ -29,7 +29,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = redirect('main:login_user')
+    response = redirect('main:index')
     return response
 
 def signup(request):
