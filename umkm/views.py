@@ -28,13 +28,25 @@ def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
 
-@login_required(login_url='/login')
+
+
+
 def show_umkm_by_id(request, pk):
     data = UMKM.objects.get(id=pk)
     context = {
         'data' : data,
     }
     return render(request, "umkm_detail.html", context)
+
+def show_umkm_by_user(request):
+    userData = UMKM.objects.filter(user=request.user)
+
+    context = {
+        'datalist' : userData,
+    }
+
+    return render(request, "my_umkm.html", context)
+
 
 @login_required(login_url='/login')
 def show_data(request):

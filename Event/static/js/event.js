@@ -13,7 +13,7 @@ $(document).ready(function(){
                     <h3 class="post-title">${data[i].fields.title}</h3>
                     <p>${data[i].fields.description}</p>
                     <hr>
-                    <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
+                    <a href="delete/${data[i].pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
                 </div>
                 </div>
             </div>`)
@@ -58,7 +58,7 @@ $(document).ready(function(){
                         <p>${result.fields.description}</p>
                         <hr>
 
-                        <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
+                        <a href="delete/${result.pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
 
                     </div>
                     </div>

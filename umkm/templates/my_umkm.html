@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+<head>
+  <link rel="stylesheet" href="{%static 'css/index.css' %}">
+</head>
+
+
+{% block script %}
+
+<script src="{%static 'js/script.js' %}" defer></script>
+
+{% endblock script %} 
+
+
+
+{% block content %}
+
+<div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/umkm_bg.jpg);">
+  <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
+      <h2>Local Shops</h2>
+      <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Local Shops</li></ol>
+  </div>
+</div>
+
+<div class="container">
+  
+  
+  
+  
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h1>MY RECOMMENDATION</h1>
+    </div>
+    
+  </div>
+  
+  <br>
+  
+  <br>
+  <div class ="row" id="cards">
+    {% for data in datalist %}
+      <div class ="col-12 col-md-6 col-lg-4 list-umkm">
+        <div class ="card">
+          <div class="card-header overflow-hidden p-0">
+            {% if data.image %}
+          
+            <img class="w-100" src="{{data.image.url}}" >
+            {% endif %}
+          </div>
+          
+          <div class="card-body">
+           
+            <h5 class="card-title">{{data.name}}</h5>
+            <h5 class="card-title">{{data.description}}</h5>
+
+            
+            <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
+            <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
+            
+            
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      
+    {% endfor %}
+    
+
+  
+  </div>
+</div>
+
+
+
+{% endblock content %}
+  
+
