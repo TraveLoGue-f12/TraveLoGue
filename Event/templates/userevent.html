@@ -9,8 +9,8 @@
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
 
-        <h2>My Event</h2>
-        <ol><li>The events you added. You can edit and delete it</li></ol>
+        <h2 style="text-align: center;">My Event</h2>
+        <ol style="text-align: center;"><li>The events you added. You can edit and delete it</li></ol>
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>My Events</li></ol>
 
             <div class="buttonAdd">
@@ -29,7 +29,7 @@
         <!-- <div class ="row" id="cards"> -->
         <div class="row gy-4 posts-list" id="cards">
             {% for mydata in data %}
-                <div class="col-xl-4 col-md-6">
+                <div class="col-lg-4 col-sm-6">
                     <div class="post-item position-relative h-100">
                     <div class="post-img position-relative overflow-hidden">
                         <img src="{{mydata.imageURL}}" class="img-fluid" alt="">
