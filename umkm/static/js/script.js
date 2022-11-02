@@ -6,6 +6,7 @@ $(document).ready(function () {
             $.post(
                 '/local-shops/add_umkm_ajax/',
                 {
+                    
                     name: $('#name').val(),
                     description: $('#description').val(),
                     link_website: $('#link_website').val(),
@@ -24,6 +25,9 @@ $(document).ready(function () {
             )
         })
     
+        $('#del-btn').click(function (data) {
+            deleteCard(data.pk)
+        })
     
     
 });

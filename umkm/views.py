@@ -11,17 +11,7 @@ from django.contrib.auth.decorators import login_required
 from main.models import Profile
 
 
-@login_required(login_url='/login')
-def add_umkm(request):
-    if request.method == 'POST':
-        form = UMKMForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('umkm:rekomendasi_umkm'))
-    else:
-        form = UMKMForm()
-        response = {'form': form}
-        return render(request, 'add_umkm.html', response)
+
 
 @login_required(login_url='/login')
 def json_umkm(request):
@@ -39,13 +29,15 @@ def show_umkm_by_id(request, pk):
     return render(request, "umkm_detail.html", context)
 
 def show_umkm_by_user(request):
-    userData = UMKM.objects.filter(user=request.user)
+    userData = UMKM.objects.all()
+    
 
-    context = {
-        'datalist' : userData,
+    ctx = {
+        'userDataList' : userData,
     }
 
-    return render(request, "my_umkm.html", context)
+
+    return render(request, "my_umkm.html", ctx)
 
 
 @login_required(login_url='/login')
@@ -96,7 +88,7 @@ def show_data(request):
 @login_required(login_url='/login')
 def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
-    return redirect('umkm:rekomendasi_umkm')
+    return redirect('umkm:show_umkm_by_user')
     
 @csrf_exempt
 def add_umkm_ajax(request):
@@ -104,12 +96,14 @@ def add_umkm_ajax(request):
         name = request.POST.get('name')
         description = request.POST.get('description')
         link_website = request.POST.get('link_website')
+        user= request.user
         
         image = request.POST.get('image')
-        umkm = UMKM.objects.create(name=name,  description=description,image=image, link_website=link_website)
-
+        umkm = UMKM.objects.create(user = user, name=name,  description=description,image=image, link_website=link_website)
+     
         result = {
             'fields': {
+                'user' : umkm.user,
                 'name' : umkm.name,
                 'description' : umkm.description,
                 'link_website': umkm.link_website,
