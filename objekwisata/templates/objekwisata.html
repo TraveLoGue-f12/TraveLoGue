@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} Attractions {% endblock title %}
+
 <html>
   <head>  
     <meta charset="UTF-8">
@@ -18,11 +20,93 @@
     <!-- Style -->
     <link href="{% static 'styles.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+
+    {% block script %}
+    <script>
+      $(document).ready(function () {
+        show_attr();
+      
+      let files
+          $('#id_image').on('change', function (event) {
+              files = event.target.files
+              console.log(files)
+          })
+      
+      
+      $("#btn_new_attr").click(function(){
+        const formData = new FormData()
+              formData.append('image', files[0])
+              formData.append('title', $("#id_title").val())
+              formData.append('location', $("#id_location").val())
+              formData.append('description', $("#id_description").val())
+              formData.append('address_link', $("#id_address_link").val())
+
+              $.ajax({
+                  url: '/objekwisata/add_objekwisata_ajax/', // point to server-side URL
+                  dataType: 'json', // what to expect back from server
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  data: formData,
+                  type: 'post',
+                  success: function(result){
+                      // console.log(result)
+                      $("#card_attr").append(`
+
+                      <div class ="col-12 col-md-6 col-lg-4">
+                        <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+                        <img class="w-100" src="${result.fields.image.url}" >
+                          <div class="card-body">
+                            <h2 class="card-title">${result.fields.title}</h2>
+                            <h5 class="card-text">${result.fields.location}</h5>
+                            <br>
+                            <p class="card-text">${result.fields.description}</p>        
+                            <a class="card-text stretched-link" href="${result.fields.address_link}" target="_blank">See on maps</a>
+                          </div>
+                        </div>
+                      </div>`);
+                      $("#image").val(''),
+                      $("#title").val(''),
+                      $("#location").val(''),
+                      $("#description").val(''),
+                      $("#address_link").val('')
+                      // alert("Successfully added!")
+                  },
+                  error: function (response) {
+                      $('#msg').html(response.message); // display error response
+                  }
+              });
+          });
+        });
+
+        function show_attr() {
+          $.get("/objekwisata/json", function(data) {
+              console.log(data.length)
+              console.log(data)
+              for (i=0; i<data.length; i++){
+                  $("#card_attr").append(`
+                  <div class ="col-12 col-md-6 col-lg-4">
+                    <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+                    <img class="w-100" src="${data[i].fields.imageURL}" >
+                      <div class="card-body">
+                        <h2 class="card-title">${data[i].fields.title}</h2>
+                        <h5 class="card-text">${data[i].fields.location}</h5>
+                        <br>
+                        <p class="card-text">${data[i].fields.description}</p>        
+                        <a class="card-text stretched-link" href="${data[i].fields.address_link}" target="_blank">See on maps</a>
+                      </div>
+                    </div>
+                  </div>`)
+              }
+        });
+
+        }
+    </script>
+    {% endblock script %}
   </head>
   
   {% block content %}
   <body>
-
     <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/images/labuanbajo.jpg);">
       <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
           <h2>Recommended Attractions</h2>
@@ -34,53 +118,145 @@
     </div>
           
     <div class="container">
-      <h1 class="text-center">Attractions</h1>
-      <div class ="row">
-        <div class="col-4">
-          <div class="card">
-            <img class="card-img-top" src="{% static 'images/borobudur.jpg'  %}" >
-            <div class="card-body">
-              <h2 class="card-title">Candi Borobudur</h2>
-              <h5 class="card-text">Yogyakarta</h5>
-              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
-              <a class="card-text" href="https://goo.gl/maps/k9BWqqj7uNeZHjqQ9" target="_blank">See on maps</a>
+      <br>
+      <div id="blog" class="blog">
+        <div class="d-flex justify-content-between align-items-center" style="padding-bottom: 30px;">
+            <div>
+                <h1>All Attractions</h1>
+            </div>
+            {% if user_status == 'L' %}
+            <div>
+              <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span style="font-size:1.5rem">&nbsp;Add Attraction</span>
+              </button>   
+            </div>
+            {% endif %}
+        </div>
+        <div class ="row">
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/ubud.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Ubud</h2>
+                <h5 class="card-text">Bali</h5>
+                <br>
+                <p class="card-text">Ubud is a town on the Indonesian island of Bali in Ubud District, located amongst rice paddies and steep ravines in the central foothills of the Gianyar regency. Promoted as an arts and culture centre, it has developed a large tourism industry.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/3JaR6Xg1HG2UBuJD8" target="_blank">See on maps</a>
+              </div>
             </div>
           </div>
-        </div>
+  
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/tangkahan.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Tangkahan</h2>
+                <h5 class="card-text">North Sumatra</h5>
+                <br>
+                <p class="card-text">Tangkahan is a small village on the border of Gunung Leuser National Park in North Sumatra. It is situated at the junction of 2 rivers, the Buluh River and the Batang River.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/7UNqEHSMgu5MqgzC7" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
 
-        <div class="col-4">
-          <div class="card">
-            <img  src="{% static 'images/kawah_ijen.jpg'  %}" >
-            <div class="card-body">
-              <h3 class="card-title">Kawah Ijen</h3>
-              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/wakatobi.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Wakatobi</h2>
+                <h5 class="card-text">Banda Sea</h5>
+                <br>
+                <p class="card-text">Now a National Marine Park covering the entire Wakatobi District, it comprises a total of 1.4 million hectares, of which 900,000 hectares are decorated with different, colorful species of tropical coral reefs.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/DhET7X2mYmXYTatL8" target="_blank">See on maps</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <img src="{% static 'images/tangkahan.jpg'  %}" >
-            <div class="card-body">
-              <h3 class="card-title">Tangkahan Eco Park</h3>
-              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <img src="{% static 'images/kawah_ijen.jpg'  %}" >
-            <div class="card-body">
-              <h3 class="card-title">Kawah Ijen</h3>
-              <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>
-            </div>
-          </div>
-        </div>
 
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/borobudur.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Candi Borobudur</h2>
+                <h5 class="card-text">Yogyakarta</h5>
+                <br>
+                <p class="card-text">The Borobudur Temple Compounds is one of the greatest Buddhist monuments in the world, and was built in the 8th and 9th centuries AD during the reign of the Syailendra Dynasty. The monument is located in the Kedu Valley, in the southern part of Central Java, at the centre of the island of Java, Indonesia.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/k9BWqqj7uNeZHjqQ9" target="_blank">See on maps</a>                                  
+              </div>
+            </div>
+          </div>
+  
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/labuan_bajo.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Labuan Bajo</h2>
+                <h5 class="card-text">Nusa Tenggara Timur</h5>
+                <br>
+                <p class="card-text">Labuan Bajo is one of small town in Indonesia, so calm and beautiful. The town is the gateway into the charm of Flores to complete travel from the west. However, if only want to enjoy the Varanus Komodoensis, which has been determined to be one of the World's Seven Wonders of Nature, in its natural habitat. Labuan Bajo is an important starting point and the only one of the most convenient and comfortable.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/DFUcQuduLMy5oKte6" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+              <img class="w-100" src="{% static 'images/kawahijen.jpeg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Ijen Crater / Kawah Ijen</h2>
+                <h5 class="card-text">Jawa Timur</h5>
+                <br>
+                <p class="card-text">Ijen Crater in East Java contains the world’s largest acidic volcanic crater lake, called Kawah Ijen, famous for its turquoise colour. The volcano is one of several active stratovolcanoes constructed over the 20 km wide Ijen caldera, the largest caldera in Java. Eruptions from Ijen are very hazardous because of the risk of the lake draining to form catastrophic lahars.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/fSHSM5JhJ3iv1kfF6" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+              <img class="w-100" src="{% static 'images/tumpak_sewu.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Tumpak Sewu</h2>
+                <h5 class="card-text">Jawa Timur</h5>
+                <br>
+                <p class="card-text">Tumpak Sewu waterfall, also known as Coban Sewu, is one of the most beautiful waterfalls in East Java, and even one of the best in all of Indonesia. Standing at 120 metres tall, this breathtaking waterfall powers down the side of a steep cliff face whilst surrounded by dense jungle.</p>        
+                <a class="card-text stretched-link" href="https://g.page/TumpakSewuLumajang?share" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+              <img class="w-100" src="{% static 'images/prambanan.jpeg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Prambanan</h2>
+                <h5 class="card-text">D.I. Yogyakarta</h5>
+                <br>
+                <p class="card-text">Prambanan temple is located approximately 17 km on the east side of the city of Yogyakarta and located on the main road of Jogja-Solo. So if you drive from Jogja to Solo or vice versa, you will surely be able to see langung bangungan Prambanan temple.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/LvFJLXdn4vvkDX4cA" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+              <img class="w-100" src="{% static 'images/keraton.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Keraton</h2>
+                <h5 class="card-text">D.I. Yogyakarta</h5>
+                <br>
+                <p class="card-text">Jogja Palace or also known as the Keraton Hadiningrat Yogyakarta is a place used by rulers and kings of Islamic Mataram. Keraton itself means a magnificent palace where important people or king in an area lived. </p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/p6CSV1NRGdm8X7sv7" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- insert new attraction -->
+          <div id="card_attr">
+          </div>
+          
         
-        <!-- insert new attraction -->
-        <div id="card_attraction">
         </div>
-        
       </div>
     </div>
     
@@ -102,102 +278,43 @@
             <div class="flex justify-center">
               <div class="lg:w-64 mt-3">
                   <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="objekwisataForm">
-                  {% csrf_token %}
-                  <div class="input-box">
-                      <span class="details" for="title" style="font-weight: 700;">Attraction Title :</span><br>
-                      <input type="text" id="title" name="title"><br>
-                  </div>
-                  <div class="input-box">
-                    <span class="details" for="location" style="font-weight: 700;">Attraction Location :</span><br>
-                    <input type="text" id="location" name="location"><br>
-                  </div>
-                  <div class="input-box">
-                    <span class="details" for="description" style="font-weight: 700;">Short Description :</span><br>
-                    <input type="text" id="description" name="description"><br>
-                  </div>
-                  <div class="input-box">
-                    <span class="details" for="address_link" style="font-weight: 700;">URL Google Maps :</span><br>
-                    <input type="url" id="address_link" name="address_link"><br>
-                  </div>
-                  <div class="input-box">
-                    <span class="details" for="image" style="font-weight: 700;">Image :</span><br>
-                    <input type="file" id="image" name="image" accept="images/*"><br>
-                  </div>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
-                  <br>
+                    {% csrf_token %}
+                    <table>
+                      <tr> 
+                        <td>Attraction Name: </td>
+                        <td>{{form.title}}</td>
+                      </tr>
+                      <tr> 
+                        <td>Location: </td>
+                        <td>{{form.location}}</td>
+                      </tr>
+                      <tr> 
+                        <td>Short Description: </td>
+                        <td>{{form.description}}</td>
+                      </tr>
+                      <tr> 
+                        <td>URL Google Maps: </td>
+                        <td>{{form.address_link}}</td>
+                      </tr>
+                      <tr> 
+                        <td>Image: </td>
+                        <td>{{form.image}}</td>
+                      </tr>
+                    </table>
+                    <br>
                   </form>
               </div>
-          </div>
+            </div>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="btn_new_attr" data-dismiss="modal">Submit</button>
           </div>
         </div>
       </div>
     </div>
     
   </body>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      show_attraction();
-    })
-
-    document.getElementById("btn_new_attr").onclick = add_attraction
-
-    function add_attraction(){
-      $.post(
-          '/objekwisata/add_objekwisata_ajax/',
-          {
-              title: $('#title').val(),
-              location: $('#location').val(),
-              description: $('#description').val(),
-              address_link: $('#address_link').val(),
-              image : $('#image').val(),
-
-          },
-          function (data, status) {
-              show_attraction()
-              if (status == 'success') {
-                  $(`#card_attraction`).append(card(data))
-                  $('#title').val('')
-                  $('#location').val('')
-                  $('#description').val('')
-                  $('#address_link').val('')
-                  $('#image').val('')
-              }
-          },
-      )
-    }
-
-    function show_attraction(){
-      let attraction="";
-      $.ajax({
-        url: "json",
-        type: "GET",
-        dataType: "json",
-        success: function(data){
-          for (i=0; i<data.length; i++){
-            attraction += `
-            <div class="col-4">
-              <div class="card">
-                <img class="card-img-top" src="${data[i].fields.imageURL}">
-                <div class="card-body">
-                  <h2 class="card-title">${data[i].fields.title}</h2>
-                  <h5 class="card-text">${data[i].fields.location}</h5>
-                  <p class="card-text">${data[i].fields.description}</p>
-                  <a class="card-text" href="${data[i].fields.address_link}" target="_blank">See on maps</a>
-                </div>
-              </div>
-            </div>`;
-            $('#card_attraction').html(attraction);
-          }          
-        }
-      });
-    }
-
-  </script>
 
 </html>
 {% endblock content %}
