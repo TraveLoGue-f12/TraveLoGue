@@ -1870,8 +1870,10 @@ section {
 .accordion-body {
   font:var(--font-default)
 }
-
-
+.accordion-button:not(.collapsed) {
+  color:var(--color-default)!important;
+  background-color: transparent !important;
+}
 /*--------------------------------------------------------------
 # Recent Blog Posts Section
 --------------------------------------------------------------*/
