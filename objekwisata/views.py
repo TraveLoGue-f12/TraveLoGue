@@ -48,7 +48,7 @@ def add_objekwisata_ajax(request):
         description = request.POST.get('description')
         location = request.POST.get('location')
         address_link = request.POST.get('address_link')
-        image = request.POST.get('image')
+        image = request.FILES.get('image')
 
         objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link, image=image)
 
@@ -58,7 +58,7 @@ def add_objekwisata_ajax(request):
                 'description': objekwisata.description,
                 'location': objekwisata.location,
                 'address_link': objekwisata.address_link,
-                'image': objekwisata.image
+                'image': str(objekwisata.image),
             },
             'pk': objekwisata.pk
         }
