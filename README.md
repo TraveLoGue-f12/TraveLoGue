@@ -48,11 +48,11 @@ Untuk para turis yang mencari kegiatan _hands-on_ dan ingin terjun beraktivitas 
 |   | Dapat menambahkan acara yang ingin dikunjungi ke fitur Travel Planner.  |
 
 ### 📆 Travel Planner
-Turis dan warga lokal dapat menambahkan rekomendasi objek wisata, UMKM, maupun acara yang ingin mereka kunjungi ke dalam Travel Planner mereka. Untuk memudahkan perencanaan, tujuan-tujuan ini dapat diurutkan sesuai rencana tanggal kunjungan.
+Turis dan warga lokal yang memiliki akun dapat menambahkan berbagai rencana perjalanan ke dalam Travel Planner mereka. Para pengguna dapat menambahkan rincian nama, rencana tanggal, serta catatan mengenai rencana tersebut.
 #### Peran Persona
-| Warga Lokal  | Turis Asing |
+| User (logged in)  | Guest |
 | ------------- | ------------- |
-| Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner. | Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner.  |
+| Dapat menambahkan berbagai rencana perjalanan ke dalam Travel Planner. | Tidak dapat mengakses halaman My Planner.  |
 
 ### 💬 Travel Forum
 Di Travel Forum, turis asing dapat dengan bebas menyampaikan pertanyaan mereka seputar kunjungan ke Indonesia langsung ke penduduk lokal. Komunitas lokal TraveLoGue pun dapat sukarela menjawab pertanyaan-pertanyaan tersebut.
