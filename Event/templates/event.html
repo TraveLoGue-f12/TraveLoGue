@@ -48,16 +48,12 @@
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
         <h2 style="text-align: center;">Upcoming Local Events</h2>
         <ol style="text-align: center;"><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
-        <!-- <p data-aos="fade-up">Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</p> -->
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Events</li></ol>
     </div>
 </div>
 
 <div id="blog" class="blog" style="padding-top: 30px">
     <div class="d-flex justify-content-between align-items-center" style="padding-left: 140px; padding-right: 140px; padding-bottom: 30px;">
-        <!-- <div>
-            <h1>Local Events</h1>
-        </div> -->
         {% if detector %}
 
             <div class="container d-flex flex-row-reverse my-4" >
@@ -66,12 +62,7 @@
                     <span style="font-size:1.5rem">&nbsp;Add New Event</span>
 
                 </button>
-                <!-- <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
-                    <span aria-hidden="true"></span>
-                    <a style="font-size:1.5rem" class="text-decoration-none text-white" href="{% url 'Event:show_user_event' %}">My Event</a>
-                </button>    -->
                 <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'Event:show_user_event' %}">My Event </a>
-
             </div>
         {% endif %}
     </div>
@@ -139,7 +130,6 @@
                 <div class="modal-body" style="background-color: rgb(255, 255, 255);">
                     <div class="flex justify-center">
                         <div class="lg:w-64 mt-3">
-                            <!-- <form method="POST" action="" class="register-form" enctype="multipart/form-data" id="eventForm"> -->
                             {% csrf_token %}
                             <div class="input-box">
                                 <span class="details" for="title" style="font-weight: 700;">Event title :</span><br>
@@ -155,7 +145,6 @@
                                     <option value="Festival">Festival</option>
                                     <option value="Others">Others</option>
                                 </select>
-                                <!-- <input type="text" id="description" name="description"><br> -->
                             </div>
                             <div class="input-box">
                                 <span class="details" for="date" style="font-weight: 700;">Date :</span><br>
@@ -207,6 +196,5 @@
 {% endblock content %}
 
 {% block script %}
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 <script src="{% static 'js/event.js' %}"></script>
 {% endblock script %}
