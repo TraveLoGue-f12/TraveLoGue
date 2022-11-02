@@ -17,18 +17,12 @@ def show_forum(request):
     question_form = QuestionForm()
     user = request.user
 
-    if 'recently_asked' not in request.session:
-        recently_asked_forum = None
-    else:
-        recently_asked_forum = Question.objects.filter(pk__in=request.session['recently_asked'])
-
     context = {
         "list_of_questions" : question_data,
         "list_of_answers" : answer_data,
         "question_form" : question_form,
         "user_status" : "",
         "user_loggedin": user.username,
-        "recently_asked_forum": recently_asked_forum
     }
 
     if user.is_authenticated:
@@ -71,18 +65,6 @@ def add_question_ajax(request):
                 'date': new_question.date
             }
         }
-
-        if 'recently_asked' in request.session:
-            if new_question.pk in request.session['recently_asked']:
-                request.session['recently_asked'].remove(new_question.pk)
-
-            request.session['recently_asked'].insert(0, new_question.pk)
-            if len(request.session['recently_asked']) > 1:
-                request.session['recently_asked'].pop()
-        else:
-            request.session['recently_asked'] = [new_question.pk]
-
-        request.session.modified = True
         
         return JsonResponse(result)
 
