@@ -54,7 +54,7 @@ function umkmCards() {
             for (i=0; i<data.length; i++){
                 
                 stringHTML += ` 
-                <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+                <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}" style="margin-right: 10px; margin-left:10px;">
                     <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
                     <img class="w-100" src="${data[i].fields.imageURL}" >
                         <div class="card-body">

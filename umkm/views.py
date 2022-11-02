@@ -39,17 +39,28 @@ def show_umkm_by_user(request):
 
     return render(request, "my_umkm.html", ctx)
 
+# def show_umkm_by_user(request):
+#     userData = UMKM.objects.filter(user=request.user)
+    
+
+#     ctx = {
+#         'userDataList' : userData,
+#     }
+
+
+#     return render(request, "my_umkm.html", ctx)
+
+
 
 @login_required(login_url='/login')
 def show_data(request):
     getUser = Profile.objects.filter(user=request.user)
-    print(getUser)
+    
 
     for user in getUser:
         thisUser = user
         
-    print("lobal: " + str(thisUser.is_local()))
-    print("tourist: " + str(thisUser.is_tourist()))
+   
     
     
     data_UMKM = UMKM.objects.all()
@@ -58,7 +69,7 @@ def show_data(request):
         if isinstance(data.image, ImageFieldFile):
             
             data.imageURL = str(data.image.url)
-            print(data.imageURL)
+           
 
         data.save()
     
@@ -89,19 +100,28 @@ def show_data(request):
 def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
     return redirect('umkm:show_umkm_by_user')
-    
+
+@login_required(login_url='/login')
 @csrf_exempt
 def add_umkm_ajax(request):
     if request.method == 'POST':
+
+        getUser = Profile.objects.filter(user=request.user)
+        
+
+        for user in getUser:
+            thisUser = user
+      
         name = request.POST.get('name')
         description = request.POST.get('description')
         link_website = request.POST.get('link_website')
-        user= request.user
+        
         
         image = request.POST.get('image')
-        umkm = UMKM.objects.create(user = user, name=name,  description=description,image=image, link_website=link_website)
-     
+        umkm = UMKM.objects.create(user = thisUser, name=name,  description=description,image=image, link_website=link_website)
+       
         result = {
+            
             'fields': {
                 'user' : umkm.user,
                 'name' : umkm.name,
