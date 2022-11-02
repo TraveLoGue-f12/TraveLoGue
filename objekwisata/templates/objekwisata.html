@@ -42,7 +42,7 @@
               formData.append('address_link', $("#id_address_link").val())
 
               $.ajax({
-                  url: '/objekwisata/add_objekwisata_ajax/', // point to server-side URL
+                  url: '/attraction/add_objekwisata_ajax/', // point to server-side URL
                   dataType: 'json', // what to expect back from server
                   cache: false,
                   contentType: false,
@@ -80,7 +80,7 @@
         });
 
         function show_attr() {
-          $.get("/objekwisata/json", function(data) {
+          $.get("/attraction/json", function(data) {
               console.log(data.length)
               console.log(data)
               for (i=0; i<data.length; i++){
