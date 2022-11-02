@@ -40,7 +40,7 @@
         <span style="font-size:1.5rem">&nbsp;Add Recommendation</span>
       </button>  
       {% if thisUser.is_local %} 
-      <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'umkm:show_umkm_by_user' %}">My Recommendations </a>
+      <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'umkm:show_umkm_by_user' %}">Manage Recommendations </a>
       {% endif %}
     </div>
     
@@ -72,6 +72,7 @@
           <div class="lg:w-64 mt-3">
             <form method="POST" action="" class="register-form" enctype="multipart/form-data" id='umkmForm'>
               {% csrf_token %}
+              
               <table>
                   <tr>
                       <td>Name: </td>
