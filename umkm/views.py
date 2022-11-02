@@ -106,11 +106,7 @@ def delete_card(request, pk):
 def add_umkm_ajax(request):
     if request.method == 'POST':
 
-        getUser = Profile.objects.filter(user=request.user)
         
-
-        for user in getUser:
-            thisUser = user
       
         name = request.POST.get('name')
         description = request.POST.get('description')
@@ -118,7 +114,7 @@ def add_umkm_ajax(request):
         
         
         image = request.POST.get('image')
-        umkm = UMKM.objects.create(user = thisUser, name=name,  description=description,image=image, link_website=link_website)
+        umkm = UMKM.objects.create(user = request.user, name=name,  description=description,image=image, link_website=link_website)
        
         result = {
             
