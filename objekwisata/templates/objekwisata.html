@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %} Attractions {% endblock title %}
+
 <html>
   <head>  
     <meta charset="UTF-8">
@@ -122,14 +124,55 @@
             <div>
                 <h1>All Attractions</h1>
             </div>
+            {% if user_status == 'L' %}
             <div>
               <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 <span style="font-size:1.5rem">&nbsp;Add Attraction</span>
               </button>   
             </div>
+            {% endif %}
         </div>
         <div class ="row">
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/ubud.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Ubud</h2>
+                <h5 class="card-text">Bali</h5>
+                <br>
+                <p class="card-text">Ubud is a town on the Indonesian island of Bali in Ubud District, located amongst rice paddies and steep ravines in the central foothills of the Gianyar regency. Promoted as an arts and culture centre, it has developed a large tourism industry.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/3JaR6Xg1HG2UBuJD8" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+  
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/tangkahan.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Tangkahan</h2>
+                <h5 class="card-text">North Sumatra</h5>
+                <br>
+                <p class="card-text">Tangkahan is a small village on the border of Gunung Leuser National Park in North Sumatra. It is situated at the junction of 2 rivers, the Buluh River and the Batang River.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/7UNqEHSMgu5MqgzC7" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+            <img class="w-100" src="{% static 'images/wakatobi.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Wakatobi</h2>
+                <h5 class="card-text">Banda Sea</h5>
+                <br>
+                <p class="card-text">Now a National Marine Park covering the entire Wakatobi District, it comprises a total of 1.4 million hectares, of which 900,000 hectares are decorated with different, colorful species of tropical coral reefs.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/DhET7X2mYmXYTatL8" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
           <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
             <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
             <img class="w-100" src="{% static 'images/borobudur.jpg'  %}" >
@@ -137,7 +180,7 @@
                 <h2 class="card-title">Candi Borobudur</h2>
                 <h5 class="card-text">Yogyakarta</h5>
                 <br>
-                <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>        
+                <p class="card-text">The Borobudur Temple Compounds is one of the greatest Buddhist monuments in the world, and was built in the 8th and 9th centuries AD during the reign of the Syailendra Dynasty. The monument is located in the Kedu Valley, in the southern part of Central Java, at the centre of the island of Java, Indonesia.</p>        
                 <a class="card-text stretched-link" href="https://goo.gl/maps/k9BWqqj7uNeZHjqQ9" target="_blank">See on maps</a>                                  
               </div>
             </div>
@@ -145,7 +188,7 @@
   
           <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
             <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-            <img class="w-100" src="{% static 'images/labuanbajo.jpg'  %}" >
+            <img class="w-100" src="{% static 'images/labuan_bajo.jpg'  %}" >
               <div class="card-body">
                 <h2 class="card-title">Labuan Bajo</h2>
                 <h5 class="card-text">Nusa Tenggara Timur</h5>
@@ -158,7 +201,7 @@
           
           <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
             <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-              <img class="w-100" src="{% static 'images/kawah_ijen.jpg'  %}" >
+              <img class="w-100" src="{% static 'images/kawahijen.jpeg'  %}" >
               <div class="card-body">
                 <h2 class="card-title">Ijen Crater / Kawah Ijen</h2>
                 <h5 class="card-text">Jawa Timur</h5>
@@ -168,29 +211,42 @@
               </div>
             </div>
           </div>
-          
+
           <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
             <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-            <img class="w-100" src="{% static 'images/labuanbajo.jpg'  %}" >
+              <img class="w-100" src="{% static 'images/tumpak_sewu.jpg'  %}" >
               <div class="card-body">
-                <h2 class="card-title">Labuan Bajo</h2>
-                <h5 class="card-text">Nusa Tenggara Timur</h5>
+                <h2 class="card-title">Tumpak Sewu</h2>
+                <h5 class="card-text">Jawa Timur</h5>
                 <br>
-                <p class="card-text">Labuan Bajo is one of small town in Indonesia, so calm and beautiful. The town is the gateway into the charm of Flores to complete travel from the west. However, if only want to enjoy the Varanus Komodoensis, which has been determined to be one of the World's Seven Wonders of Nature, in its natural habitat. Labuan Bajo is an important starting point and the only one of the most convenient and comfortable.</p>        
-                <a class="card-text stretched-link" href="https://goo.gl/maps/DFUcQuduLMy5oKte6" target="_blank">See on maps</a>
+                <p class="card-text">Tumpak Sewu waterfall, also known as Coban Sewu, is one of the most beautiful waterfalls in East Java, and even one of the best in all of Indonesia. Standing at 120 metres tall, this breathtaking waterfall powers down the side of a steep cliff face whilst surrounded by dense jungle.</p>        
+                <a class="card-text stretched-link" href="https://g.page/TumpakSewuLumajang?share" target="_blank">See on maps</a>
               </div>
             </div>
           </div>
-  
+
           <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
             <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-            <img class="w-100" src="{% static 'images/borobudur.jpg'  %}" >
+              <img class="w-100" src="{% static 'images/prambanan.jpeg'  %}" >
               <div class="card-body">
-                <h2 class="card-title">Candi Borobudur</h2>
-                <h5 class="card-text">Yogyakarta</h5>
+                <h2 class="card-title">Prambanan</h2>
+                <h5 class="card-text">D.I. Yogyakarta</h5>
                 <br>
-                <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur cupiditate aut dolorum pariatur porro, obcaecati blanditiis maiores! Aperiam suscipit placeat ea ducimus minima repellat rerum laudantium, enim ratione architecto! Et!</p>        
-                <a class="card-text stretched-link" href="https://goo.gl/maps/k9BWqqj7uNeZHjqQ9" target="_blank">See on maps</a>
+                <p class="card-text">Prambanan temple is located approximately 17 km on the east side of the city of Yogyakarta and located on the main road of Jogja-Solo. So if you drive from Jogja to Solo or vice versa, you will surely be able to see langung bangungan Prambanan temple.</p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/LvFJLXdn4vvkDX4cA" target="_blank">See on maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class ="col-12 col-md-6 col-lg-4" id="card-${data[i].pk}">
+            <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
+              <img class="w-100" src="{% static 'images/keraton.jpg'  %}" >
+              <div class="card-body">
+                <h2 class="card-title">Keraton</h2>
+                <h5 class="card-text">D.I. Yogyakarta</h5>
+                <br>
+                <p class="card-text">Jogja Palace or also known as the Keraton Hadiningrat Yogyakarta is a place used by rulers and kings of Islamic Mataram. Keraton itself means a magnificent palace where important people or king in an area lived. </p>        
+                <a class="card-text stretched-link" href="https://goo.gl/maps/p6CSV1NRGdm8X7sv7" target="_blank">See on maps</a>
               </div>
             </div>
           </div>

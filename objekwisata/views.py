@@ -8,19 +8,29 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
+from main.models import Profile
+
 
 # Create your views here.
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
+
 
     for data in data_objekwisata:
         if data.image:
             if isinstance(data.image, ImageFieldFile):
                 data.imageURL = str(data.image.url)
             data.save()
+
     response = {
         'data':  data_objekwisata,
+        'user_status': '',
+        'user_loggedin': request.user.username,
     }  
+
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        response['user_status'] = profile.status
     
     if request.method == 'POST':
         form = ObjekWisataForm(request.POST, request.FILES)
@@ -32,7 +42,13 @@ def index(request):
         response = {
             'data':  data_objekwisata,
             'form': form,
-        }   
+            'user_status' : '',
+        }  
+
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(user=request.user)
+            response['user_status'] = profile.status
+  
         return render(request, 'objekwisata.html', response)
 
     return render(request, "objekwisata.html", response)
