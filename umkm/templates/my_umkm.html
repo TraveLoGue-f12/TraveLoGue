@@ -10,7 +10,7 @@
 
 {% block script %}
 
-
+<script src="{%static 'js/script.js' %}" defer></script>
 
 {% endblock script %} 
 
@@ -32,12 +32,7 @@
   
   <div class="d-flex justify-content-between align-items-center">
     <div>
-      <br>
-      <button type="button" onclick="location.href='/local-shops'">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span style="font-size:1.5rem">&nbsp;BACK</span>
-      </button> 
-        <h1>MANAGE RECOMMENDATION</h1>
+        <h1>MY RECOMMENDATION</h1>
     </div>
     
   </div>
@@ -46,9 +41,7 @@
   
   <br>
   <div class ="row" id="cards">
-   
-    {% for data in userDataList %}
-    
+    {% for data in datalist %}
       <div class ="col-12 col-md-6 col-lg-4 list-umkm">
         <div class ="card">
           <div class="card-header overflow-hidden p-0">
@@ -72,7 +65,6 @@
           </div>
         </div>
       </div>
-      <br>
       <br>
       
     {% endfor %}
