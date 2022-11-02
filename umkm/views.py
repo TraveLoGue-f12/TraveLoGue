@@ -48,7 +48,7 @@ def show_umkm_by_user(request):
     return render(request, "my_umkm.html", context)
 
 
-# @login_required(login_url='/login')
+@login_required(login_url='/login')
 def show_data(request):
     getUser = Profile.objects.filter(user=request.user)
     print(getUser)
