@@ -3,16 +3,16 @@
 
 
 
-<head>
+<!-- <head>
   <link rel="stylesheet" href="{%static 'css/index.css' %}">
-</head>
+</head> -->
 
 
-{% block script %}
+<!-- {% block script %}
 
 <script src="{%static 'js/script.js' %}" defer></script>
 
-{% endblock script %}
+{% endblock script %} -->
 
 
 
@@ -52,13 +52,14 @@
           </div>
           
           <div class="card-body">
-            
+            <p> HALO </p>
             <h5 class="card-title">{{data.name}}</h5>
             <h5 class="card-title">{{data.description}}</h5>
 
-            <div>
-              <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
-            </div>
+            
+            <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
+            <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
+            
             
             
           </div>
@@ -74,56 +75,6 @@
 </div>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered relative w-auto pointer-events-none">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
-          Add Task
-        </h1>
-
-      </div>
-      <div class="modal-body">
-        <div class="flex justify-center">
-          <div class="lg:w-64 mt-3">
-            <form method="POST" action="" class="register-form" enctype="multipart/form-data" id='umkmForm'>
-              {% csrf_token %}
-              <table>
-                  <tr>
-                      <td>Name: </td>
-                      <td>{{form.name}}</td>
-                  </tr>
-      
-                  <tr>
-                    <td>Description: </td>
-                    <td>{{form.description}}</td>
-                  </tr>
-      
-                
-                  <tr>
-                    <td>Image: </td>
-                    <td>{{form.image}}</td>
-                  </tr>
-      
-                  <tr>
-                    <td>Website: </td>
-                    <td>{{form.link_website}}</td>
-                  </tr>
-                          
-              </table>
-              <br>
-              <button id="halo" >Add</button>
-              <br>
-              <br>
-              
-          </form>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
 
 {% endblock content %}
   
