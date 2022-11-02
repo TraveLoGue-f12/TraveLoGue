@@ -29,28 +29,44 @@
   
   
   
-  {% if thisUser.is_local %}
+  
   <div class="d-flex justify-content-between align-items-center">
     <div>
-        <h1>OUR RECOMMENDATION</h1>
-    </div>
-    <div>
-      <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        <span style="font-size:1.5rem">&nbsp;Add Recommendation</span>
-      </button>  
-      {% if thisUser.is_local %} 
-      <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'umkm:show_umkm_by_user' %}">My Recommendations </a>
-      {% endif %}
+        <h1>MY RECOMMENDATION</h1>
     </div>
     
   </div>
-  {% endif %}
   
   <br>
   
   <br>
   <div class ="row" id="cards">
+    {% for data in datalist %}
+      <div class ="col-12 col-md-6 col-lg-4 list-umkm">
+        <div class ="card">
+          <div class="card-header overflow-hidden p-0">
+            {% if data.image %}
+          
+            <img class="w-100" src="{{data.image.url}}" >
+            {% endif %}
+          </div>
+          
+          <div class="card-body">
+            
+            <h5 class="card-title">{{data.name}}</h5>
+            <h5 class="card-title">{{data.description}}</h5>
+
+            <div>
+              <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      
+    {% endfor %}
     
 
   

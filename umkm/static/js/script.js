@@ -59,7 +59,7 @@ function umkmCards() {
                             <a class="card-text " href="shop-detail/${data[i].pk}" target="_blank">Read More</a>
                             
                             
-                            <button onclick="deleteCard(${data[i].pk})" class="btn btn-danger">Delete</button>
+                        
                         </div>
                     </div>
                 </div>`;
