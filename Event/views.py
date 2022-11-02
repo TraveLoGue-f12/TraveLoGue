@@ -282,21 +282,12 @@ def edit_event(request, pk):
 @csrf_exempt
 def add_event(request):
     if request.method == 'POST':
-        print(request.POST.get('title'))
-        # request.FILES.get('image')
-        # handle_uploaded_file(request.FILES.get('image'))
         title = request.POST.get('title')
         description = request.POST.get('description')
         date = request.POST.get('date')
         place = request.POST.get('place')
-
         image = request.FILES.get('image')
-        print("ini image")
-        print(image)
-        # imageURL = request.POST.get('imageURL')
         category = request.POST.get('category')
-        # month = request.POST.get(date[5:7])
-        # month = date[5:7]
         event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, image=image, category=category)
 
 
@@ -306,10 +297,7 @@ def add_event(request):
                 'description' : event.description,
                 'date' : event.date,
                 'place': event.place,
-
-                # 'imageURL': event.image.url,
                 'image': str(event.image),
-                # 'imageURL': event.imageURL,
                 'category': event.category,
 
             },

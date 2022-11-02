@@ -1,25 +1,3 @@
-# from django.db import models
-# from django.contrib.auth.models import User
-
-
-# # Create your models here.
-# class Event(models.Model):
-#     STATUS_EVENT = [
-#     ('Music', 'Music'),
-#     ('Culinary', 'Culinary'),
-#     ('Sport', 'Sport'),
-#     ('Indonesia Culture', 'Indonesia Culture'),
-#     ('Local Festival', 'Local Festival'),
-#     ('Others', 'Others')
-#     ]
-
-#     date = models.DateField()
-#     title = models.CharField(max_length=255)
-#     description = models.CharField(max_length=700)
-#     place = models.CharField(max_length=255)
-#     image = models.ImageField(null=True, blank=True, upload_to='images/')
-#     imageURL = models.TextField(null = True)
-#     type = models.CharField(max_length=20, default='Music', choices=STATUS_EVENT)
 from django.db import models
 from django.contrib.auth.models import User
 
