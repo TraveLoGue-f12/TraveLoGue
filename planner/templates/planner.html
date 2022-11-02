@@ -4,104 +4,94 @@
 
 {% block title %} Planner {% endblock title %}
 
-{% block script %} 
+{% block script %}
 <script>
-    $(document).ready(function(){
-        $.get("/planner/json/", function(data) {
-            if (data.length == 0) {
+$(document).ready(function(){
+    $("#submit_trip").click(function(){
+      $.post("/planner/addtrip/", {
+        image: $("#image").val(),
+        name: $("#tripName").val(),
+        tripDate: $("#tripDate").val(),
+        tripNotes: $("#tripNotes").val()
+      },
+        function(result, status){
+            if (status == 'success') {
+                var image;
+                if (result.pk%3 == 0) {
+                    image = "img/beach.svg";
+                } else if (result.pk%3 == 1) {
+                    image = "img/city.svg";
+                } else {
+                    image = "img/nature.svg";
+                } 
+                var start_date = result.fields.start_date.split("-");
+                var end_date = result.fields.end_date.split("-");
+                if (document.getElementById("placeholderDiv")) {
+                    document.getElementById("placeholderDiv").outerHTML = "";}
                 $("#trips").append(`
-                <div id="placeholderDiv" style="text-align:center">
-                    <img src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
-                    <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No trips planned yet</h3>
-                </div>`)
-            } else {
-                for (i=0; i<data.length; i++){
-                    var image;
-                    if (data[i].pk%3 == 0) {
-                        image = "img/beach.svg";
-                    } else if (data[i].pk%3 == 1) {
-                        image = "img/city.svg";
-                    } else {
-                        image = "img/nature.svg";
-                    } 
-                    var start_date = data[i].fields.start_date.split("-");
-                    var end_date = data[i].fields.end_date.split("-");
-
-                    $("#trips").append(`
-                        <div id="${data[i].pk}--task" class="col-md-4 col-lg-3 mb-3">
-                            <div class="planner card d-flex">
-                                <div class="planner card-body d-flex flex-column">
-                                    <img src="{% static '${image}' %}" class="planner card-img-top">
-                                    <h5 class="planner card-title">${data[i].fields.name}</h5>
-                                    <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
-                                    <p class="planner card-text">${data[i].fields.notes}</p>
-                                    <div class="d-flex justify-content-around">
-                                        <a href="/planner/delete/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>
-                                        <a href="/planner/change/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    </div>                            
+                    <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
+                        <div class="planner card">
+                            <div class="planner card-body d-flex flex-column">
+                                <img src="{% static '${image}' %}" class="card-img-top planner">
+                                <h5 class="planner card-title">${result.fields.name}</h5>
+                                <p class="planner card-text mb-1">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
+                                <p class="planner card-text">${result.fields.notes}</p>
+                                <div class="d-flex justify-content-around">
+                                    <a href="/planner/delete/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
+                                    <a href="/planner/change/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
                                 </div>
                             </div>
-                        </div>`)
+                        </div> 
+                    </div>`
+                    );
+                $('#image').val('')
+                $('#name').val('')
+                $('#tripNotes').val('')
                 }
-            }
-        });
-        
-
-        $('input[name="daterange"]').daterangepicker(
-        {
-            locale: {format: 'DD/MM/YYYY'},
-            startDate: '01/11/2022',
-            endDate: '02/11/2022'
-        });
-        
-        $("#submit_trip").click(function(){
-          $.post("/planner/addtrip/", {
-            image: $("#image").val(),
-            name: $("#tripName").val(),
-            tripDate: $("#tripDate").val(),
-            tripNotes: $("#tripNotes").val()
-          },
-            function(result, status){
-                if (status == 'success') {
-                    var image;
-                    if (result.pk%3 == 0) {
-                        image = "img/beach.svg";
-                    } else if (result.pk%3 == 1) {
-                        image = "img/city.svg";
-                    } else {
-                        image = "img/nature.svg";
-                    } 
-                    var start_date = result.fields.start_date.split("-");
-                    var end_date = result.fields.end_date.split("-");
-                    if (document.getElementById("placeholderDiv")) {
-                        document.getElementById("placeholderDiv").outerHTML = "";}
-                    $("#trips").append(`
-                        <div id="${result.pk}--task" class="col-md-4 col-lg-3 mb-3">
-                            <div class="planner card">
-                                <div class="planner card-body d-flex flex-column">
-                                    <img src="{% static '${image}' %}" class="card-img-top planner">
-                                    <h5 class="planner card-title">${result.fields.name}</h5>
-                                    <p class="planner card-text mb-1">${start_date[2].split("T")[0]}/${start_date[1]}/${start_date[0]} - ${end_date[2].split("T")[0]}/${end_date[1]}/${end_date[0]}</p>
-                                    <p class="planner card-text">${result.fields.notes}</p>
-                                    <div class="d-flex justify-content-around">
-                                        <a href="/planner/delete/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>                            
-                                        <a href="/planner/change/${result.pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>`
-                        );
-                    $('#image').val('')
-                    $('#name').val('')
-                    $('#tripNotes').val('')
-                    }
-            }
-          )
-        });
-
+        }
+      )
     });
+    $.get("/planner/json/", function(data) {
+        if (data.length == 0) {
+            $("#trips").append(`
+            <div id="placeholderDiv" style="text-align:center">
+                <img src="{% static 'img/emptytrip.svg' %}" style="width:75%; margin-top:0%">
+                <h2 style="margin-top:0%; padding-bottom:5%; color:grey">No trips planned yet</h3>
+            </div>`)
+        } else {
+            for (i=0; i<data.length; i++){
+                var image;
+                if (data[i].pk%3 == 0) {
+                    image = "img/beach.svg";
+                } else if (data[i].pk%3 == 1) {
+                    image = "img/city.svg";
+                } else {
+                    image = "img/nature.svg";
+                } 
+                var start_date = data[i].fields.start_date.split("-");
+                var end_date = data[i].fields.end_date.split("-");
 
+                $("#trips").append(`
+                    <div id="${data[i].pk}--task" class="col-md-4 col-lg-3 mb-3">
+                        <div class="planner card d-flex">
+                            <div class="planner card-body d-flex flex-column">
+                                <img src="{% static '${image}' %}" class="planner card-img-top">
+                                <h5 class="planner card-title">${data[i].fields.name}</h5>
+                                <p class="planner card-text mb-1 date">${start_date[2]}/${start_date[1]}/${start_date[0]} - ${end_date[2]}/${end_date[1]}/${end_date[0]}</p>
+                                <p class="planner card-text">${data[i].fields.notes}</p>
+                                <div class="d-flex justify-content-around">
+                                    <a href="/planner/delete/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a href="/planner/change/${data[i].pk}" class="btn btn-plan"><span class="glyphicon glyphicon-pencil"></span></a>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>`)
+            }
+        }
+    });
+});
 </script>
+<script src="/static/js/planner.js"></script>
 {% endblock script %}
 
 {% block content %}
