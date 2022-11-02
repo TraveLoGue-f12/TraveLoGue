@@ -16,14 +16,6 @@
   <!-- Style -->
   <link rel="stylesheet" href="{% static 'css/main.css' %}" >
   
-  <!-- Vendor CSS Files -->
-  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="static/vendor/aos/aos.css" rel="stylesheet">
-  <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,12 +23,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   
   <!-- Favicons -->
-  <link href="static/img/favicon.png" rel="icon">
-  <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/static/img/logo.png" rel="icon">
+  <link href="/static/img/logo.png" rel="apple-touch-icon">
   
-  <!-- Include Date Range Picker -->
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
   <title>Login | TraveLoGue</title>
 </head>
@@ -44,9 +33,9 @@
 <body>
     <div class="w-100">
         <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12 min-vh-100">
-            <div class="container d-flex flex-column w-100 align-items-center auth">
+            <div class="container d-flex flex-column w-100 align-items-center auth login">
                 <div class="d-flex flex-column align-items-center">
-                    <img src="/static/img/logo.png" style="width:70px">
+                    <a href="/"><img src="/static/img/logo.png" style="width:60px"></a> 
                     <h2 class="my-5">Login to TraveLoGue</h2>
                 </div>
                 <div class="w-100">
@@ -80,8 +69,7 @@
 
             </div>
         </div>
-        <div class="col-md-6 col-lg-6 col-sm-6 d-none d-md-block min-vh-100" style="background-image:url(/static/img/login.png); background-size: cover;">
-        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6 d-none d-md-block min-vh-100" style="background-image:url(/static/img/login.png); background-size: cover;"></div>
   </div>
 
 

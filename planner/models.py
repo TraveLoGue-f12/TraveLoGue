@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Trips(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=35)
-    trip_date = models.CharField(max_length=10, null=True)
+    trip_date = models.CharField(max_length=40, null=True)
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     notes = models.TextField(null=True)

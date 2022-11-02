@@ -40,20 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
   /**
    * Hide mobile nav on same-page/hash links
    */
-  document.querySelectorAll('#navbar a').forEach(navbarlink => {
+  // document.querySelectorAll('#navbar a').forEach(navbarlink => {
 
-    if (!navbarlink.hash) return;
+  //   if (!navbarlink.hash) return;
 
-    let section = document.querySelector(navbarlink.hash);
-    if (!section) return;
+  //   let section = document.querySelector(navbarlink.hash);
+  //   if (!section) return;
 
-    navbarlink.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
-        mobileNavToogle();
-      }
-    });
+  //   navbarlink.addEventListener('click', () => {
+  //     if (document.querySelector('.mobile-nav-active')) {
+  //       mobileNavToogle();
+  //     }
+  //   });
 
-  });
+  // });
 
   /**
    * Toggle mobile nav dropdowns

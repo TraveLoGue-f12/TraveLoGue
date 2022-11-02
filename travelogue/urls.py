@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include('main.urls')),
     path('event/', include('Event.urls')),
     path('forum/', include('forum.urls')),
-    path('rekomendasi-umkm/', include('umkm.urls')),
+    path('local-shops/', include('umkm.urls')),
     path('objekwisata/', include('objekwisata.urls')),
     path('planner/', include('planner.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
