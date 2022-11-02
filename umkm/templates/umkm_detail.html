@@ -35,7 +35,7 @@
         <div class="d-flex justify-content-between align-items-center">
     
     
-            <button type="button" onclick="location.href='/rekomendasi-umkm/'">
+            <button type="button" onclick="location.href='/local-shops'">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                 <span style="font-size:1.5rem">&nbsp;BACK</span>
             </button> 
@@ -50,6 +50,7 @@
                 <h5 class="card-under-title">{{data.description}}</h5>
                 
                 <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
+                <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
                 
             </div>
         </div>

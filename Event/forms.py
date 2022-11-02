@@ -22,6 +22,7 @@ class EventForm(forms.ModelForm):
         required=True,
         choices=STATUS_CHOICES
     )
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 
     class Meta:
         model = Event

@@ -5,94 +5,6 @@
 <title>TraveLoGue</title>
 {% endblock meta %}
 
-{% block script %} 
-<script>
-
-    $(document).ready(function(){
-        $.get("/event/json/", function(data) {
-            console.log(data)
-            for (i=0; i<data.length; i++){
-                $("#cards").append(`
-                <div class="col-lg-4 col-sm-6">
-                    <div class="post-item position-relative h-100">
-                    <div class="post-img position-relative overflow-hidden">
-                        <img src="${data[i].fields.imageURL}" class="img-fluid" alt="">
-                        <span class="post-date">${data[i].fields.date}</span>
-                    </div>
-                    <div class="post-content d-flex flex-column">
-                        <h3 class="post-title">${data[i].fields.title}</h3>
-                        <p>${data[i].fields.description}</p>
-                        <hr>
-                        <a href="event-detail/${data[i].pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
-                    </div>
-                    </div>
-                </div>`)
-            }
-        });
-        
-        let files
-        $('#image').on('change', function (event) {
-            files = event.target.files
-            console.log(files)
-        })
-
-
-        $("#submit_event").click(function(){
-            const formData = new FormData()
-            formData.append('image', files[0])
-            formData.append('title', $("#title").val())
-            formData.append('place', $("#place").val())
-            formData.append('date', $("#date").val())
-            formData.append('description', $("#description").val())
-            formData.append('category', $("#category").val())
-
-            $.ajax({
-                url: '/event/add-new/', // point to server-side URL
-                dataType: 'json', // what to expect back from server
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                type: 'post',
-                success: function(result){
-                    // console.log(result)
-                    $("#cards").append(`
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="post-item position-relative h-100">
-                        <div class="post-img position-relative overflow-hidden">
-                            <img src="${result.fields.image.url}" class="img-fluid" alt="">
-                            <span class="post-date">${result.fields.date}</span>
-                        </div>
-                        <div class="post-content d-flex flex-column">
-                            <h3 class="post-title">${result.fields.title}</h3>
-                            <p>${result.fields.description}</p>
-                            <hr>
-
-                            <a href="event-detail/${result.pk}" class="readmore stretched-link"><span>Read more</span><i class="bi bi-arrow-right"></i></a>
-
-                        </div>
-                        </div>
-                    </div>`);
-                    $("#image").val(''),
-                    $("#title").val(''),
-                    $("#place").val(''),
-                    $("#date").val(''),
-                    $("#description").val(''),
-                    $("#category").val('')
-
-                    alert("Event has added")
-                },
-                error: function (response) {
-                    $('#msg').html(response.message); // display error response
-                }
-            });
-
-        });
-
-    });
-</script>
-{% endblock script %}
-
 {% block content %}
 
 <style>
@@ -131,10 +43,11 @@
         transition: 0.5s;
     }
 </style>
+
 <div class="breadcrumbs d-flex align-items-center" style="background-image: url(/static/img/planner-bc.jpg);">
     <div class="container position-relative d-flex flex-column align-items-center aos-init aos-animate" data-aos="fade">
-        <h2>Upcoming Local Events</h2>
-        <ol><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
+        <h2 style="text-align: center;">Upcoming Local Events</h2>
+        <ol style="text-align: center;"><li>Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</li></ol>
         <!-- <p data-aos="fade-up">Enjoy your trip to Indonesia by visiting local events. Find the upcoming events here.</p> -->
         <ol><li><a href="{% url 'main:index' %}">Home</a></li><li>Events</li></ol>
     </div>
@@ -142,21 +55,23 @@
 
 <div id="blog" class="blog" style="padding-top: 30px">
     <div class="d-flex justify-content-between align-items-center" style="padding-left: 140px; padding-right: 140px; padding-bottom: 30px;">
-        <div>
+        <!-- <div>
             <h1>Local Events</h1>
-        </div>
+        </div> -->
         {% if detector %}
 
-            <div>
+            <div class="container d-flex flex-row-reverse my-4" >
                 <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#createTaskModal">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     <span style="font-size:1.5rem">&nbsp;Add New Event</span>
 
                 </button>
-                <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
+                <!-- <button type="button" class="btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900;">
                     <span aria-hidden="true"></span>
                     <a style="font-size:1.5rem" class="text-decoration-none text-white" href="{% url 'Event:show_user_event' %}">My Event</a>
-                </button>   
+                </button>    -->
+                <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'Event:show_user_event' %}">My Event </a>
+
             </div>
         {% endif %}
     </div>
@@ -215,7 +130,7 @@
     </div>
 </div>
 
-    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+    <div class="modal" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="background-color: rgb(255, 255, 255);">
                 <div class="modal-header text-gray-300" style="background-color: rgb(255, 255, 255);">
@@ -252,12 +167,10 @@
                             </div>
                             <div class="input-box">
                                 <span class="details" for="description" style="font-weight: 700;">Description :</span><br>
-                                <input type="text" id="description" name="description"><br>
+                                <textarea type="text" id="description" name="description" rows="5" cols="50"></textarea>
                             </div>
                             <div class="input-box">
                                 <span class="details" for="description" style="font-weight: 700;">Image :</span><br>
-
-
                                 <input type="file" id="image" name="image"><br>
                             </div>
                             <br>
@@ -269,8 +182,8 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: rgb(238, 238, 238);">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="submit_event" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="submit_event" type="submit" class="btn btn-primary" data-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>
@@ -292,3 +205,8 @@
 </section>
 
 {% endblock content %}
+
+{% block script %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script src="{% static 'js/event.js' %}"></script>
+{% endblock script %}

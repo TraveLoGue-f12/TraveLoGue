@@ -37,9 +37,13 @@
     <div>
       <button type="button" class="btn btn-default my-auto" data-toggle="modal" data-target="#exampleModal">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        <span style="font-size:1.5rem">&nbsp;ADD SHOP</span>
-      </button>     
+        <span style="font-size:1.5rem">&nbsp;Add Recommendation</span>
+      </button>  
+      {% if thisUser.is_local %} 
+      <a type="button" class="text-decoration-none text-white btn btn-default my-auto" style="border-color: #feb900; background-color: #feb900; font-size:1.5rem" href="{% url 'umkm:show_umkm_by_user' %}">My Recommendations </a>
+      {% endif %}
     </div>
+    
   </div>
   {% endif %}
   
@@ -59,7 +63,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5 text-zinc-200" id="exampleModalLabel">
-          Add Task
+          Recommend Shop
         </h1>
 
       </div>

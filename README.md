@@ -29,7 +29,6 @@ Menurut Menteri Koperasi dan UKM, sebanyak 19,5 juta pelaku UMKM dari 65 juta, t
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
 | Dapat memberikan rekomendasi UMKM yang menarik untuk turis asing.  | Dapat melihat rekomendasi UMKM yang diberikan oleh warga lokal.  |
-|   | Dapat menambahkan UMKM yang ingin dikunjungi ke fitur Travel Planner.  |
 
 ### 🏙 Recommended Attractions
 Tentunya, objek wisata menjadi salah satu tujuan paling populer bagi turis saat berkunjung ke negara asing. Pada fitur ini, terdapat informasi dan rekomendasi terkait objek-objek wisata yang ada di Indonesia. 
@@ -37,22 +36,23 @@ Tentunya, objek wisata menjadi salah satu tujuan paling populer bagi turis saat 
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
 | Dapat memberikan rekomendasi objek wisata yang menarik untuk turis asing.  | Dapat melihat rekomendasi objek wisata yang diberikan oleh warga lokal.  |
-|   | Dapat menambahkan objek wisata yang ingin dikunjungi ke fitur Travel Planner. |
 
 ### 🎟 Event Promotions
 Untuk para turis yang mencari kegiatan _hands-on_ dan ingin terjun beraktivitas langsung bersama warga lokal Indonesia, kami menyediakan fitur Event Promotions. Pada fitur ini, turis dapat menemukan informasi mengenai acara-acara yang sedang diselenggarakan oleh warga lokal, dari lokakarya membatik hingga _fun hike_.
 #### Peran Persona
 | Warga Lokal  | Turis Asing |
 | ------------- | ------------- |
-| Dapat membuat submisi berupa informasi acara yang ingin dipromosikan. | Dapat melihat rekomendasi acara yang diberikan oleh pengguna warga lokal.  |
-|   | Dapat menambahkan acara yang ingin dikunjungi ke fitur Travel Planner.  |
+| Dapat membuat submisi berupa informasi acara yang ingin dipromosikan.| Dapat melihat rekomendasi acara yang diberikan oleh pengguna warga lokal.  |
+| Dapat menyunting dan menghapus submisi informasi acara yang dibuat.||
+| Dapat melihat informasi acara yang dibuat oleh masing-masing user.||
 
 ### 📆 Travel Planner
-Turis dan warga lokal dapat menambahkan rekomendasi objek wisata, UMKM, maupun acara yang ingin mereka kunjungi ke dalam Travel Planner mereka. Untuk memudahkan perencanaan, tujuan-tujuan ini dapat diurutkan sesuai rencana tanggal kunjungan.
+Turis dan warga lokal yang memiliki akun dapat menambahkan berbagai rencana perjalanan ke dalam Travel Planner mereka. Para pengguna dapat menambahkan rincian nama, rencana tanggal, serta catatan mengenai rencana tersebut.
 #### Peran Persona
-| Warga Lokal  | Turis Asing |
+| User (logged in)  | Guest |
 | ------------- | ------------- |
-| Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner. | Dapat menambahkan objek wisata, UMKM, maupun acara yang ingin dikunjungi ke Travel Planner.  |
+| Dapat menambahkan berbagai rencana perjalanan ke dalam Travel Planner pribadi. | Tidak dapat mengakses halaman My Planner.  |
+| Dapat menyunting dan menghapus rencana yang telah dibuat. |  |
 
 ### 💬 Travel Forum
 Di Travel Forum, turis asing dapat dengan bebas menyampaikan pertanyaan mereka seputar kunjungan ke Indonesia langsung ke penduduk lokal. Komunitas lokal TraveLoGue pun dapat sukarela menjawab pertanyaan-pertanyaan tersebut.
