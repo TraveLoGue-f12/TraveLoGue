@@ -3,7 +3,7 @@ from requests import delete
 
 from forum.views import *
 
-app_name = "forum"
+app_name = 'forum'
 
 urlpatterns = [
     path('', show_forum, name='show_forum'),

@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from forum.models import Question, Answer
-from forum.forms import AnswerForm, QuestionForm
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from forum.forms import AnswerForm, QuestionForm
+from forum.models import Question, Answer
 from django.core import serializers
+from django.shortcuts import render
 from django.urls import reverse
 from main.models import Profile
 import datetime
@@ -18,11 +18,11 @@ def show_forum(request):
     user = request.user
 
     context = {
-        "list_of_questions" : question_data,
-        "list_of_answers" : answer_data,
-        "question_form" : question_form,
-        "user_status" : "",
-        "user_loggedin": user.username,
+        'list_of_questions': question_data,
+        'list_of_answers': answer_data,
+        'question_form': question_form,
+        'user_status' : '',
+        'user_loggedin': user.username,
     }
 
     if user.is_authenticated:
@@ -75,7 +75,7 @@ def add_answer(request, pk):
     get_question.is_answered = True
     get_question.save()
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
             user = request.user
