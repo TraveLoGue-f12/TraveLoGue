@@ -13,7 +13,7 @@ from main.models import Profile
 
 
 
-@login_required(login_url='/login')
+
 def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
