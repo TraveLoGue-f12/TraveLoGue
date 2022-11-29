@@ -40,6 +40,10 @@ def answer_json(request, pk):
 
     data = Answer.objects.filter(question=question)
     return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+
+def all_answer_json(request):
+    data = Answer.objects.all()
+    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
     
 @login_required(login_url='/login/')
 @csrf_exempt

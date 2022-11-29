@@ -12,4 +12,5 @@ urlpatterns = [
     path('delete_question/<id>', delete_forum, name='delete_question'),
     path('question_json/', question_json, name='question_json'),
     path('answer_json/<int:pk>', answer_json, name='answer_json'),
+    path('all_answer_json/', all_answer_json, name='all_answer_json')
 ]
