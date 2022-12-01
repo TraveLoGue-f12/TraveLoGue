@@ -32,6 +32,21 @@ def login(request):
             "status": False,
             "message": "Failed to Login, check your email/password."
             }, status=401)
+
+@csrf_exempt
+def get_data(request):
+    data = json.loads(request.body)
+    print(data)
+    username = data['username1']
+    password = data['password1']
+    user = authenticate(username=username, password=password)
+    userProfile =  Profile.objects.filter(user=user)
+   
+    return JsonResponse({
+        "status": str(userProfile.values()[0]['status']),
+        "full_name": str(userProfile.values()[0]['full_name']),
+        "email" : str(userProfile.values()[0]['email']),
+        })
     
 @csrf_exempt
 def register(request):
