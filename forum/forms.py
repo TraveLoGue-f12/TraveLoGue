@@ -8,10 +8,10 @@ class QuestionForm(ModelForm):
     question = forms.CharField(widget = forms.Textarea(attrs={'placeholder': 'Type your question here...'}), required = True)
     class Meta:
         model = Question
-        fields = ["title", "question"]        
+        fields = ['title', 'question']        
 
 class AnswerForm(ModelForm):
     answer = forms.CharField(widget = forms.Textarea(attrs={'placeholder': 'Type your answer here...'}), required=True)
     class Meta:
         model = Answer
-        fields = ["answer"]
+        fields = ['answer']
