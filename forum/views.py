@@ -116,11 +116,9 @@ def add_question_flutter(request):
         
         data = json.loads(request.body)
         
-        date = data["date"]
         title = data["title"]
         question = data["question"]
-        is_answered = data["is_answered"]
-        
+
         try:
             Question.objects.get(title=title, question=question)
             return JsonResponse({"status": "dup"}, status=401)
@@ -128,14 +126,13 @@ def add_question_flutter(request):
             addQuestion = Question.objects.create(
                 user = request.user, 
                 username = request.user.username,
-                date = date,
+                date = datetime.date.today(),
                 title = title,
                 question = question,
-                is_answered = is_answered
+                is_answered = False,
             )
 
             addQuestion.save()
-
         
             return JsonResponse({"status": "success"}, status=200)
     else:
