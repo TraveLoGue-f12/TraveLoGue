@@ -14,7 +14,7 @@ import json
 
 
 
-@login_required(login_url='/login')
+
 def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
@@ -160,4 +160,3 @@ def add_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-    
