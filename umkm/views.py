@@ -66,13 +66,7 @@ def show_data(request):
     
     data_UMKM = UMKM.objects.all()
 
-    for data in data_UMKM:
-        if isinstance(data.image, ImageFieldFile):
-            
-            data.imageURL = str(data.image.url)
-           
-
-        data.save()
+ 
     
     
     response = {
@@ -114,8 +108,8 @@ def add_umkm_ajax(request):
         link_website = request.POST.get('link_website')
         
         
-        image = request.POST.get('image')
-        umkm = UMKM.objects.create(user = request.user, name=name,  description=description,image=image, link_website=link_website)
+       
+        umkm = UMKM.objects.create(user = request.user, name=name,  description=description, link_website=link_website)
        
         result = {
             
@@ -124,7 +118,7 @@ def add_umkm_ajax(request):
                 'name' : umkm.name,
                 'description' : umkm.description,
                 'link_website': umkm.link_website,
-                'image': umkm.image
+                
             },
             'pk' : umkm.pk
         }
@@ -137,7 +131,7 @@ def delete_umkm_ajax(request, id):
         umkm = get_object_or_404(UMKM, id = id)
         umkm.delete()
     return HttpResponse(status=202)
-
+    
 @csrf_exempt
 def add_flutter(request):
     if request.method == 'POST':
@@ -160,3 +154,41 @@ def add_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_card(request, pk):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        name = data["name"]
+        description = data["description"]
+        link_website = data["link_website"]
+    
+        addUMKM = UMKM.objects.create(
+        name = name, 
+        description = description,
+        link_website = link_website
+        )
+
+        addUMKM.save()
+
+        UMKM.objects.get(id=pk).delete()
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+
+@csrf_exempt
+def delete_flutter(request):
+    data = json.loads(request.body)
+    print(data)
+    getName = data['name']
+    getDesc = data['description']
+    getLink = data['linkWebsite']
+    
+    UMKM.objects.get(name=getName, description=getDesc, link_website=getLink).delete()
+   
+    
+    
+    

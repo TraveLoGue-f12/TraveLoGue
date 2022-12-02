@@ -11,5 +11,8 @@ urlpatterns = [
     path('shop-detail/<int:pk>/', show_umkm_by_id, name='show_umkm_by_id'),
     path('delete-ajax/<id>', delete_umkm_ajax, name='delete_umkm_ajax'),
     path('my-umkm', show_umkm_by_user, name='show_umkm_by_user'),
-    path('add-flutter/', add_flutter, name='add_flutter'),
+    path('add-flutter', add_flutter, name='add_flutter'),
+    path('delete-flutter', delete_flutter, name='delete_flutter'),
+    
+    
 ]
