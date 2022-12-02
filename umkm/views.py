@@ -66,13 +66,7 @@ def show_data(request):
     
     data_UMKM = UMKM.objects.all()
 
-    for data in data_UMKM:
-        if isinstance(data.image, ImageFieldFile):
-            
-            data.imageURL = str(data.image.url)
-           
-
-        data.save()
+ 
     
     
     response = {
@@ -114,8 +108,8 @@ def add_umkm_ajax(request):
         link_website = request.POST.get('link_website')
         
         
-        image = request.POST.get('image')
-        umkm = UMKM.objects.create(user = request.user, name=name,  description=description,image=image, link_website=link_website)
+       
+        umkm = UMKM.objects.create(user = request.user, name=name,  description=description, link_website=link_website)
        
         result = {
             
@@ -124,7 +118,7 @@ def add_umkm_ajax(request):
                 'name' : umkm.name,
                 'description' : umkm.description,
                 'link_website': umkm.link_website,
-                'image': umkm.image
+                
             },
             'pk' : umkm.pk
         }
