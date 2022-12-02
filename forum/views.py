@@ -123,7 +123,7 @@ def add_question_flutter(request):
             Question.objects.get(title=title, question=question)
             return JsonResponse({"status": "dup"}, status=401)
         except:
-            addQuestion = Question.objects.create(
+            add_question = Question.objects.create(
                 user = request.user, 
                 username = request.user.username,
                 date = datetime.date.today(),
@@ -132,7 +132,34 @@ def add_question_flutter(request):
                 is_answered = False,
             )
 
-            addQuestion.save()
+            add_question.save()
+        
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def add_answer_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        question = data["question"]
+        answer = data["answer"]
+
+        try:
+            Question.objects.get(answer=answer)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            add_answer = Question.objects.create(
+                user = request.user, 
+                username = request.user.username,
+                question = question,
+                date = datetime.date.today(),
+                answer = answer,
+            )
+
+            add_answer.save()
         
             return JsonResponse({"status": "success"}, status=200)
     else:
