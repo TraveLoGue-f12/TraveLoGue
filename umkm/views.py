@@ -154,3 +154,41 @@ def add_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_card(request, pk):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        name = data["name"]
+        description = data["description"]
+        link_website = data["link_website"]
+    
+        addUMKM = UMKM.objects.create(
+        name = name, 
+        description = description,
+        link_website = link_website
+        )
+
+        addUMKM.save()
+
+        UMKM.objects.get(id=pk).delete()
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+
+@csrf_exempt
+def delete_flutter(request):
+    data = json.loads(request.body)
+    print(data)
+    getName = data['name']
+    getDesc = data['description']
+    getLink = data['linkWebsite']
+    
+    UMKM.objects.get(name=getName, description=getDesc, link_website=getLink).delete()
+   
+    
+    
+    
