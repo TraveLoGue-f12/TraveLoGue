@@ -141,53 +141,37 @@ def add_flutter(request):
         name = data["name"]
         description = data["description"]
         link_website = data["link_website"]
-    
-        addUMKM = UMKM.objects.create(
-        name = name, 
-        description = description,
-        link_website = link_website
-        )
+        try:
+            UMKM.objects.get(name=name, link_website=link_website)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            addUMKM = UMKM.objects.create(
+            name = name, 
+            description = description,
+            link_website = link_website
+            )
 
-        addUMKM.save()
+            addUMKM.save()
 
-      
-        return JsonResponse({"status": "success"}, status=200)
+        
+            return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
 
-@csrf_exempt
-def delete_card(request, pk):
-    if request.method == 'POST':
-        
-        data = json.loads(request.body)
-        
-        name = data["name"]
-        description = data["description"]
-        link_website = data["link_website"]
-    
-        addUMKM = UMKM.objects.create(
-        name = name, 
-        description = description,
-        link_website = link_website
-        )
-
-        addUMKM.save()
-
-        UMKM.objects.get(id=pk).delete()
-        return JsonResponse({"status": "success"}, status=200)
-    else:
-        return JsonResponse({"status": "error"}, status=401)
 
 
 @csrf_exempt
 def delete_flutter(request):
+    print("a")
     data = json.loads(request.body)
+    print()
     print(data)
     getName = data['name']
     getDesc = data['description']
     getLink = data['linkWebsite']
     
     UMKM.objects.get(name=getName, description=getDesc, link_website=getLink).delete()
+    return JsonResponse({"status": "success"}, status=200)
    
     
     
