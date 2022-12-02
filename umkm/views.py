@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
 from django.contrib.auth.decorators import login_required
 from main.models import Profile
+import json
 
 
 
@@ -136,4 +137,26 @@ def delete_umkm_ajax(request, id):
         umkm = get_object_or_404(UMKM, id = id)
         umkm.delete()
     return HttpResponse(status=202)
+
+@csrf_exempt
+def add_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        name = data["name"]
+        description = data["description"]
+        link_website = data["link_website"]
     
+        addUMKM = UMKM.objects.create(
+        name = name, 
+        description = description,
+        link_website = link_website
+        )
+
+        addUMKM.save()
+
+      
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
