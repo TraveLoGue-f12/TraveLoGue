@@ -116,19 +116,18 @@ def add_question_flutter(request):
         
         data = json.loads(request.body)
         
-        user = data["user"]
-        username = data["username"]
         date = data["date"]
         title = data["title"]
         question = data["question"]
         is_answered = data["is_answered"]
+        
         try:
             Question.objects.get(title=title, question=question)
             return JsonResponse({"status": "dup"}, status=401)
         except:
             addQuestion = Question.objects.create(
-                user = user, 
-                username = username,
+                user = request.user, 
+                username = request.user.username,
                 date = date,
                 title = title,
                 question = question,
