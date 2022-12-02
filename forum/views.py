@@ -8,6 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from main.models import Profile
 import datetime
+import json
+
 
 # Create your views here.
 
@@ -107,3 +109,35 @@ def add_answer(request, pk):
 def delete_forum(request, id):
     Question.objects.get(pk=id).delete()
     return HttpResponseRedirect(reverse('forum:show_forum'))
+
+@csrf_exempt
+def add_question_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        user = data["user"]
+        username = data["username"]
+        date = data["date"]
+        title = data["title"]
+        question = data["question"]
+        is_answered = data["is_answered"]
+        try:
+            Question.objects.get(title=title, question=question)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            addQuestion = Question.objects.create(
+                user = user, 
+                username = username,
+                date = date,
+                title = title,
+                question = question,
+                is_answered = is_answered
+            )
+
+            addQuestion.save()
+
+        
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
