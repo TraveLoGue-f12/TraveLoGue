@@ -9,7 +9,7 @@ from django.urls import reverse
 from main.models import Profile
 import datetime
 import json
-
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -110,7 +110,6 @@ def delete_forum(request, id):
     Question.objects.get(pk=id).delete()
     return HttpResponseRedirect(reverse('forum:show_forum'))
 
-@login_required
 @csrf_exempt
 def add_question_flutter(request):
     if request.method == 'POST':
@@ -119,27 +118,22 @@ def add_question_flutter(request):
         
         title = data["title"]
         question = data["question"]
+        print(User.objects.get)
+        add_question = Question.objects.create(
+            user = request.user, 
+            username = request.user.username,
+            date = datetime.date.today(),
+            title = title,
+            question = question,
+            is_answered = False,
+        )
 
-        try:
-            Question.objects.get(title=title, question=question)
-            return JsonResponse({"status": "dup"}, status=401)
-        except:
-            add_question = Question.objects.create(
-                user = request.user, 
-                username = request.user.username,
-                date = datetime.date.today(),
-                title = title,
-                question = question,
-                is_answered = False,
-            )
-
-            add_question.save()
-        
-            return JsonResponse({"status": "success"}, status=200)
+        add_question.save()
+    
+        return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
 
-@login_required
 @csrf_exempt
 def add_answer_flutter(request):
     if request.method == 'POST':
