@@ -148,10 +148,10 @@ def add_answer_flutter(request):
         answer = data["answer"]
 
         try:
-            Question.objects.get(answer=answer)
+            Answer.objects.get(answer=answer)
             return JsonResponse({"status": "dup"}, status=401)
         except:
-            add_answer = Question.objects.create(
+            add_answer = Answer.objects.create(
                 user = request.user, 
                 username = request.user.username,
                 question = question,
