@@ -143,7 +143,7 @@ def add_answer_flutter(request):
         question = data["question"]
         answer = data["answer"]
 
-        add_answer = Question.objects.create(
+        add_answer = Answer.objects.create(
             user = request.user, 
             username = request.user.username,
             question = question,
