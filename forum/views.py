@@ -110,6 +110,7 @@ def delete_forum(request, id):
     Question.objects.get(pk=id).delete()
     return HttpResponseRedirect(reverse('forum:show_forum'))
 
+@login_required
 @csrf_exempt
 def add_question_flutter(request):
     if request.method == 'POST':
@@ -138,7 +139,7 @@ def add_question_flutter(request):
     else:
         return JsonResponse({"status": "error"}, status=401)
 
-@login_required(login_url='/login/')
+@login_required
 @csrf_exempt
 def add_answer_flutter(request):
     if request.method == 'POST':
