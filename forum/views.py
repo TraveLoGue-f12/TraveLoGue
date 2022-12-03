@@ -155,7 +155,8 @@ def add_answer_flutter(request):
 
         add_answer.save()
         question.is_answered = True
-        
+        question.save()
+
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
