@@ -140,8 +140,10 @@ def add_answer_flutter(request):
         
         data = json.loads(request.body)
         
-        question = data["question"]
+        pk_question = int(data["question"])
         answer = data["answer"]
+
+        question = Question.objects.get(pk=pk_question)
 
         add_answer = Answer.objects.create(
             user = request.user, 
