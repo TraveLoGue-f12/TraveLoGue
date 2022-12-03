@@ -9,7 +9,7 @@ from django.urls import reverse
 from main.models import Profile
 import datetime
 import json
-from django.contrib.auth.models import User
+
 
 # Create your views here.
 
@@ -118,7 +118,7 @@ def add_question_flutter(request):
         
         title = data["title"]
         question = data["question"]
-        print(User.objects.get)
+
         add_question = Question.objects.create(
             user = request.user, 
             username = request.user.username,
@@ -143,20 +143,16 @@ def add_answer_flutter(request):
         question = data["question"]
         answer = data["answer"]
 
-        try:
-            Answer.objects.get(answer=answer)
-            return JsonResponse({"status": "dup"}, status=401)
-        except:
-            add_answer = Answer.objects.create(
-                user = request.user, 
-                username = request.user.username,
-                question = question,
-                date = datetime.date.today(),
-                answer = answer,
-            )
+        add_answer = Question.objects.create(
+            user = request.user, 
+            username = request.user.username,
+            question = question,
+            date = datetime.date.today(),
+            answer = answer,
+        )
 
-            add_answer.save()
-        
-            return JsonResponse({"status": "success"}, status=200)
+        add_answer.save()
+    
+        return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
