@@ -1,18 +1,5 @@
 from django.urls import path
-from Event.views import show_event_json
-from Event.views import show_event
-from Event.views import show_event_detail
-from Event.views import membuat_event
-from Event.views import add_event
-from Event.views import delete
-from Event.views import show_user_event
-from Event.views import show_music_event
-from Event.views import edit_event
-from Event.views import show_sport_event
-from Event.views import show_culinary_event
-from Event.views import show_festival_event
-from Event.views import show_culture_event
-from Event.views import show_others_event
+from Event.views import *
 
 app_name = 'Event'
 
@@ -38,4 +25,5 @@ urlpatterns = [
     path('festival/', show_festival_event, name='show_festival_event'),
     path('culture/', show_culture_event, name='show_culture_event'),
     path('others/', show_others_event, name='show_others_event'),
+    path('add-flutter', add_flutter, name='add_flutter'),
 ]
