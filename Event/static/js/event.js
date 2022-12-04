@@ -5,10 +5,6 @@ $(document).ready(function(){
             $("#cards").append(`
             <div class="col-lg-4 col-sm-6">
                 <div class="post-item position-relative h-100">
-                <div class="post-img position-relative overflow-hidden">
-                    <img src="${data[i].fields.imageURL}" class="img-fluid" alt="">
-                    <span class="post-date">${data[i].fields.date}</span>
-                </div>
                 <div class="post-content d-flex flex-column">
                     <h3 class="post-title">${data[i].fields.title}</h3>
                     <p>${data[i].fields.description}</p>
@@ -20,16 +16,16 @@ $(document).ready(function(){
         }
     });
     
-    let files
-    $('#image').on('change', function (event) {
-        files = event.target.files
-        console.log(files)
-    })
+    // let files
+    // $('#image').on('change', function (event) {
+    //     files = event.target.files
+    //     console.log(files)
+    // })
 
 
     $("#submit_event").click(function(){
         const formData = new FormData()
-        formData.append('image', files[0])
+        // formData.append('image', files[0])
         formData.append('title', $("#title").val())
         formData.append('place', $("#place").val())
         formData.append('date', $("#date").val())
@@ -49,10 +45,6 @@ $(document).ready(function(){
                 $("#cards").append(`
                 <div class="col-lg-4 col-sm-6">
                     <div class="post-item position-relative h-100">
-                    <div class="post-img position-relative overflow-hidden">
-                        <img src="${result.fields.image.url}" class="img-fluid" alt="">
-                        <span class="post-date">${result.fields.date}</span>
-                    </div>
                     <div class="post-content d-flex flex-column">
                         <h3 class="post-title">${result.fields.title}</h3>
                         <p>${result.fields.description}</p>
@@ -62,7 +54,6 @@ $(document).ready(function(){
                     </div>
                     </div>
                 </div>`);
-                $("#image").val(''),
                 $("#title").val(''),
                 $("#place").val(''),
                 $("#date").val(''),

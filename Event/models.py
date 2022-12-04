@@ -8,8 +8,8 @@ class Event(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=700)
     place = models.CharField(max_length=255)
-    image = models.ImageField(null=True, blank=True, upload_to='images/')
-    imageURL = models.TextField(null = True)
+    # image = models.ImageField(null=True, blank=True, upload_to='images/')
+    # imageURL = models.TextField(null = True)
     category = models.CharField(max_length=10, null=True, blank=True)
     month = models.TextField(max_length=20, null=True, blank=True)
 
