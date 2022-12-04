@@ -88,13 +88,13 @@ def show_event(request):
     data = Event.objects.all()
     user = request.user
 
-    for datadetail in data:
-        if datadetail.image != "":
-            if isinstance(datadetail.image, ImageFieldFile):
+    # for datadetail in data:
+    #     if datadetail.image != "":
+    #         if isinstance(datadetail.image, ImageFieldFile):
                 
-                datadetail.imageURL = str(datadetail.image.url)
+    #             datadetail.imageURL = str(datadetail.image.url)
 
-            datadetail.save()
+    #         datadetail.save()
 
     context = {
         'event_data' : data,
@@ -167,9 +167,9 @@ def add_event(request):
         description = request.POST.get('description')
         date = request.POST.get('date')
         place = request.POST.get('place')
-        image = request.FILES.get('image')
+        # image = request.FILES.get('image')
         category = request.POST.get('category')
-        event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, image=image, category=category)
+        event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, category=category)
 
 
         result = {
@@ -178,7 +178,7 @@ def add_event(request):
                 'description' : event.description,
                 'date' : event.date,
                 'place': event.place,
-                'image': str(event.image),
+                # 'image': str(event.image),
                 'category': event.category,
 
             },
