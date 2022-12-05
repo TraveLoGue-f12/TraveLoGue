@@ -97,3 +97,11 @@ def addtrip_flutter(request):
 
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_flutter(request):
+    data = json.loads(request.body)
+    pk = data["pk"]
+    
+    Trips.objects.get(id=pk).delete()
+    return JsonResponse({"status": "success"}, status=200)
