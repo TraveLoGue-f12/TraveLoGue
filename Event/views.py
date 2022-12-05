@@ -186,3 +186,34 @@ def add_event(request):
         }
 
         return JsonResponse(result)
+
+@csrf_exempt
+def add_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        title = data["title"]
+        description = data["description"]
+        date = data["date"]
+        place = data["place"]
+        category = data["category"]
+
+        try:
+            Event.objects.get(title=title, description=description, date=date, place=place, category=category)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            addEvent = Event.objects.create(
+            title=title,
+            description=description,
+            date=date,
+            place=place,
+            category=category
+            )
+
+            addEvent.save()
+
+        
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
