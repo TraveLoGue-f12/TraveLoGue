@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -76,4 +77,23 @@ def addtrip_json(request):
 
         return JsonResponse(result)
 
+@csrf_exempt
+def addtrip_flutter(request):
+    if request.method == 'POST':
 
+        data = json.loads(request.body)
+
+        trip = Trips.objects.create(
+            user = request.user,
+            name = data["name"],
+            trip_date = data["trip_date"],
+            start_date = datetime.strptime(data["start_date"], "%Y-%m-%d"),
+            end_date = datetime.strptime(data["end_date"], "%Y-%m-%d"),
+            notes = data["notes"],
+            )
+        
+        trip.save()
+        return JsonResponse({"status": "success"}, status=200)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)
