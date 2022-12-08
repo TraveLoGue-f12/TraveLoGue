@@ -14,5 +14,6 @@ urlpatterns = [
     path('answer_json/<int:pk>', answer_json, name='answer_json'),
     path('all_answer_json/', all_answer_json, name='all_answer_json'),
     path('add_question_flutter/', add_question_flutter, name="add_question_flutter"),
-    path('add_answer_flutter/', add_answer_flutter, name="add_answer_flutter")
+    path('add_answer_flutter/', add_answer_flutter, name="add_answer_flutter"),
+    path('delete_question_flutter/', delete_question_flutter, name="delete_question_flutter")
 ]
