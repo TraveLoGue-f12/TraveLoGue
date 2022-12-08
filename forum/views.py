@@ -160,3 +160,12 @@ def add_answer_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_question_flutter(request):
+
+    data = json.loads(request.body)
+    pk_question = int(data["pk"])
+
+    Question.objects.get(pk = pk_question).delete()
+    return JsonResponse({"status": "success"}, status=200)
