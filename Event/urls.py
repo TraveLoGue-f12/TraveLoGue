@@ -26,4 +26,5 @@ urlpatterns = [
     path('culture/', show_culture_event, name='show_culture_event'),
     path('others/', show_others_event, name='show_others_event'),
     path('add-flutter', add_flutter, name='add_flutter'),
+    path('delete-flutter', delete_flutter, name='delete_flutter'),
 ]
