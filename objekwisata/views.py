@@ -15,13 +15,6 @@ from main.models import Profile
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
 
-    # # jika file yg di submit image maka baru di set
-    # for data in data_objekwisata:
-    #     if data.image:
-    #         if isinstance(data.image, ImageFieldFile):
-    #             data.imageURL = str(data.image.url)
-    #         data.save()
-
     response = {
         'data':  data_objekwisata,
         'user_status': '',
