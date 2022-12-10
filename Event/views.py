@@ -125,7 +125,7 @@ def show_event(request):
 
     return render(request, "event.html", context)
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def show_event_json(request):
     event = Event.objects.all()
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
