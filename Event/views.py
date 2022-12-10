@@ -214,7 +214,27 @@ def add_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-        
+
+@csrf_exempt
+def delete_flutter(request):
+    print("a")
+    data = json.loads(request.body)
+    print()
+    print(data)
+    title = data["title"]
+    description = data["description"]
+    date = data["date"]
+    place = data["place"]
+    category = data["category"]
+    
+    Event.objects.get(
+            date = date,
+            title = title,
+            place = place,
+            description = description,
+            category = category).delete()
+    return JsonResponse({"status": "success"}, status=200)
+
 # def add_flutter(request):
 #     if request.method == 'POST':
         
