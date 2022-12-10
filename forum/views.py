@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from forum.models import Question, Answer
-from forum.forms import AnswerForm, QuestionForm
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from forum.forms import AnswerForm, QuestionForm
+from forum.models import Question, Answer
 from django.core import serializers
+from django.shortcuts import render
 from django.urls import reverse
 from main.models import Profile
 import datetime
+import json
+
 
 # Create your views here.
 
@@ -18,11 +20,11 @@ def show_forum(request):
     user = request.user
 
     context = {
-        "list_of_questions" : question_data,
-        "list_of_answers" : answer_data,
-        "question_form" : question_form,
-        "user_status" : "",
-        "user_loggedin": user.username,
+        'list_of_questions': question_data,
+        'list_of_answers': answer_data,
+        'question_form': question_form,
+        'user_status' : '',
+        'user_loggedin': user.username,
     }
 
     if user.is_authenticated:
@@ -39,6 +41,10 @@ def answer_json(request, pk):
     question = Question.objects.get(pk=pk)
 
     data = Answer.objects.filter(question=question)
+    return HttpResponse(serializers.serialize('json', data), content_type='application/json')
+
+def all_answer_json(request):
+    data = Answer.objects.all()
     return HttpResponse(serializers.serialize('json', data), content_type='application/json')
     
 @login_required(login_url='/login/')
@@ -75,7 +81,7 @@ def add_answer(request, pk):
     get_question.is_answered = True
     get_question.save()
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
             user = request.user
@@ -103,3 +109,63 @@ def add_answer(request, pk):
 def delete_forum(request, id):
     Question.objects.get(pk=id).delete()
     return HttpResponseRedirect(reverse('forum:show_forum'))
+
+@csrf_exempt
+def add_question_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        title = data["title"]
+        question = data["question"]
+
+        add_question = Question.objects.create(
+            user = request.user, 
+            username = request.user.username,
+            date = datetime.date.today(),
+            title = title,
+            question = question,
+            is_answered = False,
+        )
+
+        add_question.save()
+    
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def add_answer_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        pk_question = int(data["question"])
+        answer = data["answer"]
+
+        question = Question.objects.get(pk=pk_question)
+
+        add_answer = Answer.objects.create(
+            user = request.user, 
+            username = request.user.username,
+            question = question,
+            date = datetime.date.today(),
+            answer = answer,
+        )
+
+        add_answer.save()
+        question.is_answered = True
+        question.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_question_flutter(request):
+
+    data = json.loads(request.body)
+    pk_question = int(data["pk"])
+
+    Question.objects.get(pk = pk_question).delete()
+    return JsonResponse({"status": "success"}, status=200)

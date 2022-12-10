@@ -9,21 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
 from django.contrib.auth.decorators import login_required
 from main.models import Profile
+import json
 
 
-@login_required(login_url='/login')
-def add_umkm(request):
-    if request.method == 'POST':
-        form = UMKMForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('umkm:rekomendasi_umkm'))
-    else:
-        form = UMKMForm()
-        response = {'form': form}
-        return render(request, 'add_umkm.html', response)
 
-@login_required(login_url='/login')
+
+
 def json_umkm(request):
     data = serializers.serialize('json', UMKM.objects.all())
     return HttpResponse(data, content_type="application/json")
@@ -39,36 +30,43 @@ def show_umkm_by_id(request, pk):
     return render(request, "umkm_detail.html", context)
 
 def show_umkm_by_user(request):
-    userData = UMKM.objects.filter(user=request.user)
+    userData = UMKM.objects.all()
+    
 
-    context = {
-        'datalist' : userData,
+    ctx = {
+        'userDataList' : userData,
     }
 
-    return render(request, "my_umkm.html", context)
+
+    return render(request, "my_umkm.html", ctx)
+
+# def show_umkm_by_user(request):
+#     userData = UMKM.objects.filter(user=request.user)
+    
+
+#     ctx = {
+#         'userDataList' : userData,
+#     }
+
+
+#     return render(request, "my_umkm.html", ctx)
+
 
 
 @login_required(login_url='/login')
 def show_data(request):
     getUser = Profile.objects.filter(user=request.user)
-    print(getUser)
+    
 
     for user in getUser:
         thisUser = user
         
-    print("lobal: " + str(thisUser.is_local()))
-    print("tourist: " + str(thisUser.is_tourist()))
+   
     
     
     data_UMKM = UMKM.objects.all()
 
-    for data in data_UMKM:
-        if isinstance(data.image, ImageFieldFile):
-            
-            data.imageURL = str(data.image.url)
-            print(data.imageURL)
-
-        data.save()
+ 
     
     
     response = {
@@ -96,24 +94,31 @@ def show_data(request):
 @login_required(login_url='/login')
 def delete_card(request, pk):
     UMKM.objects.get(id=pk).delete()
-    return redirect('umkm:rekomendasi_umkm')
-    
+    return redirect('umkm:show_umkm_by_user')
+
+@login_required(login_url='/login')
 @csrf_exempt
 def add_umkm_ajax(request):
     if request.method == 'POST':
+
+        
+      
         name = request.POST.get('name')
         description = request.POST.get('description')
         link_website = request.POST.get('link_website')
         
-        image = request.POST.get('image')
-        umkm = UMKM.objects.create(name=name,  description=description,image=image, link_website=link_website)
-
+        
+       
+        umkm = UMKM.objects.create(user = request.user, name=name,  description=description, link_website=link_website)
+       
         result = {
+            
             'fields': {
+                'user' : umkm.user,
                 'name' : umkm.name,
                 'description' : umkm.description,
                 'link_website': umkm.link_website,
-                'image': umkm.image
+                
             },
             'pk' : umkm.pk
         }
@@ -126,4 +131,48 @@ def delete_umkm_ajax(request, id):
         umkm = get_object_or_404(UMKM, id = id)
         umkm.delete()
     return HttpResponse(status=202)
+    
+@csrf_exempt
+def add_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        name = data["name"]
+        description = data["description"]
+        link_website = data["link_website"]
+        try:
+            UMKM.objects.get(name=name, link_website=link_website)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            addUMKM = UMKM.objects.create(
+            name = name, 
+            description = description,
+            link_website = link_website
+            )
+
+            addUMKM.save()
+
+        
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
+
+
+
+@csrf_exempt
+def delete_flutter(request):
+    print("a")
+    data = json.loads(request.body)
+    print()
+    print(data)
+    getName = data['name']
+    getDesc = data['description']
+    getLink = data['linkWebsite']
+    
+    UMKM.objects.get(name=getName, description=getDesc, link_website=getLink).delete()
+    return JsonResponse({"status": "success"}, status=200)
+   
+    
+    
     

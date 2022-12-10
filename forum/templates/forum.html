@@ -8,8 +8,8 @@
 
 {% block script %} 
 <script type="text/javascript">
-    var status = '{{user_status}}';
-    var user = '{{user_loggedin}}';
+    var status = "{{user_status}}";
+    var user = "{{user_loggedin}}";
 </script>
 <script type="text/javascript" src="{%static 'js/forum.js' %}"></script>
 
@@ -37,6 +37,8 @@
         </div>
         {% endif %}
     </div>
+
+    <!-- Question Modal -->
     <div class="modal" id="questionModal" tabindex="-1" aria-labelledby="questionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,7 +67,6 @@
             </div>
         </div>
     </div>
-
     <div class="row" id="forumCards"></div>
 </div>
 {% endblock content %}

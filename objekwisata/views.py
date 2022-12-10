@@ -12,6 +12,7 @@ from main.models import Profile
 
 
 # Create your views here.
+@login_required(login_url='/login')
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
 
@@ -50,6 +51,7 @@ def show_objekwisata_json(request):
     objekwisata = ObjekWisata.objects.all()
     return HttpResponse(serializers.serialize('json', objekwisata), content_type='application/json')
 
+@login_required(login_url='/login')
 @csrf_exempt
 def add_objekwisata_ajax(request):
     if request.method == 'POST':

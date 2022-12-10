@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
+import json
 
 # Create your views here.
 
@@ -88,13 +89,13 @@ def show_event(request):
     data = Event.objects.all()
     user = request.user
 
-    for datadetail in data:
-        if datadetail.image != "":
-            if isinstance(datadetail.image, ImageFieldFile):
+    # for datadetail in data:
+    #     if datadetail.image != "":
+    #         if isinstance(datadetail.image, ImageFieldFile):
                 
-                datadetail.imageURL = str(datadetail.image.url)
+    #             datadetail.imageURL = str(datadetail.image.url)
 
-            datadetail.save()
+    #         datadetail.save()
 
     context = {
         'event_data' : data,
@@ -167,9 +168,9 @@ def add_event(request):
         description = request.POST.get('description')
         date = request.POST.get('date')
         place = request.POST.get('place')
-        image = request.FILES.get('image')
+        # image = request.FILES.get('image')
         category = request.POST.get('category')
-        event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, image=image, category=category)
+        event = Event.objects.create(user=request.user, title=title, date=date, place=place, description=description, category=category)
 
 
         result = {
@@ -178,7 +179,7 @@ def add_event(request):
                 'description' : event.description,
                 'date' : event.date,
                 'place': event.place,
-                'image': str(event.image),
+                # 'image': str(event.image),
                 'category': event.category,
 
             },
@@ -186,3 +187,34 @@ def add_event(request):
         }
 
         return JsonResponse(result)
+
+@csrf_exempt
+def add_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+        
+        title = data["title"]
+        description = data["description"]
+        date = data["date"]
+        place = data["place"]
+        category = data["category"]
+
+        try:
+            Event.objects.get(title=title, description=description, date=date, place=place, category=category)
+            return JsonResponse({"status": "dup"}, status=401)
+        except:
+            addEvent = Event.objects.create(
+            title=title,
+            description=description,
+            date=date,
+            place=place,
+            category=category
+            )
+
+            addEvent.save()
+
+        
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)

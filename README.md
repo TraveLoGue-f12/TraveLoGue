@@ -8,7 +8,7 @@
 * [Muhammad Raditya Hanif](https://github.com/radityahnf) (2106750585)
 
 ## 🔗 Tautan Aplikasi  🔗
-Kunjungi aplikasi TraveLoGue pada tautan berikut: [TraveLoGue Heroku App](https://trave-lo-gue.herokuapp.com/)
+Kunjungi aplikasi TraveLoGue pada tautan berikut: [TraveLoGue Railway App](https://trave-lo-gue.up.railway.app/)
 
 ## 📝 Pembagian Tugas Modul 📝
 * Recommended Local Shops - [Muhammad Raditya Hanif](https://github.com/radityahnf)

@@ -6,7 +6,7 @@
 
     
 <head>
-    <link rel="stylesheet" href="{%static 'css/detail.css' %}">
+    <link rel="stylesheet" href="{%static 'css_umkm/detail.css' %}">
 </head>
     
 
@@ -42,15 +42,12 @@
             
         </div>
         <div class ="card">
-            {% if data.image %}
-                <img class="card-img-top" src="{{data.image.url}}" alt="Card image cap">
-            {% endif %}
+            
             <div class="card-body" style="background-color: #ffffff">
                 <h5 class="card-title">{{data.name}}</h5>
                 <h5 class="card-under-title">{{data.description}}</h5>
                 
                 <a class="card-text" href="{{data.link_website}}" target="_blank">Visit Website</a>
-                <button class ="btn btn-outline-danger tn-light text-decoration-none text-white"><a href="{% url 'umkm:delete_card' data.pk %}" title="">Delete</a></button>
                 
             </div>
         </div>
