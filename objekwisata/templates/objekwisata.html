@@ -35,14 +35,13 @@
       
       $("#btn_new_attr").click(function(){
         const formData = new FormData()
-              formData.append('image', files[0])
               formData.append('title', $("#id_title").val())
               formData.append('location', $("#id_location").val())
               formData.append('description', $("#id_description").val())
               formData.append('address_link', $("#id_address_link").val())
 
               $.ajax({
-                  url: '/objekwisata/add_objekwisata_ajax/', // point to server-side URL
+                  url: '/attraction/add_objekwisata_ajax/', // point to server-side URL
                   dataType: 'json', // what to expect back from server
                   cache: false,
                   contentType: false,
@@ -50,12 +49,11 @@
                   data: formData,
                   type: 'post',
                   success: function(result){
-                      // console.log(result)
+                      console.log(result)
                       $("#card_attr").append(`
 
                       <div class ="col-12 col-md-6 col-lg-4">
                         <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                        <img class="w-100" src="${result.fields.image.url}" >
                           <div class="card-body">
                             <h2 class="card-title">${result.fields.title}</h2>
                             <h5 class="card-text">${result.fields.location}</h5>
@@ -65,7 +63,6 @@
                           </div>
                         </div>
                       </div>`);
-                      $("#image").val(''),
                       $("#title").val(''),
                       $("#location").val(''),
                       $("#description").val(''),
@@ -80,14 +77,13 @@
         });
 
         function show_attr() {
-          $.get("/objekwisata/json", function(data) {
+          $.get("/attraction/json", function(data) {
               console.log(data.length)
               console.log(data)
               for (i=0; i<data.length; i++){
                   $("#card_attr").append(`
                   <div class ="col-12 col-md-6 col-lg-4">
                     <div class="card shadow p-3 mb-5 bg-white rounded border-0" style="padding-right: 10px;">
-                    <img class="w-100" src="${data[i].fields.imageURL}" >
                       <div class="card-body">
                         <h2 class="card-title">${data[i].fields.title}</h2>
                         <h5 class="card-text">${data[i].fields.location}</h5>
@@ -296,10 +292,7 @@
                         <td>URL Google Maps: </td>
                         <td>{{form.address_link}}</td>
                       </tr>
-                      <tr> 
-                        <td>Image: </td>
-                        <td>{{form.image}}</td>
-                      </tr>
+  
                     </table>
                     <br>
                   </form>

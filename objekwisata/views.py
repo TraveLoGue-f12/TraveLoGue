@@ -15,12 +15,12 @@ from main.models import Profile
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
 
-
-    for data in data_objekwisata:
-        if data.image:
-            if isinstance(data.image, ImageFieldFile):
-                data.imageURL = str(data.image.url)
-            data.save()
+    # # jika file yg di submit image maka baru di set
+    # for data in data_objekwisata:
+    #     if data.image:
+    #         if isinstance(data.image, ImageFieldFile):
+    #             data.imageURL = str(data.image.url)
+    #         data.save()
 
     response = {
         'data':  data_objekwisata,
@@ -64,9 +64,8 @@ def add_objekwisata_ajax(request):
         description = request.POST.get('description')
         location = request.POST.get('location')
         address_link = request.POST.get('address_link')
-        image = request.FILES.get('image')
 
-        objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link, image=image)
+        objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link)
 
         result = {
             'fields': {
@@ -74,7 +73,6 @@ def add_objekwisata_ajax(request):
                 'description': objekwisata.description,
                 'location': objekwisata.location,
                 'address_link': objekwisata.address_link,
-                'image': str(objekwisata.image),
             },
             'pk': objekwisata.pk
         }
