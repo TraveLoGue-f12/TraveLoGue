@@ -28,4 +28,5 @@ urlpatterns = [
     path('add-flutter', add_flutter, name='add_flutter'),
     path('delete-flutter', delete_flutter, name='delete_flutter'),
     path('my-event/json', show_userevent_json, name='show_userevent_json'),
+    path('music/json', show_music_json, name='show_music_json'),
 ]
