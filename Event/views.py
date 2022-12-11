@@ -138,6 +138,26 @@ def show_music_json(request):
     event = Event.objects.filter(category="Music")
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
 
+def show_festival_json(request):
+    event = Event.objects.filter(category="Festival")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culinary_json(request):
+    event = Event.objects.filter(category="Culinary")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_sport_json(request):
+    event = Event.objects.filter(category="Sport")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culture_json(request):
+    event = Event.objects.filter(category="Culture")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_others_json(request):
+    event = Event.objects.filter(category="Others")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
 @login_required(login_url='/login')
 def delete(request, pk):
     data = Event.objects.get(id=pk)
