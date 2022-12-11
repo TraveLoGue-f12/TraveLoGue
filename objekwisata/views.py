@@ -77,6 +77,7 @@ def add_objekwisata_ajax(request):
         return JsonResponse(result)
 
 # flutter
+@csrf_exempt
 def add_flutter(request):
     if request.method == 'POST':
         data = json.loads(request.body)
