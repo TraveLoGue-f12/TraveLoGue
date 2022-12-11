@@ -169,3 +169,12 @@ def delete_question_flutter(request):
 
     Question.objects.get(pk = pk_question).delete()
     return JsonResponse({"status": "success"}, status=200)
+
+@csrf_exempt
+def delete_answer_flutter(request):
+
+    data = json.loads(request.body)
+    pk_answer = int(data["pk"])
+
+    Answer.objects.get(pk = pk_answer).delete()
+    return JsonResponse({"status": "success"}, status=200)
