@@ -10,18 +10,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
 from main.models import Profile
 
+# flutter
+import json
+
 
 # Create your views here.
 @login_required(login_url='/login')
 def index(request):
     data_objekwisata = ObjekWisata.objects.all()
-
-
-    for data in data_objekwisata:
-        if data.image:
-            if isinstance(data.image, ImageFieldFile):
-                data.imageURL = str(data.image.url)
-            data.save()
 
     response = {
         'data':  data_objekwisata,
@@ -66,9 +62,8 @@ def add_objekwisata_ajax(request):
         description = request.POST.get('description')
         location = request.POST.get('location')
         address_link = request.POST.get('address_link')
-        image = request.FILES.get('image')
 
-        objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link, image=image)
+        objekwisata = ObjekWisata.objects.create(title=title, description=description, location=location, address_link=address_link)
 
         result = {
             'fields': {
@@ -76,8 +71,33 @@ def add_objekwisata_ajax(request):
                 'description': objekwisata.description,
                 'location': objekwisata.location,
                 'address_link': objekwisata.address_link,
-                'image': str(objekwisata.image),
             },
             'pk': objekwisata.pk
         }
         return JsonResponse(result)
+
+# flutter
+@csrf_exempt
+def add_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        title = data["title"]
+        description = data["description"]
+        location = data["location"]
+        address_link = data["url_location"]
+
+        add_attraction = ObjekWisata.objects.create(
+            user = request.user,
+            title = title,
+            description = description,
+            location = location,
+            address_link = address_link,
+        )
+
+        add_attraction.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)

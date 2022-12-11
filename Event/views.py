@@ -125,9 +125,37 @@ def show_event(request):
 
     return render(request, "event.html", context)
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def show_event_json(request):
     event = Event.objects.all()
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_userevent_json(request):
+    event = Event.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_music_json(request):
+    event = Event.objects.filter(category="Music")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_festival_json(request):
+    event = Event.objects.filter(category="Festival")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culinary_json(request):
+    event = Event.objects.filter(category="Culinary")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_sport_json(request):
+    event = Event.objects.filter(category="Sport")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culture_json(request):
+    event = Event.objects.filter(category="Culture")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_others_json(request):
+    event = Event.objects.filter(category="Others")
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
 
 @login_required(login_url='/login')
@@ -200,21 +228,72 @@ def add_flutter(request):
         place = data["place"]
         category = data["category"]
 
-        try:
-            Event.objects.get(title=title, description=description, date=date, place=place, category=category)
-            return JsonResponse({"status": "dup"}, status=401)
-        except:
-            addEvent = Event.objects.create(
-            title=title,
-            description=description,
-            date=date,
-            place=place,
-            category=category
-            )
+        add_event = Event.objects.create(
+            user = request.user, 
+            date = date,
+            title = title,
+            place = place,
+            description = description,
+            category = category
+        )
 
-            addEvent.save()
-
-        
-            return JsonResponse({"status": "success"}, status=200)
+        add_event.save()
+    
+        return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+@csrf_exempt
+def delete_flutter(request):
+    data = json.loads(request.body)
+    pk = data["pk"]
+    
+    Event.objects.get(id=pk).delete()
+    return JsonResponse({"status": "success"}, status=200)
+    # print("a")
+    # data = json.loads(request.body)
+    # print()
+    # print(data)
+    # title = data["title"]
+    # description = data["description"]
+    # date = data["date"]
+    # place = data["place"]
+    # category = data["category"]
+    
+    # Event.objects.get(
+    #         date = date,
+    #         title = title,
+    #         place = place,
+    #         description = description,
+    #         category = category).delete()
+    # return JsonResponse({"status": "success"}, status=200)
+
+# def add_flutter(request):
+#     if request.method == 'POST':
+        
+#         data = json.loads(request.body)
+        
+#         title = data["title"]
+#         description = data["description"]
+#         date = data["date"]
+#         place = data["place"]
+#         category = data["category"]
+
+#         try:
+#             Event.objects.get(title=title, description=description, date=date, place=place, category=category)
+#             return JsonResponse({"status": "dup"}, status=401)
+#         except:
+#             addEvent = Event.objects.create(
+#             title=title,
+#             description=description,
+#             date=date,
+#             place=place,
+#             category=category
+#             )
+
+#             addEvent.save()
+
+        
+#             return JsonResponse({"status": "success"}, status=200)
+#     else:
+#         return JsonResponse({"status": "error"}, status=401)
