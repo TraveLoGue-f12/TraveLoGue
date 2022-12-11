@@ -29,4 +29,9 @@ urlpatterns = [
     path('delete-flutter', delete_flutter, name='delete_flutter'),
     path('my-event/json', show_userevent_json, name='show_userevent_json'),
     path('music/json', show_music_json, name='show_music_json'),
+    path('festival/json', show_festival_json, name='show_festival_json'),
+    path('culinary/json', show_culinary_json, name='show_culinary_json'),
+    path('sport/json', show_sport_json, name='show_sport_json'),
+    path('culture/json', show_culture_json, name='show_culture_json'),
+    path('others/json', show_others_json, name='show_others_json'),
 ]
