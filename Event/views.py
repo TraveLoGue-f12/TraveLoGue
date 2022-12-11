@@ -134,6 +134,10 @@ def show_userevent_json(request):
     event = Event.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
 
+def show_music_json(request):
+    event = Event.objects.filter(category="Music")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
 @login_required(login_url='/login')
 def delete(request, pk):
     data = Event.objects.get(id=pk)
