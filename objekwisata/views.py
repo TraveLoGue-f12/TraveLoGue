@@ -10,6 +10,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
 from main.models import Profile
 
+# flutter
+import json
+
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -72,3 +75,28 @@ def add_objekwisata_ajax(request):
             'pk': objekwisata.pk
         }
         return JsonResponse(result)
+
+# flutter
+def add_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        title = data["title"]
+        description = data["description"]
+        location = data["location"]
+        address_link = data["url_location"]
+
+        add_attraction = ObjekWisata.objects.create(
+            user = request.user,
+            title = title,
+            description = description,
+            location = location,
+            address_link = address_link,
+        )
+
+        add_attraction.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)
