@@ -130,6 +130,34 @@ def show_event_json(request):
     event = Event.objects.all()
     return HttpResponse(serializers.serialize('json', event), content_type='application/json')
 
+def show_userevent_json(request):
+    event = Event.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_music_json(request):
+    event = Event.objects.filter(category="Music")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_festival_json(request):
+    event = Event.objects.filter(category="Festival")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culinary_json(request):
+    event = Event.objects.filter(category="Culinary")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_sport_json(request):
+    event = Event.objects.filter(category="Sport")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_culture_json(request):
+    event = Event.objects.filter(category="Culture")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
+def show_others_json(request):
+    event = Event.objects.filter(category="Others")
+    return HttpResponse(serializers.serialize('json', event), content_type='application/json')
+
 @login_required(login_url='/login')
 def delete(request, pk):
     data = Event.objects.get(id=pk)
@@ -217,23 +245,28 @@ def add_flutter(request):
 
 @csrf_exempt
 def delete_flutter(request):
-    print("a")
     data = json.loads(request.body)
-    print()
-    print(data)
-    title = data["title"]
-    description = data["description"]
-    date = data["date"]
-    place = data["place"]
-    category = data["category"]
-    
-    Event.objects.get(
-            date = date,
-            title = title,
-            place = place,
-            description = description,
-            category = category).delete()
+    pk_event = int(data["pk"])
+
+    Event.objects.get(pk = pk_event).delete()
     return JsonResponse({"status": "success"}, status=200)
+    # print("a")
+    # data = json.loads(request.body)
+    # print()
+    # print(data)
+    # title = data["title"]
+    # description = data["description"]
+    # date = data["date"]
+    # place = data["place"]
+    # category = data["category"]
+    
+    # Event.objects.get(
+    #         date = date,
+    #         title = title,
+    #         place = place,
+    #         description = description,
+    #         category = category).delete()
+    # return JsonResponse({"status": "success"}, status=200)
 
 # def add_flutter(request):
 #     if request.method == 'POST':
