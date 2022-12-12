@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
-from main.models import Profile
+from main.models import Profile, User
 from planner.forms import updateTripForm
 from planner.models import Trips
 from django.http import HttpResponse, JsonResponse
@@ -25,6 +25,14 @@ def show_planner(request):
 def trips_json(request):
     data = Trips.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def flutter_json(request, username):
+    user = User.objects.get(username = username)
+    if user is not None:
+        data = Trips.objects.filter(user=user)
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    else:
+        return JsonResponse({}, status=404)
 
 def delete_trip(request, pk):
     Trips.objects.get(id=pk).delete()
