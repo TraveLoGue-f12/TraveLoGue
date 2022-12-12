@@ -267,8 +267,8 @@ def edit_flutter(request):
         # event.end_date = datetime.strptime(data["end_date"], "%Y-%m-%d")
         event.description = data["description"]
 
-        event.save()
-
+        # event.save()
+         
         return JsonResponse({"status": "success"}, status=200)
 
     else:
