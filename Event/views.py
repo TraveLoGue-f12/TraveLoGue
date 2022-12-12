@@ -250,6 +250,28 @@ def delete_flutter(request):
     
     Event.objects.get(id=pk).delete()
     return JsonResponse({"status": "success"}, status=200)
+
+@csrf_exempt
+def edit_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        pk = int(data["pk"])
+        event = Event.objects.get(id=pk)
+        
+        event.title = data["title"]
+        event.place = data["place"]
+        event.date = data["date"]
+        # event.start_date = datetime.strptime(data["start_date"], "%Y-%m-%d")
+        # event.end_date = datetime.strptime(data["end_date"], "%Y-%m-%d")
+        event.description = data["description"]
+
+        event.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)
     # print("a")
     # data = json.loads(request.body)
     # print()
