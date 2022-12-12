@@ -247,7 +247,7 @@ def add_flutter(request):
 @csrf_exempt
 def delete_flutter(request):
     data = json.loads(request.body)
-    pk = data["pk"]
+    pk = int(data["pk"])
     
     Event.objects.get(id=pk).delete()
     return JsonResponse({"status": "success"}, status=200)
