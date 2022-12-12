@@ -27,6 +27,7 @@ urlpatterns = [
     path('others/', show_others_event, name='show_others_event'),
     path('add-flutter', add_flutter, name='add_flutter'),
     path('delete-flutter', delete_flutter, name='delete_flutter'),
+    path('edit-flutter', edit_flutter, name='edit_flutter'),
     path('my-event/json', show_userevent_json, name='show_userevent_json'),
     path('music/json', show_music_json, name='show_music_json'),
     path('festival/json', show_festival_json, name='show_festival_json'),
