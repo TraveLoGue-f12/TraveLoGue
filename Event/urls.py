@@ -35,4 +35,5 @@ urlpatterns = [
     path('sport/json', show_sport_json, name='show_sport_json'),
     path('culture/json', show_culture_json, name='show_culture_json'),
     path('others/json', show_others_json, name='show_others_json'),
+    path('jsonflutter/<str:username>', flutter_json, name='flutter_json'),
 ]
