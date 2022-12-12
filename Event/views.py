@@ -8,6 +8,7 @@ from django.http.response import HttpResponse
 from django.http import JsonResponse
 from django.core import serializers
 from django.urls import reverse
+from main.models import Profile, User
 from django.http import HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.fields.files import ImageFieldFile
@@ -251,13 +252,21 @@ def delete_flutter(request):
     Event.objects.get(id=pk).delete()
     return JsonResponse({"status": "success"}, status=200)
 
+def flutter_json(request, username):
+    user = User.objects.get(username = username)
+    if user is not None:
+        data = Event.objects.filter(user=user)
+        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+    else:
+        return JsonResponse({}, status=404)
+
 @csrf_exempt
 def edit_flutter(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         
         pk = int(data["pk"])
-        event = Event.objects.filter(id=pk)
+        event = Event.objects.get(id=pk)
         
         event.category = data["category"]
         event.title = data["title"]
@@ -267,7 +276,7 @@ def edit_flutter(request):
         # event.end_date = datetime.strptime(data["end_date"], "%Y-%m-%d")
         event.description = data["description"]
 
-        # event.save()
+        event.save()
          
         return JsonResponse({"status": "success"}, status=200)
 
