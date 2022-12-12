@@ -259,6 +259,7 @@ def edit_flutter(request):
         pk = int(data["pk"])
         event = Event.objects.get(id=pk)
         
+        event.category = data["category"]
         event.title = data["title"]
         event.place = data["place"]
         event.date = data["date"]
