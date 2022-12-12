@@ -105,3 +105,24 @@ def delete_flutter(request):
     
     Trips.objects.get(id=pk).delete()
     return JsonResponse({"status": "success"}, status=200)
+
+@csrf_exempt
+def edit_flutter(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        
+        pk = int(data["pk"])
+        trip = Trips.objects.get(id=pk)
+        
+        trip.name = data["name"]
+        trip.trip_date = data["trip_date"]
+        trip.start_date = datetime.strptime(data["start_date"], "%Y-%m-%d")
+        trip.end_date = datetime.strptime(data["end_date"], "%Y-%m-%d")
+        trip.notes = data["notes"]
+
+        trip.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+
+    else:
+        return JsonResponse({"status": "error"}, status=401)

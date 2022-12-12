@@ -11,4 +11,5 @@ urlpatterns = [
     path('change/<int:pk>/', update_trip, name="update_trip"),
     path('addflutter/', addtrip_flutter, name="addtrip_flutter"),
     path('deleteflutter/', delete_flutter, name='delete_flutter'),
+    path('editflutter/', edit_flutter, name='edit_flutter'),
 ]
