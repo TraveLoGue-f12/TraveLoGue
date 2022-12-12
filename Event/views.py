@@ -257,7 +257,7 @@ def edit_flutter(request):
         data = json.loads(request.body)
         
         pk = int(data["pk"])
-        event = Event.objects.get(id=pk)
+        event = Event.objects.filter(id=pk)
         
         event.category = data["category"]
         event.title = data["title"]
