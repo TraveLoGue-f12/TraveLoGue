@@ -12,4 +12,5 @@ urlpatterns = [
     path('addflutter/', addtrip_flutter, name="addtrip_flutter"),
     path('deleteflutter/', delete_flutter, name='delete_flutter'),
     path('editflutter/', edit_flutter, name='edit_flutter'),
+    path('jsonflutter/<str:username>', flutter_json, name='flutter_json'),
 ]
