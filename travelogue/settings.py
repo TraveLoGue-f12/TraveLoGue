@@ -76,7 +76,7 @@ SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'travelogue.urls'
 
-CSRF_TRUSTED_ORIGINS = ['https://trave-lo-gue.up.railway.app','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://trave-lo-gue.up.railway.app','https://*.127.0.0.1', 'https://trave-logue.adaptable.app']
 
 TEMPLATES = [
     {
